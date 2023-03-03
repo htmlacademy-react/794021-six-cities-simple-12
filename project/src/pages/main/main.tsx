@@ -1,7 +1,7 @@
 import PlaceCard from 'src/components/place-card/place-card';
 
 type thisProps = {
-  placesCount: number;
+  offersCount: number;
 };
 
 export default function Main(props: thisProps) {
@@ -48,7 +48,7 @@ export default function Main(props: thisProps) {
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{props.placesCount} {getPlacesText(props.placesCount)} to stay in Amsterdam</b>
+            <b className="places__found">{props.offersCount} {getPlacesText(props.offersCount)} to stay in Amsterdam</b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex={0}>
