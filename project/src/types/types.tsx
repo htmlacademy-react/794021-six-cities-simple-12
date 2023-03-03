@@ -8,7 +8,7 @@ export type Offer = {
   title: string;
 }
 
-export type Offers = Offer[];
+export type Offers = Offer[]
 
 export type City = {
   name: string;
