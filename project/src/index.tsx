@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import { Offers } from 'src/types/types';
+import { City, Offers } from 'src/types/types';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
-const cityName = 'Amsterdam';
+const city: City = {
+  name: 'Amsterdam'
+};
 const offersCount = 312;
 const offers: Offers = [
   {
@@ -60,7 +62,7 @@ const offers: Offers = [
 root.render(
   <React.StrictMode>
     <App
-      cityName={cityName}
+      city={city}
       offers={offers}
       offersCount={offersCount}
     />

@@ -1,8 +1,8 @@
 import Main from 'src/pages/main/main';
-import { Offers} from 'src/types/types';
+import { City, Offers} from 'src/types/types';
 
 type AppProps = {
-  cityName: string;
+  city: City;
   offers: Offers;
   offersCount: number;
 };

@@ -1,8 +1,8 @@
 import PlaceCard from 'src/components/place-card/place-card';
-import { Offers } from 'src/types/types';
+import { City, Offers } from 'src/types/types';
 
 type MainProps = {
-  cityName: string;
+  city: City;
   offers: Offers;
   offersCount: number;
 };
@@ -51,7 +51,7 @@ export default function Main(props: MainProps) {
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{`${props.offersCount} ${getPlacesText(props.offersCount)} to stay in ${props.cityName}`}</b>
+            <b className="places__found">{`${props.offersCount} ${getPlacesText(props.offersCount)} to stay in ${props.city.name}`}</b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex={0}>
