@@ -1,10 +1,13 @@
 import PlaceCard from 'src/components/place-card/place-card';
+import { Offers } from 'src/types/types';
 
-type thisProps = {
+type MainProps = {
+  cityName: string;
+  offers: Offers;
   offersCount: number;
 };
 
-export default function Main(props: thisProps) {
+export default function Main(props: MainProps) {
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -48,7 +51,7 @@ export default function Main(props: thisProps) {
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{props.offersCount} {getPlacesText(props.offersCount)} to stay in Amsterdam</b>
+            <b className="places__found">{`${props.offersCount} ${getPlacesText(props.offersCount)} to stay in ${props.cityName}`}</b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex={0}>
@@ -66,11 +69,11 @@ export default function Main(props: thisProps) {
             </form>
             <div className="cities__places-list places__list tabs__content">
 
-              <PlaceCard />
-              <PlaceCard />
-              <PlaceCard />
-              <PlaceCard />
-              <PlaceCard />
+              <PlaceCard offer={props.offers[0] /* TODO */} />
+              <PlaceCard offer={props.offers[1] /* TODO */} />
+              <PlaceCard offer={props.offers[2] /* TODO */} />
+              <PlaceCard offer={props.offers[3] /* TODO */} />
+              <PlaceCard offer={props.offers[4] /* TODO */} />
 
             </div>
           </section>
