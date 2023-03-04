@@ -1,10 +1,12 @@
-import { Images, City, Offer, Offers } from 'src/types/types';
+import { Images, City, Offer, Offers, UserLogin } from 'src/types/types';
 import { HardwareFeatures } from 'src/types/types';
 export const city: City = {
   name: 'Amsterdam',
 };
 
 export const offersCount = 312;
+
+export const userLogin: UserLogin = 'fake@fake.fake';
 
 const firstOfferImages: Images = [
   'img/apartment-01.jpg',
