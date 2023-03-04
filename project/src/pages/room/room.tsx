@@ -1,8 +1,13 @@
 import HeaderRoom from 'src/components/header-main/header-main';
+import { Offer } from 'src/types/types';
 
 export default Room;
 
-function Room(): JSX.Element {
+type RoomType = {
+  offer: Offer;
+}
+
+function Room({ offer }: RoomType): JSX.Element {
   return (
     <>
       <HeaderRoom />
@@ -11,57 +16,57 @@ function Room(): JSX.Element {
 
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/room.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-02.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-03.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/studio-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="property__image-wrapper">
-                <img className="property__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
+              {
+                offer.images.map((image) => (
+                  <div className="property__image-wrapper"
+                    key={image}
+                  >
+                    <img
+                      className="property__image"
+                      src={image}
+                      alt="Photo studio"
+                    />
+                  </div>
+                ))
+              }
             </div>
           </div>
 
           <div className="property__container container">
             <div className="property__wrapper">
-              <div className="property__mark">
-                <span>Premium</span>
-              </div>
+
+              {
+                offer.isPremium &&
+                  <div className="property__mark">
+                    <span>Premium</span>
+                  </div>
+              }
+
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  Beautiful &amp; luxurious studio at great location
+                  {offer.title}
                 </h1>
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{width: '80%'}}></span>
+                  <span style={{width: getPercentFromRating(offer.rating)}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">4.8</span>
+                <span className="property__rating-value rating__value">{offer.rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  Apartment
+                  {capitalizeFirstLetter(offer.type)}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  3 Bedrooms
+                  {offer.bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max 4 adults
+                  Max {offer.maxAdults} adults
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;120</b>
+                <b className="property__price-value">&euro;{offer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
@@ -289,4 +294,25 @@ function Room(): JSX.Element {
       </main>
     </>
   );
+}
+
+// TODO: Move to separate file
+
+const PERCENTS_STEP = 20;
+
+function getPercentFromRating(rating: number): string {
+  const roundedPercent = Math.round(rating) * PERCENTS_STEP;
+  if (roundedPercent > 100) {
+    return '100%';
+  }
+  if (roundedPercent < 0) {
+    return '0%';
+  }
+  return `${roundedPercent}%`;
+}
+
+function capitalizeFirstLetter(text: string): string {
+  const head = text.charAt(0);
+  const tail = text.slice(1);
+  return head.toUpperCase() + tail;
 }
