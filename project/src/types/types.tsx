@@ -14,5 +14,5 @@ export type City = {
   name: string;
 }
 
-export type Image = string;
-export type Images = string[];
+export type Image = string
+export type Images = string[]
