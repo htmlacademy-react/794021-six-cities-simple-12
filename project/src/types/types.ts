@@ -22,3 +22,5 @@ export type Images = string[]
 
 export type HardwareFeatures = HardwareFeature[]
 export type HardwareFeature = string
+
+export type UserLogin = string
