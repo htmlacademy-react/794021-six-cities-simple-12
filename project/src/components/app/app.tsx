@@ -9,8 +9,7 @@ type AppProps = {
 };
 
 function App(props: AppProps): JSX.Element {
-  const { offers } = props;
-  const [ offer ] = offers;
+  const { offers: [ offer ] } = props;
 
   // FIXME: display all components at once as a proof-of-concept
   return (
