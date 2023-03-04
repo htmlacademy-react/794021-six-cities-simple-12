@@ -1,3 +1,4 @@
+import Login from 'src/pages/login/login';
 import Main from 'src/pages/main/main';
 import Room from 'src/pages/room/room';
 import { City, Offers, UserLogin } from 'src/types/types';
@@ -16,6 +17,7 @@ function App(props: AppProps): JSX.Element {
   // FIXME: display all components at once as a proof-of-concept
   return (
     <>
+      <Login />
       <Room offer={offer} userLogin={userLogin} />
       <Main
         {...props}
