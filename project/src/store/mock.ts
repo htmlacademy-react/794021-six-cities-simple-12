@@ -1,5 +1,5 @@
 import { Images, City, Offer, Offers } from 'src/types/types';
-
+import { HardwareFeatures } from 'src/types/types';
 export const city: City = {
   name: 'Amsterdam',
 };
@@ -15,8 +15,22 @@ const firstOfferImages: Images = [
   'img/apartment-01.jpg',
 ];
 
+const firstOfferGoods: HardwareFeatures = [
+  'Wi-Fi',
+  'Washing machine',
+  'Towels',
+  'Heating',
+  'Coffee machine',
+  'Baby seat',
+  'Kitchen',
+  'Dishwasher',
+  'Cabel TV',
+  'Fridge',
+];
+
 const firstOffer: Offer = {
   bedrooms: 3,
+  goods: firstOfferGoods,
   id: 1,
   isPremium: true,
   images: firstOfferImages,
@@ -31,6 +45,7 @@ export const offers: Offers = [
   firstOffer,
   {
     bedrooms: 1,
+    goods: [],
     id: 2,
     isPremium: false,
     images: ['img/room.jpg'],
@@ -42,6 +57,7 @@ export const offers: Offers = [
   },
   {
     bedrooms: 2,
+    goods: [],
     id: 3,
     isPremium: false,
     images: ['img/apartment-02.jpg'],
@@ -53,6 +69,7 @@ export const offers: Offers = [
   },
   {
     bedrooms: 3,
+    goods: [],
     id: 4,
     isPremium: true,
     images: ['img/apartment-03.jpg'],
@@ -64,6 +81,7 @@ export const offers: Offers = [
   },
   {
     bedrooms: 1,
+    goods: [],
     id: 5,
     isPremium: false,
     images: ['img/apartment-03.jpg'],

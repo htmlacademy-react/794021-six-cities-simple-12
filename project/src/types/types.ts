@@ -1,5 +1,6 @@
 export type Offer = {
   bedrooms: number;
+  goods: HardwareFeatures;
   id: number;
   isPremium: boolean;
   images: Images;
@@ -18,3 +19,6 @@ export type City = {
 
 export type Image = string
 export type Images = string[]
+
+export type HardwareFeatures = HardwareFeature[]
+export type HardwareFeature = string
