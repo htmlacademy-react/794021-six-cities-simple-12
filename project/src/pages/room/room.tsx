@@ -71,6 +71,7 @@ function Room({ offer }: RoomType): JSX.Element {
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
+
                 <ul className="property__inside-list">
                   {
                     offer.goods.map((good) => (
@@ -82,6 +83,7 @@ function Room({ offer }: RoomType): JSX.Element {
                     ))
                   }
                 </ul>
+
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
