@@ -1,7 +1,9 @@
 export type Offer = {
+  bedrooms: number;
   id: number;
   isPremium: boolean;
   images: Images;
+  maxAdults: number;
   price: number;
   rating: number;
   type: string;
