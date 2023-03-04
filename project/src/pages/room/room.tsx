@@ -1,4 +1,4 @@
-import HeaderRoom from 'src/components/header-main/header-main';
+import HeaderRoom from 'src/components/header-room/header-room';
 import { Offer } from 'src/types/types';
 
 export default Room;
