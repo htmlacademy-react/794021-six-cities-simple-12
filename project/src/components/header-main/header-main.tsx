@@ -1,6 +1,12 @@
+import { UserLogin } from 'src/types/types';
+
+type HeaderMainProps = {
+  userLogin: UserLogin;
+}
+
 export default HeaderMain;
 
-function HeaderMain(): JSX.Element {
+function HeaderMain({ userLogin }: HeaderMainProps): JSX.Element {
   return (
     <header className="header">
       <div className="container">
@@ -15,7 +21,7 @@ function HeaderMain(): JSX.Element {
               <li className="header__nav-item user">
                 <div className="header__nav-profile">
                   <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                  <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                  <span className="header__user-name user__name">{userLogin}</span>
                 </div>
               </li>
               <li className="header__nav-item">

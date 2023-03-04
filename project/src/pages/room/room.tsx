@@ -1,16 +1,17 @@
 import HeaderRoom from 'src/components/header-room/header-room';
-import { Offer } from 'src/types/types';
+import { Offer, UserLogin } from 'src/types/types';
 
 export default Room;
 
 type RoomType = {
   offer: Offer;
+  userLogin: UserLogin;
 }
 
-function Room({ offer }: RoomType): JSX.Element {
+function Room({ offer, userLogin }: RoomType): JSX.Element {
   return (
     <>
-      <HeaderRoom />
+      <HeaderRoom userLogin={userLogin} />
       <main className="page__main page__main--property">
         <section className="property">
 

@@ -1,17 +1,18 @@
 import PlaceCard from 'src/components/place-card/place-card';
 import HeaderMain from 'src/components/header-main/header-main';
-import { City, Offers } from 'src/types/types';
+import { City, Offers, UserLogin } from 'src/types/types';
 
 type MainProps = {
   city: City;
   offers: Offers;
   offersCount: number;
+  userLogin: UserLogin;
 };
 
 export default function Main(props: MainProps) {
   return (
     <>
-      <HeaderMain />
+      <HeaderMain userLogin={props.userLogin} />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
@@ -34,7 +35,7 @@ export default function Main(props: MainProps) {
               </li>
               <li className="locations__item">
                 <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
+                  <span>Amsterdam</span> {/* TODO: pass as props */}
                 </a>
               </li>
               <li className="locations__item">
