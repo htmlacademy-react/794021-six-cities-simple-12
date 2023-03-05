@@ -11,3 +11,8 @@ export function getPercentFromRating(rating: number): string {
   return `${roundedPercent}%`;
 }
 
+export function capitalizeFirstLetter(text: string): string {
+  const head = text.charAt(0);
+  const tail = text.slice(1);
+  return head.toUpperCase() + tail;
+}
