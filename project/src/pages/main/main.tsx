@@ -1,8 +1,9 @@
 import PlaceCard from 'src/components/place-card/place-card';
 import HeaderMain from 'src/components/header-main/header-main';
-import { City, Offers, UserLogin } from 'src/types/types';
+import { Cities, City, Offers, UserLogin } from 'src/types/types';
 
 type MainProps = {
+  cities: Cities;
   city: City;
   offers: Offers;
   offersCount: number;
@@ -17,38 +18,29 @@ export default function Main(props: MainProps) {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
+
             <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span> {/* TODO: pass as props */}
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
+              {
+                props.cities.map((city) => {
+                  const activeCityClassName = city.name === props.city.name ?
+                    ' tabs__item--active' :
+                    '';
+                  return (
+                    <li className="locations__item"
+                      key={city.name}
+                    >
+                      <a
+                        className={`locations__item-link tabs__item ${activeCityClassName}`}
+                        href="#"
+                      >
+                        <span>{city.name}</span>
+                      </a>
+                    </li>
+                  );
+                })
+              }
             </ul>
+
           </section>
         </div>
         <div className="cities">

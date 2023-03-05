@@ -1,9 +1,10 @@
 import Login from 'src/pages/login/login';
 import Main from 'src/pages/main/main';
 import Room from 'src/pages/room/room';
-import { City, Offers, UserLogin } from 'src/types/types';
+import { Cities, City, Offers, UserLogin } from 'src/types/types';
 
 type AppProps = {
+  cities: Cities;
   city: City;
   offers: Offers;
   offersCount: number;
