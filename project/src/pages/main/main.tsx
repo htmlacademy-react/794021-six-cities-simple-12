@@ -1,6 +1,7 @@
 import PlaceCard from 'src/components/place-card/place-card';
 import HeaderMain from 'src/components/header-main/header-main';
-import { Cities, City, Offers, UserLogin } from 'src/types/types';
+import { Cities, City, Offer, Offers, UserLogin } from 'src/types/types';
+import { getMultipleOfPlaceWord } from 'src/utils/utils';
 
 type MainProps = {
   cities: Cities;
@@ -48,7 +49,11 @@ export default function Main(props: MainProps) {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {`${props.offersCount} ${getPlacesText(props.offersCount)} to stay in ${props.currentCity.name}`}
+                {`
+                  ${props.offersCount}
+                  ${getMultipleOfPlaceWord(props.offersCount)}
+                  to stay in ${props.currentCity.name}
+                `}
               </b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
@@ -66,12 +71,14 @@ export default function Main(props: MainProps) {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-
-                <PlaceCard offer={props.offers[0] /* TODO */} />
-                <PlaceCard offer={props.offers[1] /* TODO */} />
-                <PlaceCard offer={props.offers[2] /* TODO */} />
-                <PlaceCard offer={props.offers[3] /* TODO */} />
-                <PlaceCard offer={props.offers[4] /* TODO */} />
+                {
+                  props.offers.map((offer: Offer): JSX.Element => (
+                    <PlaceCard
+                      key={offer.id}
+                      offer={offer}
+                    />
+                  ))
+                }
 
               </div>
             </section>
@@ -83,10 +90,4 @@ export default function Main(props: MainProps) {
       </main>
     </>
   );
-}
-
-function getPlacesText(count: number) {
-  return count !== 1 ?
-    'places' :
-    'place';
 }
