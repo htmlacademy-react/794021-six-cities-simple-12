@@ -4,12 +4,12 @@ import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
 
 export default Room;
 
-type RoomType = {
+type RoomProps = {
   offer: Offer;
   userLogin: UserLogin;
 }
 
-function Room({ offer, userLogin }: RoomType): JSX.Element {
+function Room({ offer, userLogin }: RoomProps): JSX.Element {
   return (
     <>
       <HeaderRoom userLogin={userLogin} />
