@@ -1,9 +1,18 @@
-import { Images, City, Offer, Offers, UserLogin } from 'src/types/types';
+import { Images, Cities, City, Offer, Offers, UserLogin } from 'src/types/types';
 import { HardwareFeatures } from 'src/types/types';
 
 export const currentCity: City = {
   name: 'Amsterdam',
 };
+
+export const cities: Cities = [
+  { name: 'Paris' },
+  { name: 'Cologne' },
+  { name: 'Brussels' },
+  { name: 'Amsterdam' },
+  { name: 'Hamburg' },
+  { name: 'Dusseldorf' },
+];
 
 export const offersCount = 312;
 
