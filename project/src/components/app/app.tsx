@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Main from 'src/pages/main/main';
 import Login from 'src/pages/login/login';
-import Room from 'src/pages/room/room';
+import Rooms from 'src/components/rooms/rooms';
 import NotFound from 'src/components/not-found/not-found';
 import { Cities, City, Offers, UserLogin } from 'src/types/types';
 
@@ -14,7 +14,6 @@ type AppProps = {
 };
 
 function App(props: AppProps): JSX.Element {
-  const [ firstOffer ] = props.offers;
   return (
     <BrowserRouter>
       <Routes>
@@ -24,7 +23,7 @@ function App(props: AppProps): JSX.Element {
           <Route
             path='offer/:id'
             element={
-              <Room offer={firstOffer} userLogin={props.userLogin} />
+              <Rooms offers={props.offers} userLogin={props.userLogin} />
             }
           />
           <Route path='*' element={<NotFound />} />
