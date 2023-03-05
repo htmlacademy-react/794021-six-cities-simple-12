@@ -17,6 +17,8 @@ export type City = {
   name: string;
 }
 
+export type Cities = City[]
+
 export type Image = string
 export type Images = string[]
 
