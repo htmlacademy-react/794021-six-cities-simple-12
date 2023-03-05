@@ -1,5 +1,6 @@
 import PlaceCard from 'src/components/place-card/place-card';
 import HeaderMain from 'src/components/header-main/header-main';
+import CitiesList from 'src/components/cities-list/cities-list';
 import { Cities, City, Offer, Offers, UserLogin } from 'src/types/types';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
 
@@ -19,29 +20,10 @@ export default function Main(props: MainProps) {
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
-
-            <ul className="locations__list tabs__list">
-              {
-                props.cities.map((city) => {
-                  const activeCityClassName = city.name === props.currentCity.name ?
-                    ' tabs__item--active' :
-                    '';
-                  return (
-                    <li className="locations__item"
-                      key={city.name}
-                    >
-                      <a
-                        className={`locations__item-link tabs__item ${activeCityClassName}`}
-                        href="#"
-                      >
-                        <span>{city.name}</span>
-                      </a>
-                    </li>
-                  );
-                })
-              }
-            </ul>
-
+            <CitiesList
+              cities={props.cities}
+              currentCity={props.currentCity}
+            />
           </section>
         </div>
         <div className="cities">
