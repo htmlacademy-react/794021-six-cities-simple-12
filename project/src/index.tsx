@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <App
-      city={currentCity}
+      currentCity={currentCity}
       cities={cities}
       offers={offers}
       offersCount={offersCount}

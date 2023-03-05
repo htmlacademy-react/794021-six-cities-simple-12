@@ -5,7 +5,7 @@ import { Cities, City, Offers, UserLogin } from 'src/types/types';
 
 type AppProps = {
   cities: Cities;
-  city: City;
+  currentCity: City;
   offers: Offers;
   offersCount: number;
   userLogin: UserLogin;

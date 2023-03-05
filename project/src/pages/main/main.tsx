@@ -4,7 +4,7 @@ import { Cities, City, Offers, UserLogin } from 'src/types/types';
 
 type MainProps = {
   cities: Cities;
-  city: City;
+  currentCity: City;
   offers: Offers;
   offersCount: number;
   userLogin: UserLogin;
@@ -22,7 +22,7 @@ export default function Main(props: MainProps) {
             <ul className="locations__list tabs__list">
               {
                 props.cities.map((city) => {
-                  const activeCityClassName = city.name === props.city.name ?
+                  const activeCityClassName = city.name === props.currentCity.name ?
                     ' tabs__item--active' :
                     '';
                   return (
@@ -47,7 +47,7 @@ export default function Main(props: MainProps) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{`${props.offersCount} ${getPlacesText(props.offersCount)} to stay in ${props.city.name}`}</b>
+              <b className="places__found">{`${props.offersCount} ${getPlacesText(props.offersCount)} to stay in ${props.currentCity.name}`}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
