@@ -1,5 +1,6 @@
 import HeaderRoom from 'src/components/header-room/header-room';
 import { Offer, UserLogin } from 'src/types/types';
+import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
 
 export default Room;
 
@@ -276,25 +277,4 @@ function Room({ offer, userLogin }: RoomType): JSX.Element {
       </main>
     </>
   );
-}
-
-// TODO: Move to separate file
-
-const PERCENTS_STEP = 20;
-
-function getPercentFromRating(rating: number): string {
-  const roundedPercent = Math.round(rating) * PERCENTS_STEP;
-  if (roundedPercent > 100) {
-    return '100%';
-  }
-  if (roundedPercent < 0) {
-    return '0%';
-  }
-  return `${roundedPercent}%`;
-}
-
-function capitalizeFirstLetter(text: string): string {
-  const head = text.charAt(0);
-  const tail = text.slice(1);
-  return head.toUpperCase() + tail;
 }

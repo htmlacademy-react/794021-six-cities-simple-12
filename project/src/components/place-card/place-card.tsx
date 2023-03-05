@@ -1,4 +1,5 @@
 import { Offer } from 'src/types/types';
+import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
 
 type PlaceCardProps = {
   offer: Offer;
@@ -41,27 +42,8 @@ function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
         <h2 className="place-card__name">
           <a href="#">{offer.title}</a>
         </h2>
-        <p className="place-card__type">{capitalizeFirstChar(offer.type)}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(offer.type)}</p>
       </div>
     </article>
   );
-}
-
-const PERCENTS_STEP = 20;
-
-function getPercentFromRating(rating: number): string {
-  const roundedPercent = Math.round(rating) * PERCENTS_STEP;
-  if (roundedPercent > 100) {
-    return '100%';
-  }
-  if (roundedPercent < 0) {
-    return '0%';
-  }
-  return `${roundedPercent}%`;
-}
-
-function capitalizeFirstChar(text: string): string {
-  const head = text.charAt(0);
-  const tail = text.slice(1);
-  return head.toUpperCase() + tail;
 }
