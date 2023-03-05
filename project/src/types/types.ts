@@ -7,8 +7,8 @@ export type Offer = {
   maxAdults: number;
   price: number;
   rating: number;
-  type: string;
   title: string;
+  type: string;
 }
 
 export type Offers = Offer[]
