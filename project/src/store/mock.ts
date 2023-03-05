@@ -1,6 +1,7 @@
 import { Images, City, Offer, Offers, UserLogin } from 'src/types/types';
 import { HardwareFeatures } from 'src/types/types';
-export const city: City = {
+
+export const currentCity: City = {
   name: 'Amsterdam',
 };
 
