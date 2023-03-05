@@ -1,7 +1,7 @@
 export type Offer = {
   bedrooms: number;
   goods: HardwareFeatures;
-  id: number;
+  id: OfferId;
   isPremium: boolean;
   images: Images;
   maxAdults: number;
@@ -11,6 +11,7 @@ export type Offer = {
   type: string;
 }
 
+export type OfferId = number;
 export type Offers = Offer[]
 
 export type City = {
