@@ -16,3 +16,10 @@ export function capitalizeFirstLetter(text: string): string {
   const tail = text.slice(1);
   return head.toUpperCase() + tail;
 }
+
+export function getMultipleOfPlaceWord(count: number): string {
+  if (count === 1 || count === -1) {
+    return 'place';
+  }
+  return 'places';
+}
