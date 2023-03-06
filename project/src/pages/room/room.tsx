@@ -1,6 +1,7 @@
 import HeaderRoom from 'src/components/header-room/header-room';
 import NearPlacesCards from 'src/components/near-places-cards/near-places-cards';
 import RoomGallery from 'src/components/room-gallery/room-gallery';
+import RoomHardwareFeatures from 'src/components/room-hardware-features/room-hardware-features';
 import RoomReviews from 'src/components/room-reviews/room-reviews';
 import { Offer, UserLogin } from 'src/types/types';
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
@@ -57,22 +58,7 @@ function Room({ offer, userLogin }: RoomProps): JSX.Element {
                 <b className="property__price-value">&euro;{offer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
-              <div className="property__inside">
-                <h2 className="property__inside-title">What&apos;s inside</h2>
-
-                <ul className="property__inside-list">
-                  {
-                    offer.goods.map((good) => (
-                      <li className="property__inside-item"
-                        key={good}
-                      >
-                        {good}
-                      </li>
-                    ))
-                  }
-                </ul>
-
-              </div>
+              <RoomHardwareFeatures goods={offer.goods}/>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
