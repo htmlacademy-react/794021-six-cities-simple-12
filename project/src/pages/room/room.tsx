@@ -1,5 +1,6 @@
 import HeaderRoom from 'src/components/header-room/header-room';
 import NearPlacesCards from 'src/components/near-places-cards/near-places-cards';
+import RoomGallery from 'src/components/room-gallery/room-gallery';
 import RoomReviews from 'src/components/room-reviews/room-reviews';
 import { Offer, UserLogin } from 'src/types/types';
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
@@ -17,24 +18,7 @@ function Room({ offer, userLogin }: RoomProps): JSX.Element {
       <HeaderRoom userLogin={userLogin} />
       <main className="page__main page__main--property">
         <section className="property">
-
-          <div className="property__gallery-container container">
-            <div className="property__gallery">
-              {
-                offer.images.map((image) => (
-                  <div className="property__image-wrapper"
-                    key={image}
-                  >
-                    <img
-                      className="property__image"
-                      src={image}
-                      alt="Photo studio"
-                    />
-                  </div>
-                ))
-              }
-            </div>
-          </div>
+          <RoomGallery images={offer.images} />
 
           <div className="property__container container">
             <div className="property__wrapper">
