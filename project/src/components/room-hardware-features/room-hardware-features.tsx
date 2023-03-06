@@ -6,7 +6,10 @@ type RoomHardwareFeaturesProps = {
 
 export default RoomHardwareFeatures;
 
-function RoomHardwareFeatures({ goods }: RoomHardwareFeaturesProps): JSX.Element {
+function RoomHardwareFeatures({ goods }: RoomHardwareFeaturesProps): JSX.Element | null {
+  if (!goods.length) {
+    return null;
+  }
   return (
     <div className="property__inside">
       <h2 className="property__inside-title">What&apos;s inside</h2>
