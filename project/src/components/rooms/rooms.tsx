@@ -10,7 +10,7 @@ type RoomsProps = {
 export default Rooms;
 
 function Rooms(props: RoomsProps): JSX.Element | null {
-  // TODO: all null returns show as 'Page not found'
+  // TODO: all nulls must render 'Page not found'
 
   const { id } = useParams();
   if (id === undefined) {
