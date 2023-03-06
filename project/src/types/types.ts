@@ -27,11 +27,14 @@ export type Images = string[]
 export type HardwareFeatures = HardwareFeature[]
 export type HardwareFeature = string
 
-export type OfferHost = {
-    avatarUrl: string;
-    id: number;
-    isPro: boolean;
-    name: string;
+export type User = {
+  avatarUrl: string;
+  id: number;
+  isPro: boolean;
+  name: string;
 }
+
+export type OfferHost = User
+export type Reviewer = User
 
 export type UserLogin = string
