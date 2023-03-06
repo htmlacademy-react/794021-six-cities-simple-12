@@ -1,4 +1,4 @@
-import { Images, Cities, City, Offer, Offers, UserLogin } from 'src/types/types';
+import { Images, Cities, City, Offer, OfferHost, Offers, UserLogin } from 'src/types/types';
 import { HardwareFeatures } from 'src/types/types';
 
 export const currentCity: City = {
@@ -39,9 +39,24 @@ const firstOfferGoods: HardwareFeatures = [
   'Fridge',
 ];
 
+const firstOfferHost: OfferHost = {
+  avatarUrl: 'img/avatar-angelina.jpg',
+  id: 3,
+  isPro: true,
+  name: 'Angelina',
+};
+
+const secondOfferHost: OfferHost = {
+  avatarUrl: 'img/avatar-max.jpg',
+  id: 2,
+  isPro: false,
+  name: 'Max',
+};
+
 const firstOffer: Offer = {
   bedrooms: 3,
   goods: firstOfferGoods,
+  host: firstOfferHost,
   id: 1,
   isPremium: true,
   images: firstOfferImages,
@@ -57,6 +72,7 @@ export const offers: Offers = [
   {
     bedrooms: 1,
     goods: [],
+    host: secondOfferHost,
     id: 2,
     isPremium: false,
     images: ['img/room.jpg'],
@@ -69,6 +85,7 @@ export const offers: Offers = [
   {
     bedrooms: 2,
     goods: [],
+    host: firstOfferHost, // TODO: still the first host
     id: 3,
     isPremium: false,
     images: ['img/apartment-02.jpg'],
@@ -81,6 +98,7 @@ export const offers: Offers = [
   {
     bedrooms: 3,
     goods: [],
+    host: firstOfferHost, // TODO: still the first host
     id: 4,
     isPremium: true,
     images: ['img/apartment-03.jpg'],
@@ -93,6 +111,7 @@ export const offers: Offers = [
   {
     bedrooms: 1,
     goods: [],
+    host: firstOfferHost, // TODO: still the first host
     id: 5,
     isPremium: false,
     images: ['img/apartment-03.jpg'],

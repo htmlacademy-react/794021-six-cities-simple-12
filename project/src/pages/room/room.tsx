@@ -58,7 +58,7 @@ function Room({ offer, userLogin }: RoomProps): JSX.Element {
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <RoomHardwareFeatures goods={offer.goods}/>
-              <RoomHost />
+              <RoomHost host={offer.host} />
               <section className="property__reviews reviews">
                 <RoomReviews />
               </section>
