@@ -38,3 +38,13 @@ export type OfferHost = User
 export type Reviewer = User
 
 export type UserLogin = string
+
+export type Review = {
+  comment: string;
+  date: string;
+  id: number;
+  rating: number;
+  user: Reviewer;
+}
+
+export type Reviews = Review[]
