@@ -49,3 +49,5 @@ export type Review = {
 }
 
 export type Reviews = Review[]
+
+export type GetNearbyOffers = (id: number) => Offers;

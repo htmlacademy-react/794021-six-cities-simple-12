@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Offer } from 'src/types/types';
-import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
+import PlaceCardInfo from './place-card-info';
 
 type PlaceCardProps = {
   offer: Offer;
@@ -26,25 +26,12 @@ function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
           />
         </Link>
       </div>
-      <div className="place-card__info">
-        <div className="place-card__price-wrapper">
-          <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{offer.price}</b>
-            <span className="place-card__price-text">&#47;&nbsp;night</span>
-          </div>
-
-        </div>
-        <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            <span style={{width: getPercentFromRating(offer.rating)}}></span>
-            <span className="visually-hidden">Rating</span>
-          </div>
-        </div>
-        <h2 className="place-card__name">
-          <a href="#">{offer.title}</a>
-        </h2>
-        <p className="place-card__type">{capitalizeFirstLetter(offer.type)}</p>
-      </div>
+      <PlaceCardInfo
+        price={offer.price}
+        rating={offer.rating}
+        title={offer.title}
+        type={offer.type}
+      />
     </article>
   );
 }

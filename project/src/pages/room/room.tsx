@@ -5,18 +5,19 @@ import RoomGallery from 'src/components/room-gallery/room-gallery';
 import RoomHardwareFeatures from 'src/components/room-hardware-features/room-hardware-features';
 import RoomHost from 'src/components/room-host/room-host';
 import RoomReviews from 'src/components/room-reviews/room-reviews';
-import { Offer, Reviews, UserLogin } from 'src/types/types';
+import { Offer, Offers, Reviews, UserLogin } from 'src/types/types';
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
 
 export default Room;
 
 type RoomProps = {
+  nearbyOffers: Offers;
   offer: Offer;
   reviews: Reviews;
   userLogin: UserLogin;
 }
 
-function Room({ offer, reviews, userLogin }: RoomProps): JSX.Element {
+function Room({ nearbyOffers, offer, reviews, userLogin }: RoomProps): JSX.Element {
   return (
     <>
       <HeaderRoom userLogin={userLogin} />
@@ -75,7 +76,7 @@ function Room({ offer, reviews, userLogin }: RoomProps): JSX.Element {
         </section>
         <div className="container">
           <section className="near-places places">
-            <NearPlacesCards />
+            <NearPlacesCards offers={nearbyOffers} />
           </section>
         </div>
       </main>

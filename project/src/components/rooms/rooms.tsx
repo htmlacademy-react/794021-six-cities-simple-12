@@ -1,8 +1,11 @@
-import { Offer, OfferId, Offers, Reviews, UserLogin } from 'src/types/types';
+import {
+  GetNearbyOffers, Offer, OfferId, Offers, Reviews, UserLogin
+} from 'src/types/types';
 import { useParams } from 'react-router-dom';
 import Room from 'src/pages/room/room';
 
 type RoomsProps = {
+  getNearbyOffers: GetNearbyOffers;
   offers: Offers;
   reviews: Reviews;
   userLogin: UserLogin;
@@ -29,8 +32,11 @@ function Rooms(props: RoomsProps): JSX.Element | null {
   }
 
   const offerReviews = props.reviews.filter((review) => review.id === foundOffer.id);
+  const nearbyOffers = props.getNearbyOffers(foundOffer.id);
+
   return (
     <Room
+      nearbyOffers={nearbyOffers}
       offer={foundOffer}
       reviews={offerReviews}
       userLogin={props.userLogin}

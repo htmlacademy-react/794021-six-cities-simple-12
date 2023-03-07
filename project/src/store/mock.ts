@@ -153,3 +153,9 @@ export const reviews: Reviews = [
   firstOffer1stReview,
   secondOffer1stReview,
 ];
+
+export const nearbyOffers: Offers = [
+  offers[1],
+  offers[2],
+  offers[3],
+];
