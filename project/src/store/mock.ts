@@ -1,5 +1,5 @@
 import {
-  Images, Cities, City, Offer, Offers, User, UserLogin
+  Images, Cities, City, Offer, Offers, Review, Reviews, User, UserLogin
 } from 'src/types/types';
 import { HardwareFeatures } from 'src/types/types';
 
@@ -123,4 +123,25 @@ export const offers: Offers = [
     title: 'Wood and stone place',
     type: 'private room',
   },
+];
+
+export const firstOffer1stReview: Review = {
+  comment: 'A quiet cozy and picturesque that hides behind a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
+  date: '2020-04-24',
+  id: 1, // hotelId
+  rating: 4.8,
+  user: userMax,
+};
+
+export const secondOffer1stReview: Review = {
+  comment: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
+  date: '2021-05-25',
+  id: 2, // hotelId
+  rating: 3.9,
+  user: userAngelina,
+};
+
+export const reviews: Reviews = [
+  firstOffer1stReview,
+  secondOffer1stReview,
 ];
