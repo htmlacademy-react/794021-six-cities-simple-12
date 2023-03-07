@@ -42,7 +42,7 @@ export type UserLogin = string
 export type Review = {
   comment: string;
   date: string;
-  id: number;
+  id: number; // hotelId https://12.react.pages.academy/six-cities-simple/spec#get-/comments/-hotelId-:~:text=GET%20/comments/%7BhotelId%7D
   rating: number;
   user: Reviewer;
 }
