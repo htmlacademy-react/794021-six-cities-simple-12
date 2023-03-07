@@ -1,6 +1,7 @@
 import { Reviews } from 'src/types/types';
 import OneStarInput from './one-star-input';
 import RoomReview from 'src/components/room-review/room-review';
+import { makeHash } from 'src/utils/utils';
 
 type RoomReviewProps = {
   reviews: Reviews;
@@ -11,22 +12,25 @@ export default RoomReviews;
 function RoomReviews({ reviews }: RoomReviewProps): JSX.Element {
   return (
     <>
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-      <ul className="reviews__list">
-        {
-          reviews.map((review) => {
-            const key = `${review.id}-${review.date}-${review.comment}-${review.user.id}`;
-            return (
-              <li
-                className="reviews__item"
-                key={key}
-              >
-                <RoomReview review={review} />
-              </li>
-            );
-          })
-        }
-      </ul>
+      {
+        reviews.length &&
+        <ul className="reviews__list">
+          {
+            reviews.map((review) => {
+              const key = makeHash(review);
+              return (
+                <li
+                  className="reviews__item"
+                  key={key}
+                >
+                  <RoomReview review={review} />
+                </li>
+              );
+            })
+          }
+        </ul>
+      }
+
       <form className="reviews__form form" action="#" method="post">
         <label className="reviews__label form__label" htmlFor="review">
           Your review
