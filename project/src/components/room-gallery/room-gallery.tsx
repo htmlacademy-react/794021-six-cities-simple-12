@@ -18,7 +18,7 @@ function RoomGallery({ images }: RoomGalleryProps): JSX.Element {
               <img
                 className="property__image"
                 src={image}
-                alt="Photo studio"
+                alt="Interior"
               />
             </div>
           ))
