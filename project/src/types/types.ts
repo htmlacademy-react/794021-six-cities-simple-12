@@ -1,5 +1,6 @@
 export type Offer = {
   bedrooms: number;
+  description: string;
   goods: HardwareFeatures;
   host: OfferHost;
   id: OfferId;

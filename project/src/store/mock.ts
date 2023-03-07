@@ -57,6 +57,10 @@ const userMax: User = {
 
 const firstOffer: Offer = {
   bedrooms: 3,
+  description: `
+    A quiet cozy and picturesque that hides behind a river by the unique lightness of Amsterdam. The building is green and from 18th century.\n
+    An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
+  `,
   goods: firstOfferGoods,
   host: userAngelina,
   id: 1,
@@ -73,6 +77,7 @@ export const offers: Offers = [
   firstOffer,
   {
     bedrooms: 1,
+    description: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
     goods: [],
     host: userMax,
     id: 2,
@@ -86,6 +91,7 @@ export const offers: Offers = [
   },
   {
     bedrooms: 2,
+    description: '',
     goods: [],
     host: userAngelina,
     id: 3,
@@ -99,6 +105,7 @@ export const offers: Offers = [
   },
   {
     bedrooms: 3,
+    description: '',
     goods: [],
     host: userMax,
     id: 4,
@@ -112,6 +119,7 @@ export const offers: Offers = [
   },
   {
     bedrooms: 1,
+    description: '',
     goods: [],
     host: userAngelina,
     id: 5,
