@@ -5,7 +5,7 @@ import PlaceCardInfo from './place-card-info';
 type PlaceCardProps = {
   offer: Offer;
 };
-
+// TODO: consider using word based on 'Room'
 export default PlaceCard;
 
 function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
