@@ -23,3 +23,7 @@ export function getMultipleOfPlaceWord(count: number): string {
   }
   return 'places';
 }
+
+export function makeHash(obj: object): string {
+  return JSON.stringify(obj);
+}
