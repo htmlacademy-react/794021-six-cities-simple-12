@@ -3,13 +3,14 @@ import Main from 'src/pages/main/main';
 import Login from 'src/pages/login/login';
 import Rooms from 'src/components/rooms/rooms';
 import NotFound from 'src/components/not-found/not-found';
-import { Cities, City, Offers, UserLogin } from 'src/types/types';
+import { Cities, City, Offers, Reviews, UserLogin } from 'src/types/types';
 
 type AppProps = {
   cities: Cities;
   currentCity: City;
   offers: Offers;
   offersCount: number;
+  reviews: Reviews;
   userLogin: UserLogin;
 };
 
@@ -23,7 +24,7 @@ function App(props: AppProps): JSX.Element {
           <Route
             path='offer/:id'
             element={
-              <Rooms offers={props.offers} userLogin={props.userLogin} />
+              <Rooms offers={props.offers} reviews={props.reviews} userLogin={props.userLogin} />
             }
           />
           <Route path='*' element={<NotFound />} />

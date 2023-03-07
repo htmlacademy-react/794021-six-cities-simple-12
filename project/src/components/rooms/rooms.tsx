@@ -1,9 +1,10 @@
-import { Offer, OfferId, Offers, UserLogin } from 'src/types/types';
+import { Offer, OfferId, Offers, Reviews, UserLogin } from 'src/types/types';
 import { useParams } from 'react-router-dom';
 import Room from 'src/pages/room/room';
 
 type RoomsProps = {
   offers: Offers;
+  reviews: Reviews;
   userLogin: UserLogin;
 }
 
@@ -27,9 +28,11 @@ function Rooms(props: RoomsProps): JSX.Element | null {
     return null;
   }
 
+  const offerReviews = props.reviews.filter((review) => review.id === foundOffer.id);
   return (
     <Room
       offer={foundOffer}
+      reviews={offerReviews}
       userLogin={props.userLogin}
     />
   );

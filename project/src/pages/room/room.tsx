@@ -4,17 +4,18 @@ import RoomGallery from 'src/components/room-gallery/room-gallery';
 import RoomHardwareFeatures from 'src/components/room-hardware-features/room-hardware-features';
 import RoomHost from 'src/components/room-host/room-host';
 import RoomReviews from 'src/components/room-reviews/room-reviews';
-import { Offer, UserLogin } from 'src/types/types';
+import { Offer, Reviews, UserLogin } from 'src/types/types';
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
 
 export default Room;
 
 type RoomProps = {
   offer: Offer;
+  reviews: Reviews;
   userLogin: UserLogin;
 }
 
-function Room({ offer, userLogin }: RoomProps): JSX.Element {
+function Room({ offer, reviews, userLogin }: RoomProps): JSX.Element {
   return (
     <>
       <HeaderRoom userLogin={userLogin} />
@@ -60,7 +61,7 @@ function Room({ offer, userLogin }: RoomProps): JSX.Element {
               <RoomHardwareFeatures goods={offer.goods}/>
               <RoomHost host={offer.host} />
               <section className="property__reviews reviews">
-                <RoomReviews />
+                <RoomReviews reviews={reviews} />
               </section>
             </div>
           </div>
