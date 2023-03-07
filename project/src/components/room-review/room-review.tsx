@@ -8,6 +8,14 @@ type RoomReviewProps = {
 export default RoomReview;
 
 function RoomReview({ review }: RoomReviewProps): JSX.Element {
+  let htmlDateAttr = '';
+  let humanReadableDate = '';
+  const splittedDate = splitYearMonthDayMonthName(review.date);
+  if (splittedDate) {
+    const [ year, month, day, monthName ] = splittedDate;
+    htmlDateAttr = `${year}-${month}-${day}`;
+    humanReadableDate = `${monthName} ${year}`;
+  }
   return (
     <>
       <div className="reviews__user user">
@@ -31,10 +39,23 @@ function RoomReview({ review }: RoomReviewProps): JSX.Element {
         <p className="reviews__text">
           {review.comment}
         </p>
-        <time className="reviews__time" dateTime={review.date}>
-          {review.date /* TODO: convert*/}
+        <time className="reviews__time" dateTime={htmlDateAttr}>
+          {humanReadableDate}
         </time>
       </div>
     </>
   );
+}
+
+function splitYearMonthDayMonthName(dateAsString: string): [number, number, number, string ] | null {
+  const date = new Date(dateAsString);
+  const day = date.getDate();
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  const yearAsNumber = date.getFullYear();
+  const monthName = date.toLocaleString('en-US', { month: 'long' });
+  if (isNaN(yearAsNumber)) {
+    return null;
+  }
+  return [year, month, day, monthName];
 }
