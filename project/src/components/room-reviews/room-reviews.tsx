@@ -14,22 +14,23 @@ function RoomReviews({ reviews }: RoomReviewProps): JSX.Element {
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
 
       {
-        reviews.length &&
-        <ul className="reviews__list">
-          {
-            reviews.map((review) => {
-              const key = makeHash(review);
-              return (
-                <li
-                  className="reviews__item"
-                  key={key}
-                >
-                  <RoomReview review={review} />
-                </li>
-              );
-            })
-          }
-        </ul>
+        reviews.length ?
+          <ul className="reviews__list">
+            {
+              reviews.map((review) => {
+                const key = makeHash(review);
+                return (
+                  <li
+                    className="reviews__item"
+                    key={key}
+                  >
+                    <RoomReview review={review} />
+                  </li>
+                );
+              })
+            }
+          </ul> :
+          null
       }
 
       <form className="reviews__form form" action="#" method="post">
