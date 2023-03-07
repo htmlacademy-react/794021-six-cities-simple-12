@@ -8,10 +8,11 @@ type RoomReviewProps = {
 }
 
 export default RoomReviews;
-// TODO: make dynamic
 function RoomReviews({ reviews }: RoomReviewProps): JSX.Element {
   return (
     <>
+      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
+
       {
         reviews.length &&
         <ul className="reviews__list">
