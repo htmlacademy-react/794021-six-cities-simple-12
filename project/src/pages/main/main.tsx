@@ -45,7 +45,7 @@ export default function Main(props: MainProps) {
                     <use xlinkHref="#icon-arrow-select"></use>
                   </svg>
                 </span>
-                <ul className="places__options places__options--custom places__options--opened">
+                <ul className="places__options places__options--custom">{ /* FIXME 'places__options--opened' */}
                   <li className="places__option places__option--active" tabIndex={0}>Popular</li>
                   <li className="places__option" tabIndex={0}>Price: low to high</li>
                   <li className="places__option" tabIndex={0}>Price: high to low</li>
