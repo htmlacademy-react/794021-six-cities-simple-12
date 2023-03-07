@@ -1,5 +1,6 @@
 import HeaderRoom from 'src/components/header-room/header-room';
 import NearPlacesCards from 'src/components/near-places-cards/near-places-cards';
+import RoomDescription from 'src/components/room-description/room-description';
 import RoomGallery from 'src/components/room-gallery/room-gallery';
 import RoomHardwareFeatures from 'src/components/room-hardware-features/room-hardware-features';
 import RoomHost from 'src/components/room-host/room-host';
@@ -59,7 +60,12 @@ function Room({ offer, reviews, userLogin }: RoomProps): JSX.Element {
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <RoomHardwareFeatures goods={offer.goods}/>
-              <RoomHost host={offer.host} />
+
+              <div className="property__host">
+                <h2 className="property__host-title">Meet the host</h2>
+                <RoomHost host={offer.host} />
+                <RoomDescription />
+              </div>
               <section className="property__reviews reviews">
                 <RoomReviews reviews={reviews} />
               </section>
