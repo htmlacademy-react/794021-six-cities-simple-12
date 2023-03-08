@@ -1,4 +1,3 @@
-import Header from 'src/components/header/header';
 import NearPlacesCards from 'src/components/near-places-cards/near-places-cards';
 import RoomDescription from 'src/components/room-description/room-description';
 import RoomGallery from 'src/components/room-gallery/room-gallery';
@@ -11,17 +10,18 @@ import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
 export default Room;
 
 type RoomProps = {
+  headerBlock?: JSX.Element;
   nearbyOffers: Offers;
   offer: Offer;
   reviews: Reviews;
   userLogin: UserLogin;
 }
 
-function Room({ nearbyOffers, offer, reviews, userLogin }: RoomProps): JSX.Element {
+function Room({ headerBlock, nearbyOffers, offer, reviews, userLogin }: RoomProps): JSX.Element {
   const isUserLoggedIn = userLogin !== null;
   return (
     <div className="page">
-      <Header userLogin={userLogin} />
+      {headerBlock}
       <main className="page__main page__main--property">
         <section className="property">
           <RoomGallery images={offer.images} />

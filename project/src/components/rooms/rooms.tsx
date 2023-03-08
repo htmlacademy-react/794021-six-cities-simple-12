@@ -6,6 +6,7 @@ import Room from 'src/pages/room/room';
 
 type RoomsProps = {
   getNearbyOffers: GetNearbyOffers;
+  headerBlock?: JSX.Element;
   offers: Offers;
   reviews: Reviews;
   userLogin: UserLogin;
@@ -36,6 +37,7 @@ function Rooms(props: RoomsProps): JSX.Element | null {
 
   return (
     <Room
+      headerBlock={props.headerBlock}
       nearbyOffers={nearbyOffers}
       offer={foundOffer}
       reviews={offerReviews}

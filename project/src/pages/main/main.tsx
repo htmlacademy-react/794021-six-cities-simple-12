@@ -1,21 +1,20 @@
 import PlaceCard from 'src/components/place-card/place-card';
-import Header from 'src/components/header/header';
 import CitiesList from 'src/components/cities-list/cities-list';
-import { Cities, City, Offer, Offers, UserLogin } from 'src/types/types';
+import { Cities, City, Offer, Offers } from 'src/types/types';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
 
 type MainProps = {
   cities: Cities;
   currentCity: City;
+  headerBlock?: JSX.Element;
   offers: Offers;
   offersCount: number;
-  userLogin: UserLogin;
 };
 
 export default function Main(props: MainProps) {
   return (
     <div className="page page--gray page--main">
-      <Header userLogin={props.userLogin} />
+      {props.headerBlock}
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
