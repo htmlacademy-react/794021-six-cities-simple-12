@@ -18,6 +18,7 @@ type RoomProps = {
 }
 
 function Room({ nearbyOffers, offer, reviews, userLogin }: RoomProps): JSX.Element {
+  const isUserLoggedIn = userLogin !== null;
   return (
     <div className="page">
       <Header userLogin={userLogin} />
@@ -68,7 +69,7 @@ function Room({ nearbyOffers, offer, reviews, userLogin }: RoomProps): JSX.Eleme
                 <RoomDescription description={offer.description} />
               </div>
               <section className="property__reviews reviews">
-                <RoomReviews reviews={reviews} />
+                <RoomReviews isUserLoggedIn={isUserLoggedIn} reviews={reviews} />
               </section>
             </div>
           </div>
