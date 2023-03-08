@@ -13,7 +13,7 @@ function CitiesList(props: CitiesListProps): JSX.Element {
       {
         props.cities.map((city) => {
           const activeCityClassName = city.name === props.currentCity.name ?
-            ' tabs__item--active' :
+            ' tabs__item--active' : // TODO: remove '.tabs__item--active' if no offer (empty)
             '';
           return (
             <li className="locations__item"
