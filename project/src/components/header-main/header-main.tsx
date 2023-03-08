@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { UserLogin } from 'src/types/types';
+import LoginLogout from './login-logout';
 
 type HeaderMainProps = {
   userLogin: UserLogin;
@@ -19,16 +20,18 @@ function HeaderMain({ userLogin }: HeaderMainProps): JSX.Element {
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
-              <li className="header__nav-item user">
-                <div className="header__nav-profile">
-                  <div className="header__avatar-wrapper user__avatar-wrapper"></div>
-                  <span className="header__user-name user__name">{userLogin}</span>
-                </div>
-              </li>
+              {
+                userLogin &&
+                <li className="header__nav-item user">
+                  <div className="header__nav-profile">
+                    <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                    <span className="header__user-name user__name">{userLogin}</span>
+                  </div>
+                </li>
+              }
+
               <li className="header__nav-item">
-                <a className="header__nav-link" href="#">
-                  <span className="header__signout">Sign out</span>
-                </a>
+                <LoginLogout userLogin={userLogin} />
               </li>
             </ul>
           </nav>

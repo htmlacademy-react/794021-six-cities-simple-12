@@ -38,7 +38,7 @@ export type User = {
 export type OfferHost = User
 export type Reviewer = User
 
-export type UserLogin = string
+export type UserLogin = string | null
 
 export type Review = {
   comment: string;
