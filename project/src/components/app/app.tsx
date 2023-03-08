@@ -25,7 +25,7 @@ function App(props: AppProps): JSX.Element {
       <Routes>
         <Route path={AppRoute.Root}>
           <Route index element={<Main {...props} headerBlock={headerBlock} />}/>
-          <Route path={AppRoute.Login} element={<Login userLogin={props.userLogin} />} />
+          <Route path={AppRoute.Login} element={<Login headerBlock={headerBlock} />} />
           <Route
             path={AppRoute.Offer}
             element={

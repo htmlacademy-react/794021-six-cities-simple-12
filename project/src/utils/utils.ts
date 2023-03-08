@@ -24,6 +24,12 @@ export function getMultipleOfPlaceWord(count: number): string {
   return 'places';
 }
 
+export function isCurrentPage(currentPath: string, pathToCompare: string): boolean {
+  return currentPath === pathToCompare ||
+    currentPath === `/${pathToCompare}` ||
+    `/${currentPath}` === pathToCompare;
+}
+
 export function parseInteger(numberAsString = ''): number | typeof NaN {
   const number = Number(numberAsString);
   if (isNaN(number)) {

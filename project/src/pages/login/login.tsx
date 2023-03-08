@@ -1,16 +1,13 @@
-import { UserLogin } from 'src/types/types';
-import Header from 'src/components/header/header';
-
 type LoginProps = {
-  userLogin: UserLogin;
+  headerBlock?: JSX.Element;
 }
 
 export default Login;
 
-function Login({ userLogin }: LoginProps): JSX.Element {
+function Login({ headerBlock }: LoginProps): JSX.Element {
   return (
     <div className="page page--gray page--login">
-      <Header userLogin={userLogin} />
+      {headerBlock}
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">

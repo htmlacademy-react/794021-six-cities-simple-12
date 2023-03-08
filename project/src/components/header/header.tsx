@@ -3,6 +3,7 @@ import { UserLogin } from 'src/types/types';
 import HeaderNav from './header-nav';
 import { useLocation } from 'react-router-dom';
 import { AppRoute } from 'src/utils/consts';
+import { isCurrentPage } from 'src/utils/utils';
 
 type HeaderMainProps = {
   userLogin: UserLogin;
@@ -11,8 +12,8 @@ type HeaderMainProps = {
 export default HeaderMain;
 
 function HeaderMain({ userLogin }: HeaderMainProps): JSX.Element {
-  const { pathname } = useLocation();
-  const linkClassName = pathname === AppRoute.Root ?
+  const { pathname: currentPath } = useLocation();
+  const linkClassName = isCurrentPage(currentPath, AppRoute.Root) ?
     'header__logo-link header__logo-link--active' :
     'header__logo-link';
 
@@ -26,7 +27,7 @@ function HeaderMain({ userLogin }: HeaderMainProps): JSX.Element {
             </Link>
           </div>
 
-          {pathname !== AppRoute.Login ? <HeaderNav userLogin={userLogin} /> : null}
+          {isCurrentPage(currentPath, AppRoute.Login) ? null : <HeaderNav userLogin={userLogin} />}
         </div>
       </div>
     </header>
