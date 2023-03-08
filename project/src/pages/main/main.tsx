@@ -14,7 +14,7 @@ type MainProps = {
 
 export default function Main(props: MainProps) {
   return (
-    <>
+    <div className="page page--gray page--main">
       <HeaderMain userLogin={props.userLogin} />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
@@ -70,6 +70,6 @@ export default function Main(props: MainProps) {
           </div>
         </div>
       </main>
-    </>
+    </div>
   );
 }

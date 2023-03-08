@@ -19,7 +19,7 @@ type RoomProps = {
 
 function Room({ nearbyOffers, offer, reviews, userLogin }: RoomProps): JSX.Element {
   return (
-    <>
+    <div className="page">
       <HeaderRoom userLogin={userLogin} />
       <main className="page__main page__main--property">
         <section className="property">
@@ -80,6 +80,6 @@ function Room({ nearbyOffers, offer, reviews, userLogin }: RoomProps): JSX.Eleme
           </section>
         </div>
       </main>
-    </>
+    </div>
   );
 }

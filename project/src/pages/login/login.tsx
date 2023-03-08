@@ -4,7 +4,7 @@ export default Login;
 
 function Login(): JSX.Element {
   return (
-    <>
+    <div className="page page--gray page--login">
       <HeaderLogin />
       <main className="page__main page__main--login">
         <div className="page__login-container container">
@@ -31,6 +31,6 @@ function Login(): JSX.Element {
           </section>
         </div>
       </main>
-    </>
+    </div>
   );
 }
