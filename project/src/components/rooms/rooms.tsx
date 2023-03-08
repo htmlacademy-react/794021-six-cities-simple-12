@@ -3,6 +3,7 @@ import {
 } from 'src/types/types';
 import { useParams } from 'react-router-dom';
 import Room from 'src/pages/room/room';
+import { parseInteger } from 'src/utils/utils';
 
 type RoomsProps = {
   getNearbyOffers: GetNearbyOffers;
@@ -15,24 +16,15 @@ type RoomsProps = {
 export default Rooms;
 
 function Rooms(props: RoomsProps): JSX.Element | null {
-  // TODO: all nulls must render 'Page not found'
+  const { id: offerId } = useParams();
+  const offerIdAsInt = parseInteger(offerId);
+  const foundOffer = getOfferById(props.offers, offerIdAsInt);
 
-  const { id } = useParams();
-  if (id === undefined) {
-    return null;
-  }
-
-  const idAsInt = parseInt(id, 10);
-  if (isNaN(idAsInt)) {
-    return null;
-  }
-
-  const foundOffer = getOfferById(props.offers, idAsInt);
   if (foundOffer === undefined) {
-    return null;
+    return null; // TODO: instead of null, 'Page not found' must be rendered
   }
 
-  const offerReviews = props.reviews.filter((review) => review.id === foundOffer.id);
+  const offerReviews = getReviewsById(props.reviews, foundOffer.id);
   const nearbyOffers = props.getNearbyOffers(foundOffer.id);
 
   return (
@@ -52,4 +44,8 @@ function getOfferById(offers: Offers, id: OfferId): Offer | undefined {
   );
   const [ foundOffer ] = foundOffers;
   return foundOffer;
+}
+
+function getReviewsById(reviews: Reviews, id: OfferId): Reviews {
+  return reviews.filter((review) => review.id === id);
 }
