@@ -1,4 +1,4 @@
-import HeaderRoom from 'src/components/header-room/header-room';
+import Header from 'src/components/header/header';
 import NearPlacesCards from 'src/components/near-places-cards/near-places-cards';
 import RoomDescription from 'src/components/room-description/room-description';
 import RoomGallery from 'src/components/room-gallery/room-gallery';
@@ -20,7 +20,7 @@ type RoomProps = {
 function Room({ nearbyOffers, offer, reviews, userLogin }: RoomProps): JSX.Element {
   return (
     <div className="page">
-      <HeaderRoom userLogin={userLogin} />
+      <Header userLogin={userLogin} />
       <main className="page__main page__main--property">
         <section className="property">
           <RoomGallery images={offer.images} />

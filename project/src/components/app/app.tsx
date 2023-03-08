@@ -22,7 +22,7 @@ function App(props: AppProps): JSX.Element {
       <Routes>
         <Route path={AppRoute.Root}>
           <Route index element={<Main {...props} />}/>
-          <Route path={AppRoute.Login} element={<Login />} />
+          <Route path={AppRoute.Login} element={<Login userLogin={props.userLogin} />} />
           <Route
             path={AppRoute.Offer}
             element={

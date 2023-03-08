@@ -1,5 +1,5 @@
 import PlaceCard from 'src/components/place-card/place-card';
-import HeaderMain from 'src/components/header-main/header-main';
+import Header from 'src/components/header/header';
 import CitiesList from 'src/components/cities-list/cities-list';
 import { Cities, City, Offer, Offers, UserLogin } from 'src/types/types';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
@@ -15,7 +15,7 @@ type MainProps = {
 export default function Main(props: MainProps) {
   return (
     <div className="page page--gray page--main">
-      <HeaderMain userLogin={props.userLogin} />
+      <Header userLogin={props.userLogin} />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
