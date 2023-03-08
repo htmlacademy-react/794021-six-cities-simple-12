@@ -9,6 +9,7 @@ type RoomReviewProps = {
 }
 
 export default RoomReviews;
+
 function RoomReviews({ isUserLoggedIn, reviews }: RoomReviewProps): JSX.Element {
   return (
     <>
