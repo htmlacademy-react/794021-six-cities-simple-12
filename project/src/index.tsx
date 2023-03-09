@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import {
-  cities, offers, offersCount, currentCity, nearbyOffers, reviews, userLogin,
+  offers, offersCount, currentCity, nearbyOffers, reviews, userLogin,
 } from 'src/store/mock';
+import { CityNames } from 'src/utils/consts';
 import { Offers } from 'src/types/types';
 
 const root = ReactDOM.createRoot(
@@ -13,8 +14,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <App
-      currentCity={currentCity}
-      cities={cities}
+      currentCityName={currentCity}
+      cityNames={CityNames}
       getNearbyOffers={getNearbyOffers}
       offers={offers}
       offersCount={offersCount}

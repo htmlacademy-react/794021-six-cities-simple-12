@@ -5,3 +5,12 @@ export enum AppRoute {
   Login = 'login',
   Offer = 'offer/:id',
 }
+
+export const CityNames = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+] as const;

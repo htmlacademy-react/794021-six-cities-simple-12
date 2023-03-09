@@ -1,11 +1,11 @@
-import { City, Offer, Offers as TOffers } from 'src/types/types';
+import { CityName, Offer, Offers as TOffers } from 'src/types/types';
 import PlaceCard from 'src/components/place-card/place-card';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
 
 type OfferProps = {
   offers: TOffers;
   offersCount: number;
-  currentCity: City;
+  currentCityName: CityName;
 }
 
 function Offers(props: OfferProps): JSX.Element {
@@ -18,7 +18,7 @@ function Offers(props: OfferProps): JSX.Element {
             {`
               ${props.offersCount}
               ${getMultipleOfPlaceWord(props.offersCount)}
-              to stay in ${props.currentCity.name}
+              to stay in ${props.currentCityName}
             `}
           </b>
           <form className="places__sorting" action="#" method="get">

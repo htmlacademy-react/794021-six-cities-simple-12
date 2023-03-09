@@ -16,11 +16,9 @@ export type Offer = {
 export type OfferId = number;
 export type Offers = Offer[]
 
-export type City = {
-  name: string;
-}
+export type CityName = string
 
-export type Cities = City[]
+export type CityNames = readonly CityName[]
 
 export type Image = string
 export type Images = string[]
