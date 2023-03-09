@@ -20,7 +20,7 @@ function NearPlacesCards(props: NearPlacesCardsProps): JSX.Element {
               key={offer.id}
             >
               <div className="near-places__image-wrapper place-card__image-wrapper">
-                <Link to={`/offer/${offer.id}`}> { /* TODO: scroll window up */ }
+                <Link to={`/offer/${offer.id}`}>
                   <img
                     alt="Interior"
                     className="place-card__image"

@@ -45,3 +45,7 @@ export function parseInteger(numberAsString = ''): number | typeof NaN {
 export function makeHash(obj: object): string {
   return JSON.stringify(obj);
 }
+
+export function scrollToTop() {
+  window && window.scrollTo(0, 0);
+}
