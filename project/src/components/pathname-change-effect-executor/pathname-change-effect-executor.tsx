@@ -5,7 +5,7 @@ type EffectExecutorProps = {
   onPathnameChange: () => void;
 }
 
-export default function PathnameChangeEffectExecutor(
+function PathnameChangeEffectExecutor(
   { onPathnameChange }: EffectExecutorProps
 ): null {
   const { pathname } = useLocation();
@@ -16,3 +16,5 @@ export default function PathnameChangeEffectExecutor(
 
   return null;
 }
+
+export default PathnameChangeEffectExecutor;
