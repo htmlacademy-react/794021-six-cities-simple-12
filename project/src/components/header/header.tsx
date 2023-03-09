@@ -9,8 +9,6 @@ type HeaderMainProps = {
   userLogin: UserLogin;
 }
 
-export default HeaderMain;
-
 function HeaderMain({ userLogin }: HeaderMainProps): JSX.Element {
   const { pathname: currentPath } = useLocation();
   const linkClassName = isCurrentPage(currentPath, AppRoute.Root) ?
@@ -33,3 +31,5 @@ function HeaderMain({ userLogin }: HeaderMainProps): JSX.Element {
     </header>
   );
 }
+
+export default HeaderMain;

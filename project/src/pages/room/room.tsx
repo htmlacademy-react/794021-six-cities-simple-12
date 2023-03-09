@@ -7,8 +7,6 @@ import RoomReviews from 'src/components/room-reviews/room-reviews';
 import { Offer, Offers, Reviews, UserLogin } from 'src/types/types';
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
 
-export default Room;
-
 type RoomProps = {
   headerBlock?: JSX.Element;
   nearbyOffers: Offers;
@@ -84,3 +82,5 @@ function Room({ headerBlock, nearbyOffers, offer, reviews, userLogin }: RoomProp
     </div>
   );
 }
+
+export default Room;

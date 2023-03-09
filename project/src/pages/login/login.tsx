@@ -2,8 +2,6 @@ type LoginProps = {
   headerBlock?: JSX.Element;
 }
 
-export default Login;
-
 function Login({ headerBlock }: LoginProps): JSX.Element {
   return (
     <div className="page page--gray page--login">
@@ -36,3 +34,5 @@ function Login({ headerBlock }: LoginProps): JSX.Element {
     </div>
   );
 }
+
+export default Login;

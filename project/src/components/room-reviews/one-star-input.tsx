@@ -4,8 +4,6 @@ type OneStarInputProps = {
   labelTitle: string;
 }
 
-export default OneStarInput;
-
 function OneStarInput(props: OneStarInputProps): JSX.Element {
   return (
     <>
@@ -27,3 +25,5 @@ function OneStarInput(props: OneStarInputProps): JSX.Element {
     </>
   );
 }
+
+export default OneStarInput;

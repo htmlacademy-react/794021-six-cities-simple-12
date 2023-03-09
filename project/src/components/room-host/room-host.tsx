@@ -4,8 +4,6 @@ type RoomHostProps = {
   host: OfferHost;
 }
 
-export default RoomHost;
-
 function RoomHost({ host }: RoomHostProps): JSX.Element {
   return (
     <div className="property__host-user user">
@@ -24,3 +22,5 @@ function RoomHost({ host }: RoomHostProps): JSX.Element {
     </div>
   );
 }
+
+export default RoomHost;

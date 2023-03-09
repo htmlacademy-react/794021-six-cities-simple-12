@@ -6,8 +6,6 @@ type NearPlacesCardsProps = {
   offers: Offers;
 };
 
-export default NearPlacesCards;
-
 function NearPlacesCards(props: NearPlacesCardsProps): JSX.Element {
   return (
     <>
@@ -43,3 +41,5 @@ function NearPlacesCards(props: NearPlacesCardsProps): JSX.Element {
     </>
   );
 }
+
+export default NearPlacesCards;

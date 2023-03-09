@@ -8,8 +8,6 @@ type OfferProps = {
   currentCity: City;
 }
 
-export default Offers;
-
 function Offers(props: OfferProps): JSX.Element {
   return (
     <div className="cities">
@@ -56,3 +54,5 @@ function Offers(props: OfferProps): JSX.Element {
     </div>
   );
 }
+
+export default Offers;

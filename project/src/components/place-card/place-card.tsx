@@ -6,8 +6,6 @@ type PlaceCardProps = {
   offer: Offer;
 };
 // TODO: consider using word based on 'Room'
-export default PlaceCard;
-
 function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
   return (
     <article className="cities__card place-card">
@@ -35,3 +33,5 @@ function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
     </article>
   );
 }
+
+export default PlaceCard;

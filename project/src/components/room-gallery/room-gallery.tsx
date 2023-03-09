@@ -4,8 +4,6 @@ type RoomGalleryProps = {
   images: Images;
 }
 
-export default RoomGallery;
-
 function RoomGallery({ images }: RoomGalleryProps): JSX.Element {
   return (
     <div className="property__gallery-container container">
@@ -27,3 +25,5 @@ function RoomGallery({ images }: RoomGalleryProps): JSX.Element {
     </div>
   );
 }
+
+export default RoomGallery;

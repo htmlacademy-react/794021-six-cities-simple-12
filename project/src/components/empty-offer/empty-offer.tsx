@@ -1,5 +1,3 @@
-export default EmptyOffer;
-
 function EmptyOffer(): JSX.Element {
   return (
     <div className="cities">
@@ -16,3 +14,5 @@ function EmptyOffer(): JSX.Element {
     </div>
   );
 }
+
+export default EmptyOffer;

@@ -5,8 +5,6 @@ type CitiesListProps = {
   currentCity: City;
 }
 
-export default CitiesList;
-
 function CitiesList(props: CitiesListProps): JSX.Element {
   return (
     <ul className="locations__list tabs__list">
@@ -32,3 +30,5 @@ function CitiesList(props: CitiesListProps): JSX.Element {
     </ul>
   );
 }
+
+export default CitiesList;
