@@ -4,7 +4,8 @@ import Login from 'src/pages/login/login';
 import Header from 'src/components/header/header';
 import Rooms from 'src/components/rooms/rooms';
 import NotFound from 'src/components/not-found/not-found';
-import EffectExecutor from 'src/components/effect-executor/effect-executor';
+import PathnameChangeEffectExecutor from
+  'src/components/pathname-change-effect-executor/pathname-change-effect-executor';
 import { scrollToTop } from 'src/utils/utils';
 import { Cities, City, GetNearbyOffers, Offers, Reviews, UserLogin } from 'src/types/types';
 import { AppRoute } from 'src/utils/consts';
@@ -24,7 +25,7 @@ function App(props: AppProps): JSX.Element {
 
   return (
     <BrowserRouter>
-      <EffectExecutor cb={scrollToTop} />
+      <PathnameChangeEffectExecutor onPathnameChange={scrollToTop} />
       <Routes>
         <Route path={AppRoute.Root}>
           <Route index element={<Main {...props} headerBlock={headerBlock} />}/>
