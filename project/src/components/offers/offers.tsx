@@ -2,13 +2,13 @@ import { CityName, Offer, Offers as TOffers } from 'src/types/types';
 import PlaceCard from 'src/components/place-card/place-card';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
 
-type OfferProps = {
+type OffersProps = {
   offers: TOffers;
   offersCount: number;
   currentCityName: CityName;
 }
 
-function Offers(props: OfferProps): JSX.Element {
+function Offers(props: OffersProps): JSX.Element {
   return (
     <div className="cities">
       <div className="cities__places-container container">
