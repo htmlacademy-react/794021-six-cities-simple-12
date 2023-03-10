@@ -3,13 +3,13 @@ import { CityName, Offer, Offers as TOffers } from 'src/types/types';
 import OfferCard from 'src/components/offer-card/offer-card';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
 
-type OffersProps = {
+type OfferCardsProps = {
   offers: TOffers;
   offersCount: number;
   currentCityName: CityName;
 }
 
-function Offers(props: OffersProps): JSX.Element {
+function OfferCards(props: OfferCardsProps): JSX.Element {
   const [ hoveredOffer, setHoveredOffer ] = useState<Offer | null>(null);
   // TODO: use it on the map
   // eslint-disable-next-line no-console
@@ -62,4 +62,4 @@ function Offers(props: OffersProps): JSX.Element {
   );
 }
 
-export default Offers;
+export default OfferCards;
