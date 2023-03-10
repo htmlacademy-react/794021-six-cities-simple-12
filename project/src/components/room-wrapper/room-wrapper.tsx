@@ -1,5 +1,5 @@
 import {
-  GetNearbyOffers, Offer, OfferId, Offers, Reviews, UserLogin
+  GetNearbyOffers, Offer, OfferId, Offers, Reviews,
 } from 'src/types/types';
 import { useParams } from 'react-router-dom';
 import Room from 'src/pages/room/room';
