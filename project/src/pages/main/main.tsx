@@ -1,13 +1,13 @@
 import CitiesList from 'src/components/cities-list/cities-list';
 import OfferCards from 'src/components/offer-сards/offer-cards';
 import EmptyOffer from 'src/components/empty-offer/empty-offer';
-import { CityNames, CityName, Offers as TOffers } from 'src/types/types';
+import { CityNames, CityName, Offers } from 'src/types/types';
 
 type MainProps = {
   cityNames: CityNames;
   currentCityName: CityName;
   headerBlock?: JSX.Element;
-  offers: TOffers;
+  offers: Offers;
   offersCount: number;
 };
 
