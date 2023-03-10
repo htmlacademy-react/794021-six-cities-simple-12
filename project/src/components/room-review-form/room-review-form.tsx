@@ -9,7 +9,7 @@ function RoomReviewForm() {
     rating: 0,
     review: '',
   });
-  const [ isDisabled, setIsDisabled ] = useState(true);
+  const [ isSubmitDisabled, setIsSubmitDisabled ] = useState(true);
 
   const changeHandler = ({ target }: ChangeEvent<InputElement>): void => {
     const { name, value } = target;
@@ -30,9 +30,9 @@ function RoomReviewForm() {
       formData.review.length >= RoomReview.TextCharacterMinLimit &&
       formData.rating > 0
     ) {
-      setIsDisabled(false);
+      setIsSubmitDisabled(false);
     } else {
-      setIsDisabled(true);
+      setIsSubmitDisabled(true);
     }
   }, [formData]);
 
@@ -69,7 +69,7 @@ function RoomReviewForm() {
         </p>
         <button
           className="reviews__submit form__submit button"
-          disabled={isDisabled}
+          disabled={isSubmitDisabled}
           type="submit"
         >
           {RoomReview.SubmitButtonText}
