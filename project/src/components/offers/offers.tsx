@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { CityName, Offer, Offers as TOffers } from 'src/types/types';
 import OfferCard from 'src/components/offer-card/offer-card';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
@@ -9,6 +10,11 @@ type OffersProps = {
 }
 
 function Offers(props: OffersProps): JSX.Element {
+  const [ hoveredOffer, setHoveredOffer ] = useState<Offer | null>(null);
+  // TODO: use it on the map
+  // eslint-disable-next-line no-console
+  console.log(hoveredOffer);
+
   return (
     <div className="cities">
       <div className="cities__places-container container">
@@ -42,6 +48,7 @@ function Offers(props: OffersProps): JSX.Element {
                 <OfferCard
                   key={offer.id}
                   offer={offer}
+                  getHoveredOffer={(_) => setHoveredOffer(_)}
                 />
               ))
             }

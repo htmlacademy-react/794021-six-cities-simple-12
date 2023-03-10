@@ -4,11 +4,15 @@ import OfferCardInfo from './offer-card-info';
 
 type OfferCardProps = {
   offer: Offer;
+  getHoveredOffer: (offer: Offer | null) => void;
 };
 
-function OfferCard({ offer }: OfferCardProps): JSX.Element {
+function OfferCard({ offer, getHoveredOffer }: OfferCardProps): JSX.Element {
   return (
-    <article className="cities__card place-card">
+    <article className="cities__card place-card"
+      onMouseEnter={() => getHoveredOffer(offer)}
+      onMouseLeave={() => getHoveredOffer(null)}
+    >
       {
         offer.isPremium &&
           <div className="place-card__mark">
