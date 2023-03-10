@@ -59,7 +59,7 @@ export const offers: Offers = [
   {
     bedrooms: 1,
     description: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
-    goods: [],
+    goods: ['Towels', 'Heating',],
     host: userMax,
     id: 2,
     isPremium: false,
@@ -73,7 +73,7 @@ export const offers: Offers = [
   {
     bedrooms: 2,
     description: '',
-    goods: [],
+    goods: ['Coffee machine', 'Baby seat',],
     host: userAngelina,
     id: 3,
     isPremium: false,
@@ -87,7 +87,7 @@ export const offers: Offers = [
   {
     bedrooms: 3,
     description: '',
-    goods: [],
+    goods: ['Kitchen', 'Dishwasher',],
     host: userMax,
     id: 4,
     isPremium: true,
@@ -101,7 +101,7 @@ export const offers: Offers = [
   {
     bedrooms: 1,
     description: '',
-    goods: [],
+    goods: ['Cabel TV', 'Fridge',],
     host: userAngelina,
     id: 5,
     isPremium: false,
