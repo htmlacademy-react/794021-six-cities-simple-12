@@ -3,7 +3,7 @@ import { RoomReview } from 'src/utils/consts';
 import { ChangeEvent, useEffect, useState, FormEvent } from 'react';
 
 type InputElement = HTMLTextAreaElement | HTMLInputElement;
-
+// TODO: reset form on every change of Room
 function RoomReviewForm() {
   const [ formData, setFormData ] = useState({
     rating: 0,
