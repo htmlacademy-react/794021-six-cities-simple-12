@@ -14,3 +14,9 @@ export const CityNames = [
   'Hamburg',
   'Dusseldorf',
 ] as const;
+
+export const RoomReview = {
+  header: 'Your review',
+  submitButtonText: 'Submit',
+  textCharacterLimit: 50,
+} as const;
