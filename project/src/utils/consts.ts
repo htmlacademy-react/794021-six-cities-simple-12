@@ -19,5 +19,5 @@ export const RoomReview = {
   HeaderText: 'Your review',
   PlaceholderText: 'Tell how was your stay, what you like and what can be improved',
   SubmitButtonText: 'Submit',
-  TextCharacterLimit: 50,
+  TextCharacterMinLimit: 50,
 } as const;
