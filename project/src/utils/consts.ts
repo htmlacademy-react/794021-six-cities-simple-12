@@ -16,7 +16,7 @@ export const CityNames = [
 ] as const;
 
 export const RoomReview = {
-  header: 'Your review',
-  submitButtonText: 'Submit',
-  textCharacterLimit: 50,
+  HeaderText: 'Your review',
+  SubmitButtonText: 'Submit',
+  TextCharacterLimit: 50,
 } as const;

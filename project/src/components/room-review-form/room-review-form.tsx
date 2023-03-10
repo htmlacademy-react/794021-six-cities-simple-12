@@ -5,7 +5,7 @@ function RoomReviewForm() {
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">
-        {RoomReview.header}
+        {RoomReview.HeaderText}
       </label>
       <div className="reviews__rating-form form__rating">
         <OneStarInput htmlId='5-stars' labelTitle='perfect' inputValue='5' />
@@ -24,10 +24,10 @@ function RoomReviewForm() {
           To submit review please make sure to set
           {' '}<span className="reviews__star">rating</span>
           {' '}and describe your stay with at least
-          {' '}<b className="reviews__text-amount">{RoomReview.textCharacterLimit} characters</b>.
+          {' '}<b className="reviews__text-amount">{RoomReview.TextCharacterLimit} characters</b>.
         </p>
         <button className="reviews__submit form__submit button" type="submit" disabled>
-          {RoomReview.submitButtonText}
+          {RoomReview.SubmitButtonText}
         </button>
       </div>
     </form>
