@@ -10,7 +10,7 @@ type RoomsProps = {
   headerBlock?: JSX.Element;
   offers: Offers;
   reviews: Reviews;
-  userLogin: UserLogin;
+  isUserLoggedIn: boolean;
 }
 
 export default Rooms;
@@ -33,7 +33,7 @@ function Rooms(props: RoomsProps): JSX.Element | null {
       nearbyOffers={nearbyOffers}
       offer={foundOffer}
       reviews={offerReviews}
-      userLogin={props.userLogin}
+      isUserLoggedIn={props.isUserLoggedIn}
     />
   );
 }

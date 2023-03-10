@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Main from 'src/pages/main/main';
 import Login from 'src/pages/login/login';
 import Header from 'src/components/header/header';
-import Rooms from 'src/components/rooms/rooms';
+import RoomWrapper from 'src/components/room-wrapper/room-wrapper';
 import NotFound from 'src/components/not-found/not-found';
 import PathnameChangeEffectExecutor from
   'src/components/pathname-change-effect-executor/pathname-change-effect-executor';
@@ -33,12 +33,12 @@ function App(props: AppProps): JSX.Element {
           <Route
             path={AppRoute.Offer}
             element={
-              <Rooms
+              <RoomWrapper
                 getNearbyOffers={props.getNearbyOffers}
                 headerBlock={headerBlock}
                 offers={props.offers}
                 reviews={props.reviews}
-                userLogin={props.userLogin}
+                isUserLoggedIn={props.userLogin !== undefined}
               />
             }
           />
