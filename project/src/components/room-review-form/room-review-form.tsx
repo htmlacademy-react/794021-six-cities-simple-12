@@ -1,8 +1,6 @@
 import OneStarInput from './one-star-input';
 
-export default ReviewForm;
-
-function ReviewForm() {
+function RoomReviewForm() {
   return (
     <form className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">
@@ -34,3 +32,5 @@ function ReviewForm() {
     </form>
   );
 }
+
+export default RoomReviewForm;

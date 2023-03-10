@@ -1,5 +1,5 @@
 import { Reviews } from 'src/types/types';
-import ReviewForm from './review-form';
+import RoomReviewForm from 'src/components/room-review-form/room-review-form';
 import RoomReview from 'src/components/room-review/room-review';
 import { makeHash } from 'src/utils/utils';
 
@@ -33,7 +33,7 @@ function RoomReviews({ isUserLoggedIn, reviews }: RoomReviewProps): JSX.Element 
           null
       }
 
-      { isUserLoggedIn && <ReviewForm /> }
+      { isUserLoggedIn && <RoomReviewForm /> }
     </>
   );
 }
