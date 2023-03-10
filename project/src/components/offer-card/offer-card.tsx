@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Offer } from 'src/types/types';
-import PlaceCardInfo from './place-card-info';
+import OfferCardInfo from './offer-card-info';
 
-type PlaceCardProps = {
+type OfferCardProps = {
   offer: Offer;
 };
-// TODO: consider using word based on 'Room'
-function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
+
+function OfferCard({ offer }: OfferCardProps): JSX.Element {
   return (
     <article className="cities__card place-card">
       {
@@ -24,7 +24,7 @@ function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
           />
         </Link>
       </div>
-      <PlaceCardInfo
+      <OfferCardInfo
         price={offer.price}
         rating={offer.rating}
         title={offer.title}
@@ -34,4 +34,4 @@ function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
   );
 }
 
-export default PlaceCard;
+export default OfferCard;

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Offers } from 'src/types/types';
-import PlaceCardInfo from 'src/components/place-card/place-card-info';
+import OfferCardInfo from 'src/components/offer-card/offer-card-info';
 
 type NearPlacesCardsProps = {
   offers: Offers;
@@ -28,7 +28,7 @@ function NearPlacesCards(props: NearPlacesCardsProps): JSX.Element {
                   />
                 </Link>
               </div>
-              <PlaceCardInfo
+              <OfferCardInfo
                 price={offer.price}
                 rating={offer.rating}
                 title={offer.title}

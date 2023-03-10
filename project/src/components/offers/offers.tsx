@@ -1,5 +1,5 @@
 import { CityName, Offer, Offers as TOffers } from 'src/types/types';
-import PlaceCard from 'src/components/place-card/place-card';
+import OfferCard from 'src/components/offer-card/offer-card';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
 
 type OffersProps = {
@@ -39,7 +39,7 @@ function Offers(props: OffersProps): JSX.Element {
           <div className="cities__places-list places__list tabs__content">
             {
               props.offers.map((offer: Offer): JSX.Element => (
-                <PlaceCard
+                <OfferCard
                   key={offer.id}
                   offer={offer}
                 />

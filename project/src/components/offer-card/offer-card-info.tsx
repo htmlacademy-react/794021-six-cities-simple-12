@@ -1,15 +1,13 @@
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
 
-type PlaceCardInfoProps = {
+type OfferCardInfoProps = {
   price: number;
   rating: number;
   title: string;
   type: string;
 }
 
-export default PlaceCardInfo;
-
-function PlaceCardInfo({ price, rating, title, type}: PlaceCardInfoProps): JSX.Element {
+function OfferCardInfo({ price, rating, title, type}: OfferCardInfoProps): JSX.Element {
   return (
     <div className="place-card__info">
       <div className="place-card__price-wrapper">
@@ -32,3 +30,5 @@ function PlaceCardInfo({ price, rating, title, type}: PlaceCardInfoProps): JSX.E
     </div>
   );
 }
+
+export default OfferCardInfo;
