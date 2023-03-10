@@ -16,7 +16,7 @@ function RoomReviewForm() {
       </div>
       <textarea className="reviews__textarea form__textarea"
         id="review" name="review"
-        placeholder="Tell how was your stay, what you like and what can be improved"
+        placeholder={RoomReview.PlaceholderText}
       >
       </textarea>
       <div className="reviews__button-wrapper">
