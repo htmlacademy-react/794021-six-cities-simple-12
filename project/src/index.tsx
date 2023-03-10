@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import {
-  offers, offersCount, currentCity, nearbyOffers, reviews, userLogin,
-} from 'src/store/mock';
+import { currentCity, userLogin, } from 'src/store/mock';
+import { offers, offersCount, nearbyOffers } from 'src/mocks/offers';
+import { reviews } from 'src/mocks/reviews';
 import { CityNames } from 'src/utils/consts';
 import { Offers } from 'src/types/types';
 
