@@ -1,24 +1,14 @@
-import { CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
-
-const blockStyle: CSSProperties = {
-  alignItems: 'center',
-  display: 'flex',
-  flexDirection: 'column',
-};
-
-const linkStyle: CSSProperties = {
-  textDecoration: 'revert',
-};
+import styles from './not-found.module.css';
 
 function NotFound(): JSX.Element {
   return (
     <div
-      style={blockStyle}
+      className={styles['page-not-found']}
     >
       <h1>404 Not Found</h1>
       <Link
-        style={linkStyle}
+        className={styles['page-not-found__link']}
         to='/'
       >
         Go to the main page
