@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import { currentCity, userLogin, } from 'src/store/mock';
+import { currentCity, userLogin, } from 'src/mocks/mocks';
 import { offers, offersCount, nearbyOffers } from 'src/mocks/offers';
 import { reviews } from 'src/mocks/reviews';
 import { CityNames } from 'src/utils/consts';
