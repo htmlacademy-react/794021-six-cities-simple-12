@@ -118,5 +118,4 @@ export const nearbyOffers: Offers = [
   offers[1],
   offers[2],
   offers[3],
-
 ];
