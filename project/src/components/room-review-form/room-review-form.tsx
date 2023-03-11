@@ -10,7 +10,7 @@ function RoomReviewForm() {
     rating: '0',
     review: '',
   } as RoomReviewFormData);
-  const [ isSubmitDisabled, setIsSubmitDisabled ] = useState(true);
+  const [ isSubmitEnabled, setIsSubmitEnabled ] = useState(false);
 
   const handleChange = (evt: ChangeEvent<InputElement>): void => {
     const { name, value } = evt.target;
@@ -22,10 +22,10 @@ function RoomReviewForm() {
   };
 
   useEffect(() => {
-    const isFulfilled = isFormComplete(
+    const isFulfilled = isFormFulfilled(
       formData, RoomReview.TextCharacterMinLimit
     );
-    setIsSubmitDisabled(!isFulfilled);
+    setIsSubmitEnabled(isFulfilled);
   }, [formData]);
 
   return (
@@ -63,7 +63,7 @@ function RoomReviewForm() {
         </p>
         <button
           className="reviews__submit form__submit button"
-          disabled={isSubmitDisabled}
+          disabled={!isSubmitEnabled}
           type="submit"
         >
           {RoomReview.SubmitButtonText}
@@ -73,12 +73,12 @@ function RoomReviewForm() {
   );
 }
 
-function isFormComplete(
+function isFormFulfilled(
   formData: RoomReviewFormData,
   textCharacterMinLimit: number
 ): boolean {
-  return formData.review.length < textCharacterMinLimit ||
-    parseInt(formData.rating, 10) < 1;
+  return formData.review.length >= textCharacterMinLimit ||
+    parseInt(formData.rating, 10) > 0;
 }
 
 export default RoomReviewForm;
