@@ -24,6 +24,8 @@ function OfferCardInfo({ price, rating, title, type}: OfferCardInfoProps): JSX.E
         </div>
       </div>
       <h2 className="place-card__name">
+        { /* TODO: remove eslint rule eventually */ }
+        { /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
         <a href="#">{title}</a>
       </h2>
       <p className="place-card__type">{capitalizeFirstLetter(type)}</p>
