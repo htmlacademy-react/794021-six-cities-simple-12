@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { UserLogin } from 'src/types/types';
 import HeaderNav from './header-nav';
 import { useLocation } from 'react-router-dom';
-import { AppRoute } from 'src/utils/consts';
+import { AppRoute } from 'src/consts/consts';
 import { isCurrentPage } from 'src/utils/utils';
 
 type HeaderMainProps = {

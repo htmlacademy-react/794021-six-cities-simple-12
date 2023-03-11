@@ -4,7 +4,7 @@ import App from './components/app/app';
 import { currentCity, userLogin, } from 'src/mocks/mocks';
 import { offers, offersCount, nearbyOffers } from 'src/mocks/offers';
 import { reviews } from 'src/mocks/reviews';
-import { CityNames } from 'src/utils/consts';
+import { CityNames } from 'src/consts/consts';
 import { Offers } from 'src/types/types';
 
 const root = ReactDOM.createRoot(

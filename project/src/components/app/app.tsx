@@ -8,7 +8,7 @@ import PathnameChangeEffectExecutor from
   'src/components/pathname-change-effect-executor/pathname-change-effect-executor';
 import { scrollToTop } from 'src/utils/utils';
 import { CityNames, CityName, GetNearbyOffers, Offers, Reviews, UserLogin } from 'src/types/types';
-import { AppRoute } from 'src/utils/consts';
+import { AppRoute } from 'src/consts/consts';
 
 type AppProps = {
   cityNames: CityNames;

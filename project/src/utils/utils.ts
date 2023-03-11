@@ -1,4 +1,4 @@
-import { RATING_TO_PERCENT_STEP } from 'src/utils/consts';
+import { RATING_TO_PERCENT_STEP } from 'src/consts/consts';
 
 export function getPercentFromRating(rating: number): string {
   const roundedPercent = Math.round(rating) * RATING_TO_PERCENT_STEP;

@@ -1,5 +1,5 @@
 import OneStarInput from './one-star-input';
-import { RoomReview } from 'src/utils/consts';
+import { RoomReview } from 'src/consts/consts';
 import { ChangeEvent, useEffect, useState, FormEvent } from 'react';
 
 type InputElement = HTMLTextAreaElement | HTMLInputElement
