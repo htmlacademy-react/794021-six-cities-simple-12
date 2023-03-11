@@ -11,7 +11,7 @@ type MainProps = {
   offersCount: number;
 };
 
-export default function Main(props: MainProps) {
+function Main(props: MainProps) {
   const mainTagAdditionalClassName = props.offersCount === 0 ?
     'page__main--index-empty' :
     '' ;
@@ -37,3 +37,5 @@ export default function Main(props: MainProps) {
     </div>
   );
 }
+
+export default Main;

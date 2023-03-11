@@ -4,8 +4,6 @@ type LoginLogoutProps = {
   userLogin: UserLogin;
 }
 
-export default LoginLogout;
-
 function LoginLogout({ userLogin }: LoginLogoutProps): JSX.Element {
   let linkText = 'Sign in';
   let isNotLoggedBlock: JSX.Element | null =
@@ -23,3 +21,5 @@ function LoginLogout({ userLogin }: LoginLogoutProps): JSX.Element {
     </a>
   );
 }
+
+export default LoginLogout;

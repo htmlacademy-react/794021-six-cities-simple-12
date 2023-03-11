@@ -13,8 +13,6 @@ type RoomsProps = {
   isUserLoggedIn: boolean;
 }
 
-export default Rooms;
-
 function Rooms(props: RoomsProps): JSX.Element | null {
   const { id: offerId } = useParams();
   const offerIdAsInt = parseInteger(offerId);
@@ -49,3 +47,5 @@ function getOfferById(offers: Offers, id: OfferId): Offer | undefined {
 function getReviewsById(reviews: Reviews, id: OfferId): Reviews {
   return reviews.filter((review) => review.id === id);
 }
+
+export default Rooms;

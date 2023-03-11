@@ -1,8 +1,6 @@
 import { CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 
-export default NotFound;
-
 const blockStyle: CSSProperties = {
   alignItems: 'center',
   display: 'flex',
@@ -28,3 +26,5 @@ function NotFound(): JSX.Element {
     </div>
   );
 }
+
+export default NotFound;
