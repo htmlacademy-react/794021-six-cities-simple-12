@@ -66,7 +66,7 @@ function Room({ headerBlock, nearbyOffers, offer, reviews, isUserLoggedIn }: Roo
                 <RoomDescription description={offer.description} />
               </div>
               <section className="property__reviews reviews">
-                <RoomReviews isUserLoggedIn={isUserLoggedIn} reviews={reviews} />
+                <RoomReviews isUserLoggedIn={isUserLoggedIn} offerId={offer.id} reviews={reviews} />
               </section>
             </div>
           </div>

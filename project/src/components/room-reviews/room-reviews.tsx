@@ -1,14 +1,15 @@
-import { Reviews } from 'src/types/types';
+import { OfferId, Reviews } from 'src/types/types';
 import RoomReviewForm from 'src/components/room-review-form/room-review-form';
 import RoomReview from 'src/components/room-review/room-review';
 import { makeHash } from 'src/utils/utils';
 
 type RoomReviewProps = {
   isUserLoggedIn: boolean;
+  offerId: OfferId;
   reviews: Reviews;
 }
 
-function RoomReviews({ isUserLoggedIn, reviews }: RoomReviewProps): JSX.Element {
+function RoomReviews({ isUserLoggedIn, offerId, reviews }: RoomReviewProps): JSX.Element {
   return (
     <>
       <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
@@ -33,7 +34,7 @@ function RoomReviews({ isUserLoggedIn, reviews }: RoomReviewProps): JSX.Element 
           null
       }
 
-      { isUserLoggedIn && <RoomReviewForm /> }
+      { isUserLoggedIn && <RoomReviewForm key={offerId} /> }
     </>
   );
 }
