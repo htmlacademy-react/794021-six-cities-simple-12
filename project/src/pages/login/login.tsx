@@ -1,11 +1,11 @@
-import HeaderLogin from 'src/components/header-login/header-login';
+type LoginProps = {
+  headerBlock?: JSX.Element;
+}
 
-export default Login;
-
-function Login(): JSX.Element {
+function Login({ headerBlock }: LoginProps): JSX.Element {
   return (
-    <>
-      <HeaderLogin />
+    <div className="page page--gray page--login">
+      {headerBlock}
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
@@ -25,12 +25,14 @@ function Login(): JSX.Element {
           <section className="locations locations--login locations--current">
             <div className="locations__item">
               <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
+                <span>Amsterdam</span> {/* FIXME: use props or state */}
               </a>
             </div>
           </section>
         </div>
       </main>
-    </>
+    </div>
   );
 }
+
+export default Login;

@@ -23,3 +23,29 @@ export function getMultipleOfPlaceWord(count: number): string {
   }
   return 'places';
 }
+
+export function isCurrentPage(currentPath: string, pathToCompare: string): boolean {
+  return currentPath === pathToCompare ||
+    currentPath === `/${pathToCompare}` ||
+    `/${currentPath}` === pathToCompare;
+}
+
+export function parseInteger(numberAsString = ''): number | typeof NaN {
+  const number = Number(numberAsString);
+  if (isNaN(number)) {
+    return NaN;
+  }
+  const numberInt = parseInt(numberAsString, 10);
+  if (number !== numberInt) {
+    return NaN;
+  }
+  return numberInt;
+}
+
+export function makeHash(obj: object): string {
+  return JSON.stringify(obj);
+}
+
+export function scrollToTop() {
+  window && window.scrollTo(0, 0);
+}

@@ -1,12 +1,11 @@
+import { Link } from 'react-router-dom';
 import { Offer } from 'src/types/types';
-import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
+import PlaceCardInfo from './place-card-info';
 
 type PlaceCardProps = {
   offer: Offer;
 };
-
-export default PlaceCard;
-
+// TODO: consider using word based on 'Room'
 function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
   return (
     <article className="cities__card place-card">
@@ -18,32 +17,21 @@ function PlaceCard({ offer }: PlaceCardProps): JSX.Element {
       }
 
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={`/offer/${offer.id}`}>
           <img className="place-card__image"
             src={offer.images[0] ?? null}
             width="260" height="200" alt="The place"
           />
-        </a>
+        </Link>
       </div>
-      <div className="place-card__info">
-        <div className="place-card__price-wrapper">
-          <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{offer.price}</b>
-            <span className="place-card__price-text">&#47;&nbsp;night</span>
-          </div>
-
-        </div>
-        <div className="place-card__rating rating">
-          <div className="place-card__stars rating__stars">
-            <span style={{width: getPercentFromRating(offer.rating)}}></span>
-            <span className="visually-hidden">Rating</span>
-          </div>
-        </div>
-        <h2 className="place-card__name">
-          <a href="#">{offer.title}</a>
-        </h2>
-        <p className="place-card__type">{capitalizeFirstLetter(offer.type)}</p>
-      </div>
+      <PlaceCardInfo
+        price={offer.price}
+        rating={offer.rating}
+        title={offer.title}
+        type={offer.type}
+      />
     </article>
   );
 }
+
+export default PlaceCard;
