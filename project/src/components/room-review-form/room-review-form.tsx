@@ -49,6 +49,7 @@ function RoomReviewForm() {
       </div>
       <textarea className="reviews__textarea form__textarea"
         id="review" name="review"
+        maxLength={RoomReview.TextCharacterMaxLimit}
         onChange={handleChange}
         placeholder={RoomReview.PlaceholderText}
         value={formData.review}
