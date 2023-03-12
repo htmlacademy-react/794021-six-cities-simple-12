@@ -23,7 +23,9 @@ function RoomReviewForm() {
 
   useEffect(() => {
     const isFulfilled = isFormFulfilled(
-      formData, RoomReview.TextCharacterMinLimit
+      formData,
+      RoomReview.TextCharacterMinLimit,
+      RoomReview.TextCharacterMaxLimit,
     );
     setIsSubmitEnabled(isFulfilled);
   }, [formData]);
@@ -75,10 +77,15 @@ function RoomReviewForm() {
 
 function isFormFulfilled(
   formData: RoomReviewFormData,
-  textCharacterMinLimit: number
+  characterMinLimit: number,
+  characterMaxLimit: number,
 ): boolean {
-  return formData.review.length >= textCharacterMinLimit ||
-    parseInt(formData.rating, 10) > 0;
+  const rating = parseInt(formData.rating, 10);
+  const { length } = formData.review;
+
+  return length >= characterMinLimit ||
+    length <= characterMaxLimit ||
+    rating > 0;
 }
 
 export default RoomReviewForm;
