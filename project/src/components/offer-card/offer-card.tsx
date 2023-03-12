@@ -10,6 +10,7 @@ type OfferCardProps = {
 };
 
 function OfferCard(props: OfferCardProps): JSX.Element {
+  const pageLink = `/offer/${props.offer.id}`;
   return (
     <article className={`${props.className ?? ''} place-card`}
       onBlur={props.onBlur}
@@ -25,7 +26,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
       }
 
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/${props.offer.id}`}>
+        <Link to={pageLink}>
           <img className="place-card__image"
             alt="The place"
             height="200"
@@ -50,9 +51,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          { /* TODO: remove eslint rule eventually */ }
-          { /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
-          <a href="#">{props.offer.title}</a>
+          <a href={pageLink}>{props.offer.title}</a>
         </h2>
         <p className="place-card__type">{capitalizeFirstLetter(props.offer.type)}</p>
       </div>
