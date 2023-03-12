@@ -7,7 +7,7 @@ import Room from 'src/pages/room/room';
 import { parseInteger } from 'src/utils/utils';
 import { AppRoute } from 'src/consts/consts';
 
-type RoomsProps = {
+type RoomWrapperProps = {
   getNearbyOffers: GetNearbyOffers;
   headerBlock?: JSX.Element;
   offers: Offers;
@@ -15,7 +15,7 @@ type RoomsProps = {
   isUserLoggedIn: boolean;
 }
 
-function Rooms(props: RoomsProps): JSX.Element | null {
+function RoomWrapper(props: RoomWrapperProps): JSX.Element | null {
   const { id: offerId } = useParams();
   const offerIdAsInt = parseInteger(offerId);
   const foundOffer = getOfferById(props.offers, offerIdAsInt);
@@ -50,4 +50,4 @@ function getReviewsById(reviews: Reviews, id: OfferId): Reviews {
   return reviews.filter((review) => review.id === id);
 }
 
-export default Rooms;
+export default RoomWrapper;
