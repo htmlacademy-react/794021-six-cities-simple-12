@@ -1,9 +1,11 @@
 import {
   GetNearbyOffers, Offer, OfferId, Offers, Reviews,
 } from 'src/types/types';
+import { Navigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Room from 'src/pages/room/room';
 import { parseInteger } from 'src/utils/utils';
+import { AppRoute } from 'src/consts/consts';
 
 type RoomsProps = {
   getNearbyOffers: GetNearbyOffers;
@@ -19,7 +21,7 @@ function Rooms(props: RoomsProps): JSX.Element | null {
   const foundOffer = getOfferById(props.offers, offerIdAsInt);
 
   if (foundOffer === undefined) {
-    return null; // TODO: instead of null, 'Page not found' must be rendered
+    return <Navigate to={AppRoute.NotFound} />;
   }
 
   const offerReviews = getReviewsById(props.reviews, foundOffer.id);
