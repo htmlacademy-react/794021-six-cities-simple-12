@@ -1,14 +1,22 @@
-import { CityName, Offer, Offers as TOffers } from 'src/types/types';
-import PlaceCard from 'src/components/place-card/place-card';
+import { useState } from 'react';
+import { CityName, Offer, Offers } from 'src/types/types';
+import OfferCard from 'src/components/offer-card/offer-card';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
 
-type OffersProps = {
-  offers: TOffers;
+type ActiveOffer = Offer | null;
+
+type OfferCardsProps = {
+  offers: Offers;
   offersCount: number;
   currentCityName: CityName;
 }
 
-function Offers(props: OffersProps): JSX.Element {
+function OfferCards(props: OfferCardsProps): JSX.Element {
+  const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
+  // TODO: use it on the map
+  // eslint-disable-next-line no-console
+  console.log(hoveredOffer);
+
   return (
     <div className="cities">
       <div className="cities__places-container container">
@@ -39,9 +47,12 @@ function Offers(props: OffersProps): JSX.Element {
           <div className="cities__places-list places__list tabs__content">
             {
               props.offers.map((offer: Offer): JSX.Element => (
-                <PlaceCard
+                <OfferCard
+                  className='cities__card'
                   key={offer.id}
                   offer={offer}
+                  onActive={() => setHoveredOffer(offer)}
+                  onBlur={() => setHoveredOffer(null)}
                 />
               ))
             }
@@ -55,4 +66,4 @@ function Offers(props: OffersProps): JSX.Element {
   );
 }
 
-export default Offers;
+export default OfferCards;

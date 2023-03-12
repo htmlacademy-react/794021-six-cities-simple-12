@@ -2,8 +2,6 @@ type RoomDescriptionProps = {
   description: string;
 }
 
-export default RoomDescription;
-
 function RoomDescription(
   { description }: RoomDescriptionProps
 ): JSX.Element {
@@ -24,3 +22,5 @@ function RoomDescription(
     </div>
   );
 }
+
+export default RoomDescription;

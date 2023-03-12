@@ -5,8 +5,6 @@ type HeaderNavProps = {
   userLogin: UserLogin;
 }
 
-export default HeaderNav;
-
 function HeaderNav({ userLogin }: HeaderNavProps): JSX.Element {
   return (
     <nav className="header__nav">
@@ -28,3 +26,5 @@ function HeaderNav({ userLogin }: HeaderNavProps): JSX.Element {
     </nav>
   );
 }
+
+export default HeaderNav;

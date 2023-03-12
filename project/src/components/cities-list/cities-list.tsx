@@ -17,6 +17,8 @@ function CitiesList(props: CitiesListProps): JSX.Element {
             <li className="locations__item"
               key={cityName}
             >
+              { /* TODO: remove eslint rule eventually */ }
+              { /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
               <a
                 className={`locations__item-link tabs__item ${activeCityClassName}`}
                 href="#"

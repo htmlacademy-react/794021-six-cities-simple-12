@@ -24,6 +24,8 @@ function Login({ headerBlock }: LoginProps): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
+              { /* TODO: remove eslint rule eventually */ }
+              { /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
               <a className="locations__item-link" href="#">
                 <span>Amsterdam</span> {/* FIXME: use props or state */}
               </a>

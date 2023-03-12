@@ -4,8 +4,6 @@ type RoomHardwareFeaturesProps = {
   goods: HardwareFeatures;
 }
 
-export default RoomHardwareFeatures;
-
 function RoomHardwareFeatures({ goods }: RoomHardwareFeaturesProps): JSX.Element | null {
   if (!goods.length) {
     return null;
@@ -27,3 +25,5 @@ function RoomHardwareFeatures({ goods }: RoomHardwareFeaturesProps): JSX.Element
     </div>
   );
 }
+
+export default RoomHardwareFeatures;

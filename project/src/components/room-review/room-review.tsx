@@ -5,8 +5,6 @@ type RoomReviewProps = {
   review: Review;
 }
 
-export default RoomReview;
-
 function RoomReview({ review }: RoomReviewProps): JSX.Element {
   let htmlDateAttr = '';
   let humanReadableDate = '';
@@ -59,3 +57,5 @@ function splitYearMonthDayMonthName(dateAsString: string): [number, number, numb
   }
   return [year, month, day, monthName];
 }
+
+export default RoomReview;

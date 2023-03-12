@@ -1,7 +1,10 @@
+import { ChangeEvent } from 'react';
+
 type OneStarInputProps = {
   htmlId: string;
-  inputValue: string;
+  value: string;
   labelTitle: string;
+  onChange: (evt: ChangeEvent<HTMLInputElement>) => void;
 }
 
 function OneStarInput(props: OneStarInputProps): JSX.Element {
@@ -10,8 +13,9 @@ function OneStarInput(props: OneStarInputProps): JSX.Element {
       <input className="form__rating-input visually-hidden"
         id={props.htmlId}
         name="rating"
+        onChange={props.onChange}
         type="radio"
-        value={props.inputValue}
+        value={props.value}
       />
       <label
         className="reviews__rating-label form__rating-label"

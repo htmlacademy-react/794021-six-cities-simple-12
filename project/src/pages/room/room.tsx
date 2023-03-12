@@ -4,7 +4,7 @@ import RoomGallery from 'src/components/room-gallery/room-gallery';
 import RoomHardwareFeatures from 'src/components/room-hardware-features/room-hardware-features';
 import RoomHost from 'src/components/room-host/room-host';
 import RoomReviews from 'src/components/room-reviews/room-reviews';
-import { Offer, Offers, Reviews, UserLogin } from 'src/types/types';
+import { Offer, Offers, Reviews, } from 'src/types/types';
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
 
 type RoomProps = {
@@ -12,11 +12,10 @@ type RoomProps = {
   nearbyOffers: Offers;
   offer: Offer;
   reviews: Reviews;
-  userLogin: UserLogin;
+  isUserLoggedIn: boolean;
 }
 
-function Room({ headerBlock, nearbyOffers, offer, reviews, userLogin }: RoomProps): JSX.Element {
-  const isUserLoggedIn = userLogin !== null;
+function Room({ headerBlock, nearbyOffers, offer, reviews, isUserLoggedIn }: RoomProps): JSX.Element {
   return (
     <div className="page">
       {headerBlock}
@@ -67,7 +66,7 @@ function Room({ headerBlock, nearbyOffers, offer, reviews, userLogin }: RoomProp
                 <RoomDescription description={offer.description} />
               </div>
               <section className="property__reviews reviews">
-                <RoomReviews isUserLoggedIn={isUserLoggedIn} reviews={reviews} />
+                <RoomReviews isUserLoggedIn={isUserLoggedIn} offerId={offer.id} reviews={reviews} />
               </section>
             </div>
           </div>
