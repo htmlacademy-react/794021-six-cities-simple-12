@@ -17,7 +17,7 @@ function RoomReviewForm() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const submitHandler = (evt: FormEvent): void => {
+  const handleSubmit = (evt: FormEvent): void => {
     evt.preventDefault();
   };
 
@@ -33,7 +33,7 @@ function RoomReviewForm() {
       action="#"
       className="reviews__form form"
       method="post"
-      onSubmit={submitHandler}
+      onSubmit={handleSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">
         {RoomReview.HeaderText}
