@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { CityName, Offer, Offers as TOffers } from 'src/types/types';
+import { CityName, Offer, Offers } from 'src/types/types';
 import OfferCard from 'src/components/offer-card/offer-card';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
 
+type ActiveOffer = Offer | null;
+
 type OfferCardsProps = {
-  offers: TOffers;
+  offers: Offers;
   offersCount: number;
   currentCityName: CityName;
 }
 
 function OfferCards(props: OfferCardsProps): JSX.Element {
-  const [ hoveredOffer, setHoveredOffer ] = useState<Offer | null>(null);
+  const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
   // TODO: use it on the map
   // eslint-disable-next-line no-console
   console.log(hoveredOffer);
@@ -46,9 +48,11 @@ function OfferCards(props: OfferCardsProps): JSX.Element {
             {
               props.offers.map((offer: Offer): JSX.Element => (
                 <OfferCard
+                  className='cities__card'
                   key={offer.id}
                   offer={offer}
-                  getHoveredOffer={(_) => setHoveredOffer(_)}
+                  onActive={() => setHoveredOffer(offer)}
+                  onBlur={() => setHoveredOffer(null)}
                 />
               ))
             }
