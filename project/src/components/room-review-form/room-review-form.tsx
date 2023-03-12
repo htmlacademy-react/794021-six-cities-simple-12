@@ -83,8 +83,8 @@ function isFormFulfilled(
   const rating = parseInt(formData.rating, 10);
   const { length } = formData.review;
 
-  return length >= characterMinLimit ||
-    length <= characterMaxLimit ||
+  return length >= characterMinLimit &&
+    length <= characterMaxLimit &&
     rating > 0;
 }
 
