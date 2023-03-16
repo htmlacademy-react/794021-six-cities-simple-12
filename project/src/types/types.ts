@@ -6,6 +6,7 @@ export type Offer = {
   id: OfferId;
   isPremium: boolean;
   images: Images;
+  location: Location;
   maxAdults: number;
   price: number;
   rating: number;
@@ -25,6 +26,11 @@ export type Images = string[]
 
 export type HardwareFeatures = HardwareFeature[]
 export type HardwareFeature = string
+
+export type Location = {
+  latitude: number;
+  longitude: number;
+}
 
 export type User = {
   avatarUrl: string;

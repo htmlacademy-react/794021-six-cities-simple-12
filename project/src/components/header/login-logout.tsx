@@ -4,8 +4,6 @@ type LoginLogoutProps = {
   userLogin: UserLogin;
 }
 
-export default LoginLogout;
-
 function LoginLogout({ userLogin }: LoginLogoutProps): JSX.Element {
   let linkText = 'Sign in';
   let isNotLoggedBlock: JSX.Element | null =
@@ -17,9 +15,13 @@ function LoginLogout({ userLogin }: LoginLogoutProps): JSX.Element {
   }
 
   return (
+    // TODO: remove eslint rule eventually
+    // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a className="header__nav-link" href="#">
       {isNotLoggedBlock}
       <span className="header__signout">{linkText}</span>
     </a>
   );
 }
+
+export default LoginLogout;

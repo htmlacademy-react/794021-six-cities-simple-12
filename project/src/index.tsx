@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import {
-  offers, offersCount, currentCity, nearbyOffers, reviews, userLogin,
-} from 'src/store/mock';
-import { CityNames } from 'src/utils/consts';
+import { currentCity, userLogin, } from 'src/mocks/mocks';
+import { offers, offersCount, nearbyOffers } from 'src/mocks/offers';
+import { reviews } from 'src/mocks/reviews';
+import { CityNames } from 'src/consts/consts';
 import { Offers } from 'src/types/types';
 
 const root = ReactDOM.createRoot(

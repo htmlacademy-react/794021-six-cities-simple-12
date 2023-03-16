@@ -1,27 +1,27 @@
 import {
-  GetNearbyOffers, Offer, OfferId, Offers, Reviews, UserLogin
+  GetNearbyOffers, Offer, OfferId, Offers, Reviews,
 } from 'src/types/types';
+import { Navigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Room from 'src/pages/room/room';
 import { parseInteger } from 'src/utils/utils';
+import { AppRoute } from 'src/consts/consts';
 
-type RoomsProps = {
+type RoomWrapperProps = {
   getNearbyOffers: GetNearbyOffers;
   headerBlock?: JSX.Element;
   offers: Offers;
   reviews: Reviews;
-  userLogin: UserLogin;
+  isUserLoggedIn: boolean;
 }
 
-export default Rooms;
-
-function Rooms(props: RoomsProps): JSX.Element | null {
+function RoomWrapper(props: RoomWrapperProps): JSX.Element | null {
   const { id: offerId } = useParams();
   const offerIdAsInt = parseInteger(offerId);
   const foundOffer = getOfferById(props.offers, offerIdAsInt);
 
   if (foundOffer === undefined) {
-    return null; // TODO: instead of null, 'Page not found' must be rendered
+    return <Navigate to={AppRoute.NotFound} />;
   }
 
   const offerReviews = getReviewsById(props.reviews, foundOffer.id);
@@ -33,7 +33,7 @@ function Rooms(props: RoomsProps): JSX.Element | null {
       nearbyOffers={nearbyOffers}
       offer={foundOffer}
       reviews={offerReviews}
-      userLogin={props.userLogin}
+      isUserLoggedIn={props.isUserLoggedIn}
     />
   );
 }
@@ -49,3 +49,5 @@ function getOfferById(offers: Offers, id: OfferId): Offer | undefined {
 function getReviewsById(reviews: Reviews, id: OfferId): Reviews {
   return reviews.filter((review) => review.id === id);
 }
+
+export default RoomWrapper;

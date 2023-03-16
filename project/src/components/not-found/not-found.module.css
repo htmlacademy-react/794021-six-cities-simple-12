@@ -1,0 +1,9 @@
+.page-not-found {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-not-found__link {
+  text-decoration: revert;
+}
