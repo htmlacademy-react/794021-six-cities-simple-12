@@ -1,5 +1,6 @@
 export type Offer = {
   bedrooms: number;
+  city: City;
   description: string;
   goods: HardwareFeatures;
   host: OfferHost;
@@ -16,6 +17,11 @@ export type Offer = {
 
 export type OfferId = number;
 export type Offers = Offer[]
+
+export type City = {
+  location: Location;
+  name: CityName;
+}
 
 export type CityName = string
 

@@ -41,6 +41,13 @@ export const userMax: User = {
 export const offers: Offers = [
   {
     bedrooms: 3,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+      },
+      name: 'Amsterdam',
+    },
     description: `
       A quiet cozy and picturesque that hides behind a river by the unique lightness of Amsterdam. The building is green and from 18th century.\n
       An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
@@ -59,6 +66,13 @@ export const offers: Offers = [
   },
   {
     bedrooms: 1,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+      },
+      name: 'Amsterdam',
+    },
     description: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
     goods: ['Towels', 'Heating',],
     host: userMax,
@@ -74,6 +88,13 @@ export const offers: Offers = [
   },
   {
     bedrooms: 2,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+      },
+      name: 'Amsterdam',
+    },
     description: '',
     goods: ['Coffee machine', 'Baby seat',],
     host: userAngelina,
@@ -89,6 +110,13 @@ export const offers: Offers = [
   },
   {
     bedrooms: 3,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+      },
+      name: 'Amsterdam',
+    },
     description: '',
     goods: ['Kitchen', 'Dishwasher',],
     host: userMax,
@@ -104,6 +132,13 @@ export const offers: Offers = [
   },
   {
     bedrooms: 1,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+      },
+      name: 'Amsterdam',
+    },
     description: '',
     goods: ['Cabel TV', 'Fridge',],
     host: userAngelina,
