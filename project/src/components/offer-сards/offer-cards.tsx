@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { City, Locations, Offer, Offers } from 'src/types/types';
+import { City, Offer, Offers } from 'src/types/types';
 import OfferCard from 'src/components/offer-card/offer-card';
 import GeoMap from 'src/components/geo-map/geo-map';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
@@ -17,8 +17,6 @@ function OfferCards(props: OfferCardsProps): JSX.Element {
   // TODO: use it on the map
   // eslint-disable-next-line no-console
   console.log(hoveredOffer);
-
-  const locations = getLocations(props.offers);
 
   return (
     <div className="cities">
@@ -63,18 +61,15 @@ function OfferCards(props: OfferCardsProps): JSX.Element {
         </section>
         <div className="cities__right-section">
           <GeoMap
+            activeOffer={hoveredOffer}
+            className={props.offers.length <= 0 ? 'cities__map' : ''}
             currentCity={props.currentCity}
-            className={locations.length <= 0 ? 'cities__map' : ''}
-            locations={locations}
+            offers={props.offers}
           />
         </div>
       </div>
     </div>
   );
-}
-
-function getLocations(offers: Offers): Locations {
-  return offers.map((offer) => offer.location);
 }
 
 export default OfferCards;
