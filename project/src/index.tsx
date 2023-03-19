@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <App
-      currentCityName={currentCity}
+      currentCity={currentCity}
       cityNames={CityNames}
       getNearbyOffers={getNearbyOffers}
       offers={offers}

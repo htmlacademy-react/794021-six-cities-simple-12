@@ -7,12 +7,12 @@ import NotFound from 'src/components/not-found/not-found';
 import PathnameChangeEffectExecutor from
   'src/components/pathname-change-effect-executor/pathname-change-effect-executor';
 import { scrollToTop } from 'src/utils/utils';
-import { CityNames, CityName, GetNearbyOffers, Offers, Reviews, UserLogin } from 'src/types/types';
+import { City, CityNames, GetNearbyOffers, Offers, Reviews, UserLogin } from 'src/types/types';
 import { AppRoute } from 'src/consts/consts';
 
 type AppProps = {
   cityNames: CityNames;
-  currentCityName: CityName;
+  currentCity: City;
   getNearbyOffers: GetNearbyOffers;
   offers: Offers;
   offersCount: number;

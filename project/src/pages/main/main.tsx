@@ -1,11 +1,11 @@
 import CitiesList from 'src/components/cities-list/cities-list';
 import OfferCards from 'src/components/offer-сards/offer-cards';
 import EmptyOffer from 'src/components/empty-offer/empty-offer';
-import { CityNames, CityName, Offers } from 'src/types/types';
+import { City, CityNames, Offers } from 'src/types/types';
 
 type MainProps = {
   cityNames: CityNames;
-  currentCityName: CityName;
+  currentCity: City;
   headerBlock?: JSX.Element;
   offers: Offers;
   offersCount: number;
@@ -24,14 +24,18 @@ function Main(props: MainProps) {
           <section className="locations container">
             <CitiesList
               cityNames={props.cityNames}
-              currentCityName={props.currentCityName}
+              currentCityName={props.currentCity.name}
             />
           </section>
         </div>
         {
           props.offersCount === 0 ?
             <EmptyOffer /> :
-            <OfferCards offersCount={props.offersCount} currentCityName={props.currentCityName} offers={props.offers} />
+            <OfferCards
+              offersCount={props.offersCount}
+              currentCity={props.currentCity}
+              offers={props.offers}
+            />
         }
       </main>
     </div>

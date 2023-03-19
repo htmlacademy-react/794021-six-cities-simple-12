@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState, } from 'react';
 import { Map as LeafletGeoMap, TileLayer } from 'leaflet';
-import { City, Location, Locations } from 'src/types/types';
+import { City, Locations } from 'src/types/types';
 import 'leaflet/dist/leaflet.css';
 import styles from './geo-map.module.css';
 
 type GeoMapProps = {
   className: string;
-  city?: City;
+  currentCity: City;
   locations: Locations;
 }
 
@@ -20,13 +20,13 @@ function GeoMap(props: GeoMapProps): JSX.Element {
       return;
     }
 
-    const centerLocation = props.city?.location ?? calcCenter(props.locations);
+    const { location: cityCenter } = props.currentCity;
     const mapProperties = {
       center: {
-        lat: centerLocation.latitude,
-        lng: centerLocation.longitude,
+        lat: cityCenter.latitude,
+        lng: cityCenter.longitude,
       },
-      zoom: centerLocation.zoom,
+      zoom: cityCenter.zoom,
     };
 
     const layer = new TileLayer(
@@ -41,7 +41,7 @@ function GeoMap(props: GeoMapProps): JSX.Element {
     mapInstance.addLayer(layer);
     setGeoMap(mapInstance);
     isRenderedRef.current = true;
-  }, [props.locations, props.city]);
+  }, [props.locations, props.currentCity]);
 
   return (
     <section
@@ -55,23 +55,6 @@ function GeoMap(props: GeoMapProps): JSX.Element {
       {geoMap ? undefined : null}
     </section>
   );
-}
-
-function calcCenter(locations: Locations): Location {
-  // FIXME: remove duplication
-  const minLatitude = Math.min(...locations.map(({ latitude }) => latitude));
-  const maxLatitude = Math.max(...locations.map(({ latitude }) => latitude));
-
-  const minLongitude = Math.min(...locations.map(({ longitude }) => longitude));
-  const maxLongitude = Math.max(...locations.map(({ longitude }) => longitude));
-
-  const minZoom = Math.min(...locations.map(({ zoom }) => zoom));
-
-  return {
-    latitude: (minLatitude + maxLatitude) / 2,
-    longitude: (minLongitude + maxLongitude) / 2,
-    zoom: minZoom,
-  };
 }
 
 export default GeoMap;
