@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, } from 'react';
 import { Map as LeafletGeoMap, TileLayer } from 'leaflet';
 import { City, Locations } from 'src/types/types';
+import { LatLngTuple } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import styles from './geo-map.module.css';
 
@@ -22,10 +23,10 @@ function GeoMap(props: GeoMapProps): JSX.Element {
 
     const { location: cityCenter } = props.currentCity;
     const mapProperties = {
-      center: {
-        lat: cityCenter.latitude,
-        lng: cityCenter.longitude,
-      },
+      center: [
+        cityCenter.latitude,
+        cityCenter.longitude,
+      ] as LatLngTuple,
       zoom: cityCenter.zoom,
     };
 
