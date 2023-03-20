@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import NearPlacesCards from 'src/components/near-places-cards/near-places-cards';
 import RoomDescription from 'src/components/room-description/room-description';
 import RoomGallery from 'src/components/room-gallery/room-gallery';
@@ -8,6 +9,8 @@ import GeoMap from 'src/components/geo-map/geo-map';
 import { Offer, Offers, Reviews, } from 'src/types/types';
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
 
+type ActiveOffer = Offer | null;
+
 type RoomProps = {
   headerBlock?: JSX.Element;
   nearbyOffers: Offers;
@@ -17,7 +20,8 @@ type RoomProps = {
 }
 
 function Room({ headerBlock, nearbyOffers, offer, reviews, isUserLoggedIn }: RoomProps): JSX.Element {
-  const offerWithNearbyOffers = nearbyOffers.concat(offer);
+  const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
+
   return (
     <div className="page">
       {headerBlock}
@@ -73,15 +77,15 @@ function Room({ headerBlock, nearbyOffers, offer, reviews, isUserLoggedIn }: Roo
             </div>
           </div>
           <GeoMap
-            activeOffer={offer}
+            activeOffer={hoveredOffer}
             className='property__map'
             currentCity={offer.city}
-            offers={offerWithNearbyOffers}
+            offers={nearbyOffers}
           />
         </section>
         <div className="container">
           <section className="near-places places">
-            <NearPlacesCards offers={nearbyOffers} />
+            <NearPlacesCards offers={nearbyOffers} onHover={(item) => setHoveredOffer(item)} />
           </section>
         </div>
       </main>
