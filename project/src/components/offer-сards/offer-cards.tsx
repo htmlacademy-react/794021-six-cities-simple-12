@@ -14,9 +14,6 @@ type OfferCardsProps = {
 
 function OfferCards(props: OfferCardsProps): JSX.Element {
   const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
-  // TODO: use it on the map
-  // eslint-disable-next-line no-console
-  console.log(hoveredOffer);
 
   return (
     <div className="cities">
