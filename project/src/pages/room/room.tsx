@@ -4,6 +4,7 @@ import RoomGallery from 'src/components/room-gallery/room-gallery';
 import RoomHardwareFeatures from 'src/components/room-hardware-features/room-hardware-features';
 import RoomHost from 'src/components/room-host/room-host';
 import RoomReviews from 'src/components/room-reviews/room-reviews';
+import GeoMap from 'src/components/geo-map/geo-map';
 import { Offer, Offers, Reviews, } from 'src/types/types';
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
 
@@ -16,6 +17,7 @@ type RoomProps = {
 }
 
 function Room({ headerBlock, nearbyOffers, offer, reviews, isUserLoggedIn }: RoomProps): JSX.Element {
+  const offerWithNearbyOffers = nearbyOffers.concat(offer);
   return (
     <div className="page">
       {headerBlock}
@@ -70,7 +72,12 @@ function Room({ headerBlock, nearbyOffers, offer, reviews, isUserLoggedIn }: Roo
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <GeoMap
+            activeOffer={offer}
+            className='property__map'
+            currentCity={offer.city}
+            offers={offerWithNearbyOffers}
+          />
         </section>
         <div className="container">
           <section className="near-places places">
