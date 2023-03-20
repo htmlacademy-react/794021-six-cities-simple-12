@@ -13,20 +13,15 @@ type GeoMapProps = {
 }
 
 function GeoMap(props: GeoMapProps): JSX.Element {
-  const nodeRef = useRef<HTMLDivElement>(null);
+  const nodeRef = useRef<HTMLElement | null>(null);
   const geoMap = useGeoMap(nodeRef, props.currentCity);
   useGeoMapPins(geoMap, props.offers, props.activeOffer);
 
   return (
     <section
-      className={`${props.className} map`}
+      className={`${props.className} ${styles.map}`}
+      ref={nodeRef}
     >
-      <div
-        className={styles.map}
-        ref={nodeRef}
-      >
-      </div>
-      {geoMap ? undefined : null}
     </section>
   );
 }

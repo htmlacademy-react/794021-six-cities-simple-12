@@ -3,7 +3,7 @@ import { LatLngTuple, Map as LeafletGeoMap, TileLayer } from 'leaflet';
 import { City } from 'src/types/types';
 
 export function useGeoMap(
-  nodeRef: RefObject<HTMLDivElement | null>,
+  nodeRef: RefObject<HTMLElement | null>,
   city: City,
 ) {
   const [ geoMap, setGeoMap ] = useState<LeafletGeoMap | null>(null);
@@ -35,7 +35,7 @@ export function useGeoMap(
     mapInstance.addLayer(layer);
     setGeoMap(mapInstance);
     isRenderedRef.current = true;
-  }, [city]);
+  }, [city, nodeRef]);
 
   return geoMap;
 }
