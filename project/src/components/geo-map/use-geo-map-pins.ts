@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { icon, marker, Map as LeafletGeoMap } from 'leaflet';
+import { useEffect, useMemo } from 'react';
+import { icon as getIcon, marker, Map as LeafletGeoMap } from 'leaflet';
 import { Offer, Offers } from 'src/types/types';
 import { MapPinSettings } from 'src/consts/consts';
 
@@ -8,8 +8,11 @@ export function useGeoMapPins(
   offers: Offers, // TODO: could be null ?
   activeOffer: Offer | null,
 ): void {
-  const defaultIcon = icon(MapPinSettings.Default);
-  const activeIcon = icon(MapPinSettings.Active);
+  const icon = useMemo(() => {
+    const activeIcon = getIcon(MapPinSettings.Active);
+    const defaultIcon = getIcon(MapPinSettings.Default);
+    return { active: activeIcon, default: defaultIcon };
+  }, []);
 
   useEffect(() => {
     if (!geoMap) {
@@ -17,12 +20,13 @@ export function useGeoMapPins(
     }
 
     for(const offer of offers) {
-      const icon = offer === activeOffer ? activeIcon : defaultIcon;
+      const { latitude, longitude } = offer.location;
+      const currentIcon = offer === activeOffer ? icon.active : icon.default;
       marker(
-        [ offer.location.latitude, offer.location.longitude ],
-        { icon },
+        [ latitude, longitude ],
+        { icon: currentIcon },
       )
         .addTo(geoMap);
     }
-  }, [activeOffer, geoMap, offers]);
+  }, [activeOffer, geoMap, icon, offers]);
 }
