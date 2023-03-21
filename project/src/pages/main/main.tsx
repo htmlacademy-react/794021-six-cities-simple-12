@@ -3,6 +3,7 @@ import CitiesList from 'src/components/cities-list/cities-list';
 import GeoMap from 'src/components/geo-map/geo-map';
 import EmptyOffer from 'src/components/empty-offer/empty-offer';
 import OfferCards from 'src/components/offer-сards/offer-cards';
+import SortingForm from 'src/components/sorting-form/sorting-form';
 import { City, CityNames, Offer, Offers } from 'src/types/types';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
 
@@ -54,21 +55,7 @@ function Main(props: MainProps) {
                       {getMultipleOfPlaceWord(props.offersCount)}{' '}
                       to stay in {props.currentCity.name}
                     </b>
-                    <form className="places__sorting" action="#" method="get">
-                      <span className="places__sorting-caption">Sort by</span>
-                      <span className="places__sorting-type" tabIndex={0}>
-                        Popular
-                        <svg className="places__sorting-arrow" width="7" height="4">
-                          <use xlinkHref="#icon-arrow-select"></use>
-                        </svg>
-                      </span>
-                      <ul className="places__options places__options--custom">{ /* FIXME 'places__options--opened' */}
-                        <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                        <li className="places__option" tabIndex={0}>Price: low to high</li>
-                        <li className="places__option" tabIndex={0}>Price: high to low</li>
-                        <li className="places__option" tabIndex={0}>Top rated first</li>
-                      </ul>
-                    </form>
+                    <SortingForm />
                   </>
                 </OfferCards>
 
