@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { City, Offer, Offers } from 'src/types/types';
-import { useGeoMap } from './use-geo-map';
-import { useGeoMapPins } from './use-geo-map-pins';
+import { useGeoMap } from 'src/hooks/use-geo-map';
+import { useGeoMapPins } from 'src/hooks/use-geo-map-pins';
 import 'leaflet/dist/leaflet.css';
 import styles from './geo-map.module.css';
 
