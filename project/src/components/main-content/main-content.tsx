@@ -32,11 +32,9 @@ function MainContent(props: MainContentProps): JSX.Element {
         >
           <>
             <b className="places__found">
-              {`
-                ${props.offersCount}
-                ${getMultipleOfPlaceWord(props.offersCount)}
-                to stay in ${props.currentCity.name}
-              `}
+              {props.offersCount}{' '}
+              {getMultipleOfPlaceWord(props.offersCount)}{' '}
+              to stay in {props.currentCity.name}
             </b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
