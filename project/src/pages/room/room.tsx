@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import NearPlacesCards from 'src/components/near-places-cards/near-places-cards';
+import OfferCards from 'src/components/offer-сards/offer-cards';
 import RoomDescription from 'src/components/room-description/room-description';
 import RoomGallery from 'src/components/room-gallery/room-gallery';
 import RoomHardwareFeatures from 'src/components/room-hardware-features/room-hardware-features';
@@ -84,9 +84,13 @@ function Room({ headerBlock, nearbyOffers, offer, reviews, isUserLoggedIn }: Roo
           />
         </section>
         <div className="container">
-          <section className="near-places places">
-            <NearPlacesCards offers={nearbyOffers} onHover={(item) => setHoveredOffer(item)} />
-          </section>
+          <OfferCards
+            className="near-places"
+            header="Other places in the neighbourhood"
+            offers={nearbyOffers}
+            onActive={(item) => setHoveredOffer(item)}
+            onBlur={() => setHoveredOffer(null)}
+          />
         </div>
       </main>
     </div>

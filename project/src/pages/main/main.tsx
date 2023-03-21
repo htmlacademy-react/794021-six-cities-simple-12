@@ -1,6 +1,5 @@
 import CitiesList from 'src/components/cities-list/cities-list';
-import OfferCards from 'src/components/offer-сards/offer-cards';
-import EmptyOffer from 'src/components/empty-offer/empty-offer';
+import MainContent from 'src/components/main-content/main-content';
 import { City, CityNames, Offers } from 'src/types/types';
 
 type MainProps = {
@@ -28,15 +27,12 @@ function Main(props: MainProps) {
             />
           </section>
         </div>
-        {
-          props.offersCount === 0 ?
-            <EmptyOffer /> :
-            <OfferCards
-              offersCount={props.offersCount}
-              currentCity={props.currentCity}
-              offers={props.offers}
-            />
-        }
+
+        <MainContent
+          offersCount={props.offersCount}
+          currentCity={props.currentCity}
+          offers={props.offers}
+        />
       </main>
     </div>
   );
