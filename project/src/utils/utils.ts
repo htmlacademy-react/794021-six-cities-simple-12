@@ -25,7 +25,7 @@ export function getMultipleOfPlaceWord(count: number): string {
 }
 
 export function getUniqueItems<T>(arr: Array<T>): Array<T> {
-  return [... new Set(arr)];
+  return [...new Set(arr)];
 }
 
 export function isCurrentPage(currentPath: string, pathToCompare: string): boolean {
