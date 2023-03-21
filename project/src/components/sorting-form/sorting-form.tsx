@@ -1,4 +1,4 @@
-function SortingForm(): JSX.Element {
+function OfferSortingForm(): JSX.Element {
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
@@ -18,4 +18,4 @@ function SortingForm(): JSX.Element {
   );
 }
 
-export default SortingForm;
+export default OfferSortingForm;

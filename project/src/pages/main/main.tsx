@@ -3,7 +3,7 @@ import CitiesList from 'src/components/cities-list/cities-list';
 import GeoMap from 'src/components/geo-map/geo-map';
 import EmptyOffer from 'src/components/empty-offer/empty-offer';
 import OfferCards from 'src/components/offer-сards/offer-cards';
-import SortingForm from 'src/components/sorting-form/sorting-form';
+import OfferSortingForm from 'src/components/sorting-form/sorting-form';
 import { City, CityNames, Offer, Offers } from 'src/types/types';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
 
@@ -55,7 +55,7 @@ function Main(props: MainProps) {
                       {getMultipleOfPlaceWord(props.offersCount)}{' '}
                       to stay in {props.currentCity.name}
                     </b>
-                    <SortingForm />
+                    <OfferSortingForm />
                   </>
                 </OfferCards>
 
