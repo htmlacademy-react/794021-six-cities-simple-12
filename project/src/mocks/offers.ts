@@ -41,6 +41,14 @@ export const userMax: User = {
 export const offers: Offers = [
   {
     bedrooms: 3,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Amsterdam',
+    },
     description: `
       A quiet cozy and picturesque that hides behind a river by the unique lightness of Amsterdam. The building is green and from 18th century.\n
       An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
@@ -50,7 +58,7 @@ export const offers: Offers = [
     id: 1,
     isPremium: true,
     images: firstOfferImages,
-    location: { latitude: 52.3909553943508, longitude: 4.85309666406198, },
+    location: { latitude: 52.3909553943508, longitude: 4.85309666406198, zoom: 8 },
     maxAdults: 4,
     price: 120,
     rating: 4.8,
@@ -59,13 +67,21 @@ export const offers: Offers = [
   },
   {
     bedrooms: 1,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Amsterdam',
+    },
     description: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
     goods: ['Towels', 'Heating',],
     host: userMax,
     id: 2,
     isPremium: false,
     images: ['img/room.jpg'],
-    location: { latitude: 52.3609553943508, longitude: 4.85309666406198, },
+    location: { latitude: 52.3609553943508, longitude: 4.85309666406198, zoom: 8 },
     maxAdults: 2,
     price: 80,
     rating: 3.9,
@@ -74,13 +90,21 @@ export const offers: Offers = [
   },
   {
     bedrooms: 2,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Amsterdam',
+    },
     description: '',
     goods: ['Coffee machine', 'Baby seat',],
     host: userAngelina,
     id: 3,
     isPremium: false,
     images: ['img/apartment-02.jpg'],
-    location: { latitude: 52.390955394350, longitude: 4.929309666406198, },
+    location: { latitude: 52.390955394350, longitude: 4.929309666406198, zoom: 8 },
     maxAdults: 3,
     price: 132,
     rating: 4.1,
@@ -89,13 +113,21 @@ export const offers: Offers = [
   },
   {
     bedrooms: 3,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Amsterdam',
+    },
     description: '',
     goods: ['Kitchen', 'Dishwasher',],
     host: userMax,
     id: 4,
     isPremium: true,
     images: ['img/apartment-03.jpg'],
-    location: { latitude: 52.3809553943508, longitude: 4.939309666406198, },
+    location: { latitude: 52.3809553943508, longitude: 4.939309666406198, zoom: 8 },
     maxAdults: 6,
     price: 180,
     rating: 4.9,
@@ -104,13 +136,21 @@ export const offers: Offers = [
   },
   {
     bedrooms: 1,
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Amsterdam',
+    },
     description: '',
     goods: ['Cabel TV', 'Fridge',],
     host: userAngelina,
     id: 5,
     isPremium: false,
     images: ['img/apartment-03.jpg'],
-    location: { latitude: 52.3809553943508, longitude: 4.929309666406198, },
+    location: { latitude: 52.3809553943508, longitude: 4.929309666406198, zoom: 8 },
     maxAdults: 2,
     price: 80,
     rating: 4.2,

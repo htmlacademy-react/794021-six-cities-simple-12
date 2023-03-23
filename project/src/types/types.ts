@@ -1,5 +1,6 @@
 export type Offer = {
   bedrooms: number;
+  city: City;
   description: string;
   goods: HardwareFeatures;
   host: OfferHost;
@@ -17,6 +18,11 @@ export type Offer = {
 export type OfferId = number;
 export type Offers = Offer[]
 
+export type City = {
+  location: Location;
+  name: CityName;
+}
+
 export type CityName = string
 
 export type CityNames = readonly CityName[]
@@ -30,7 +36,10 @@ export type HardwareFeature = string
 export type Location = {
   latitude: number;
   longitude: number;
+  zoom: number;
 }
+
+export type Locations = Location[]
 
 export type User = {
   avatarUrl: string;

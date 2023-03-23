@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { CityName, Offer, Offers } from 'src/types/types';
+import { City, Offer, Offers } from 'src/types/types';
 import OfferCard from 'src/components/offer-card/offer-card';
+import GeoMap from 'src/components/geo-map/geo-map';
 import { getMultipleOfPlaceWord } from 'src/utils/utils';
 
 type ActiveOffer = Offer | null;
@@ -8,14 +9,11 @@ type ActiveOffer = Offer | null;
 type OfferCardsProps = {
   offers: Offers;
   offersCount: number;
-  currentCityName: CityName;
+  currentCity: City;
 }
 
 function OfferCards(props: OfferCardsProps): JSX.Element {
   const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
-  // TODO: use it on the map
-  // eslint-disable-next-line no-console
-  console.log(hoveredOffer);
 
   return (
     <div className="cities">
@@ -26,7 +24,7 @@ function OfferCards(props: OfferCardsProps): JSX.Element {
             {`
               ${props.offersCount}
               ${getMultipleOfPlaceWord(props.offersCount)}
-              to stay in ${props.currentCityName}
+              to stay in ${props.currentCity.name}
             `}
           </b>
           <form className="places__sorting" action="#" method="get">
@@ -59,7 +57,12 @@ function OfferCards(props: OfferCardsProps): JSX.Element {
           </div>
         </section>
         <div className="cities__right-section">
-          <section className="cities__map map"></section>
+          <GeoMap
+            activeOffer={hoveredOffer}
+            className={props.offers.length <= 0 ? 'cities__map' : ''}
+            currentCity={props.currentCity}
+            offers={props.offers}
+          />
         </div>
       </div>
     </div>
