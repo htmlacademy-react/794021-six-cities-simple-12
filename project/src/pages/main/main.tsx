@@ -42,7 +42,7 @@ function Main(props: MainProps) {
 
         {
           offers.length <= 0 ?
-            <EmptyOffer /> :
+            <EmptyOffer cityName={currentCityName} /> :
             <div className="cities">
               <div className="cities__places-container container">
                 <OfferCards
