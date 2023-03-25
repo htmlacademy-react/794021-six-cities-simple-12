@@ -7,14 +7,12 @@ import NotFound from 'src/components/not-found/not-found';
 import PathnameChangeEffectExecutor from
   'src/components/pathname-change-effect-executor/pathname-change-effect-executor';
 import { scrollToTop } from 'src/utils/utils';
-import { CityNames, GetNearbyOffers, Offers, Reviews, UserLogin } from 'src/types/types';
+import { CityNames, GetNearbyOffers, Reviews, UserLogin } from 'src/types/types';
 import { AppRoute } from 'src/consts/consts';
 
 type AppProps = {
   cityNames: CityNames;
   getNearbyOffers: GetNearbyOffers;
-  offers: Offers;
-  offersCount: number;
   reviews: Reviews;
   userLogin: UserLogin;
 };
@@ -35,7 +33,6 @@ function App(props: AppProps): JSX.Element {
               <RoomWrapper
                 getNearbyOffers={props.getNearbyOffers}
                 headerBlock={headerBlock}
-                offers={props.offers}
                 reviews={props.reviews}
                 isUserLoggedIn={props.userLogin !== undefined}
               />

@@ -3,6 +3,7 @@ import { CityNames, CityName } from 'src/types/types';
 type CitiesListProps = {
   cityNames: CityNames;
   currentCityName: CityName;
+  onChangeCityName: (cityName: CityName) => void;
 }
 
 function CitiesList(props: CitiesListProps): JSX.Element {
@@ -22,6 +23,7 @@ function CitiesList(props: CitiesListProps): JSX.Element {
               <a
                 className={`locations__item-link tabs__item ${activeCityClassName}`}
                 href="#"
+                onClick={() => props.onChangeCityName(cityName)}
               >
                 <span>{cityName}</span>
               </a>
