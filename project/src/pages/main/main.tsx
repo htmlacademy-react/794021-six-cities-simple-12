@@ -7,7 +7,7 @@ import OfferSortingForm from 'src/components/offer-sorting-form/offer-sorting-fo
 import { CityNames, Offer } from 'src/types/types';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { changeCity } from 'src/store/action';
-import { getMultipleOfPlaceWord } from 'src/utils/utils';
+import { filterOffersByCityName, getMultipleOfPlaceWord } from 'src/utils/utils';
 
 type ActiveOffer = Offer | null;
 
@@ -19,8 +19,10 @@ type MainProps = {
 function Main(props: MainProps) {
   const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
   const currentCityName = useAppSelector((state) => state.cityName);
-  const offers = useAppSelector((state) => state.offers);
+  const allOffers = useAppSelector((state) => state.offers);
+  const offers = filterOffersByCityName(allOffers, currentCityName);
   const dispatch = useAppDispatch();
+
   const mainTagAdditionalClassName = offers.length === 0 ?
     'page__main--index-empty' :
     '' ;

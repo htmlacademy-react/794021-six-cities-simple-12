@@ -9,6 +9,9 @@ import PathnameChangeEffectExecutor from
 import { scrollToTop } from 'src/utils/utils';
 import { CityNames, GetNearbyOffers, Reviews, UserLogin } from 'src/types/types';
 import { AppRoute } from 'src/consts/consts';
+import { useAppDispatch } from 'src/hooks';
+import { setOffers } from 'src/store/action';
+import { offers } from 'src/mocks/offers';
 
 type AppProps = {
   cityNames: CityNames;
@@ -19,6 +22,9 @@ type AppProps = {
 
 function App(props: AppProps): JSX.Element {
   const headerBlock = <Header userLogin={props.userLogin} />;
+
+  const dispatch = useAppDispatch();
+  dispatch(setOffers(offers));
 
   return (
     <BrowserRouter>
