@@ -1,11 +1,15 @@
-import NearPlacesCards from 'src/components/near-places-cards/near-places-cards';
+import { useState } from 'react';
+import OfferCards from 'src/components/offer-сards/offer-cards';
 import RoomDescription from 'src/components/room-description/room-description';
 import RoomGallery from 'src/components/room-gallery/room-gallery';
 import RoomHardwareFeatures from 'src/components/room-hardware-features/room-hardware-features';
 import RoomHost from 'src/components/room-host/room-host';
 import RoomReviews from 'src/components/room-reviews/room-reviews';
+import GeoMap from 'src/components/geo-map/geo-map';
 import { Offer, Offers, Reviews, } from 'src/types/types';
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
+
+type ActiveOffer = Offer | null;
 
 type RoomProps = {
   headerBlock?: JSX.Element;
@@ -16,6 +20,8 @@ type RoomProps = {
 }
 
 function Room({ headerBlock, nearbyOffers, offer, reviews, isUserLoggedIn }: RoomProps): JSX.Element {
+  const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
+
   return (
     <div className="page">
       {headerBlock}
@@ -70,12 +76,21 @@ function Room({ headerBlock, nearbyOffers, offer, reviews, isUserLoggedIn }: Roo
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <GeoMap
+            activeOffer={hoveredOffer}
+            className='property__map'
+            currentCity={offer.city}
+            offers={nearbyOffers}
+          />
         </section>
         <div className="container">
-          <section className="near-places places">
-            <NearPlacesCards offers={nearbyOffers} />
-          </section>
+          <OfferCards
+            className="near-places"
+            header="Other places in the neighbourhood"
+            offers={nearbyOffers}
+            onActive={(item) => setHoveredOffer(item)}
+            onBlur={() => setHoveredOffer(null)}
+          />
         </div>
       </main>
     </div>
