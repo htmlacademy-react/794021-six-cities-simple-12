@@ -33,6 +33,26 @@ export function filterOffersByCityName(offers: Offers, cityName: string): Offers
   return offers.filter((offer) => offer.city.name === cityName);
 }
 
+export function isChildNode(parent: HTMLElement | null, node: HTMLElement | undefined): boolean {
+  function assertHasParentNodeOrUndefined(item: EventTarget | undefined): asserts item is HTMLElement {
+    if (item && !('parentNode' in item)) {
+      throw new Error('Node or undefined expected');
+    }
+  }
+
+  assertHasParentNodeOrUndefined(node);
+  if (parent === undefined || node === null || node === undefined) {
+    return false;
+  }
+
+  if (parent === node) {
+    return true;
+  }
+
+  const { parentNode: surItem } = node;
+  return isChildNode(parent, surItem as HTMLElement);
+}
+
 export function isCurrentPage(currentPath: string, pathToCompare: string): boolean {
   return currentPath === pathToCompare ||
     currentPath === `/${pathToCompare}` ||

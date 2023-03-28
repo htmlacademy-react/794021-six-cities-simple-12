@@ -1,6 +1,7 @@
 import { FocusEvent, KeyboardEvent, useRef, useState } from 'react';
 import { OfferSortingVariant } from 'src/consts/consts';
 import { OfferSortingOption } from 'src/types/types';
+import { isChildNode } from 'src/utils/utils';
 
 type OfferSortingFormProps = {
   onChangeSortingType: (item: OfferSortingOption) => void;
@@ -89,25 +90,3 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
 }
 
 export default OfferSortingForm;
-
-// TODO: move to utils
-
-function isChildNode(parent: HTMLElement | null, node: HTMLElement | undefined): boolean {
-  function assertHasParentNodeOrUndefined(item: EventTarget | undefined): asserts item is HTMLElement {
-    if (item && !('parentNode' in item)) {
-      throw new Error('Node or undefined expected');
-    }
-  }
-
-  assertHasParentNodeOrUndefined(node);
-  if (parent === undefined || node === null || node === undefined) {
-    return false;
-  }
-
-  if (parent === node) {
-    return true;
-  }
-
-  const { parentNode: surItem } = node;
-  return isChildNode(parent, surItem as HTMLElement);
-}
