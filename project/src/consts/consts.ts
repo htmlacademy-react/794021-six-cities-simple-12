@@ -1,6 +1,5 @@
 import { IconOptions } from 'leaflet';
 import { CityName } from 'src/types/types';
-import { OfferSortingOption } from 'src/types/types';
 
 export const RATING_TO_PERCENT_STEP = 20;
 
@@ -47,11 +46,11 @@ export const MapPinSettings = {
   Default: DEFAULT_PIN_SETTING,
 };
 
-export const OfferSortingVariant: Record<string, string> = {
-  'popular': 'Popular', // По умолчанию
-  'priceLowToHigh': 'Price: low to high', // От дешёвых к дорогим
-  'priceHighToLow': 'Price: high to low', // От дорогих к дешёвым
-  'topRatedFirst': 'Top rated first', // От высокого рейтинга к низкому
+export const OfferSortingVariant = {
+  popular: {id: 'popular', title: 'Popular' },
+  priceLowToHigh: { id: 'priceLowToHigh', title: 'Price: low to high' },
+  priceHighToLow: { id: 'priceHighToLow', title: 'Price: high to low' },
+  topRatedFirst: { id: 'topRatedFirst', title: 'Top rated first' },
 } as const;
 
-export const DEFAULT_OFFER_SORTING_KEY_NAME: OfferSortingOption = 'popular';
+export const DEFAULT_OFFER_SORTING_KEY_NAME = OfferSortingVariant.popular.id;

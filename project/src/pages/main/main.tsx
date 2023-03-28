@@ -7,7 +7,7 @@ import OfferSortingForm from 'src/components/offer-sorting-form/offer-sorting-fo
 import { CityNames, Offer } from 'src/types/types';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { changeCity } from 'src/store/action';
-import { filterOffersByCityName, getMultipleOfPlaceWord } from 'src/utils/utils';
+import { filterOffersByCityName, getMultipleOfPlaceWord, sortOffers } from 'src/utils/utils';
 import { DEFAULT_OFFER_SORTING_KEY_NAME } from 'src/consts/consts';
 import { OfferSortingOption } from 'src/types/types';
 
@@ -53,7 +53,7 @@ function Main(props: MainProps) {
                 <OfferCards
                   className="cities__places"
                   header="Places"
-                  offers={offers}
+                  offers={sortOffers(offers, sortingType)}
                   onActive={(item) => setHoveredOffer(item)}
                   onBlur={() => setHoveredOffer(null)}
                 >

@@ -57,7 +57,7 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
         ref={menuRef}
         tabIndex={0}
       >
-        {OfferSortingVariant[props.sortingType]}
+        {OfferSortingVariant[props.sortingType].title}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
@@ -66,19 +66,19 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
         ref={listRef}
       >
         {
-          Object.entries(OfferSortingVariant).map(([keyName, title]) => {
-            const additionalClassName = keyName === props.sortingType ?
+          Object.values(OfferSortingVariant).map((sortingOption) => {
+            const additionalClassName = sortingOption.id === props.sortingType ?
               'places__option--active' :
               '';
             return (
               <li
                 className={`places__option ${additionalClassName}`}
-                key={keyName}
+                key={sortingOption.id}
                 tabIndex={0}
-                onClick={() => handleClickMenuItem(keyName)}
-                onKeyDown={(evt) => handleKeyDownMenuItem(evt, keyName)}
+                onClick={() => handleClickMenuItem(sortingOption.id)}
+                onKeyDown={(evt) => handleKeyDownMenuItem(evt, sortingOption.id)}
               >
-                {title}
+                {sortingOption.title}
               </li>
             );
           })

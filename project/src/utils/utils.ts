@@ -1,5 +1,5 @@
-import { RATING_TO_PERCENT_STEP } from 'src/consts/consts';
-import { Offers } from 'src/types/types';
+import { OfferSortingVariant, RATING_TO_PERCENT_STEP } from 'src/consts/consts';
+import { Offers, OfferSortingOption } from 'src/types/types';
 
 export function getPercentFromRating(rating: number): string {
   const roundedPercent = Math.round(rating) * RATING_TO_PERCENT_STEP;
@@ -49,6 +49,24 @@ export function parseInteger(numberAsString = ''): number | typeof NaN {
     return NaN;
   }
   return numberInt;
+}
+
+export function sortOffers(offers: Offers, sortingType: OfferSortingOption): Offers {
+  const newOffers = [...offers];
+  switch (sortingType) {
+    case OfferSortingVariant.popular.id: // FIXME: change to constant
+      return offers;
+    case OfferSortingVariant.priceLowToHigh.id:
+      newOffers.sort((offer1, offer2) => offer1.price < offer2.price ? -1 : 1);
+      break;
+    case OfferSortingVariant.priceHighToLow.id:
+      newOffers.sort((offer1, offer2) => offer1.price > offer2.price ? -1 : 1);
+      break;
+    case OfferSortingVariant.topRatedFirst.id:
+      newOffers.sort((offer1, offer2) => offer1.rating > offer2.rating ? -1 : 1);
+      break;
+  }
+  return newOffers;
 }
 
 export function makeHash(obj: object): string {
