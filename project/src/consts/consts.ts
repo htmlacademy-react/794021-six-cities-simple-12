@@ -45,3 +45,12 @@ export const MapPinSettings = {
   Active: ACTIVE_PIN_SETTING,
   Default: DEFAULT_PIN_SETTING,
 };
+
+export const OfferSortingVariant = {
+  popular: {id: 'popular', title: 'Popular' },
+  priceLowToHigh: { id: 'priceLowToHigh', title: 'Price: low to high' },
+  priceHighToLow: { id: 'priceHighToLow', title: 'Price: high to low' },
+  topRatedFirst: { id: 'topRatedFirst', title: 'Top rated first' },
+} as const;
+
+export const DEFAULT_OFFER_SORTING_KEY_NAME = OfferSortingVariant.popular.id;

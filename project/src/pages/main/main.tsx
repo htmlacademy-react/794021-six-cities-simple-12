@@ -7,7 +7,9 @@ import OfferSortingForm from 'src/components/offer-sorting-form/offer-sorting-fo
 import { CityNames, Offer } from 'src/types/types';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { changeCity } from 'src/store/action';
-import { filterOffersByCityName, getMultipleOfPlaceWord } from 'src/utils/utils';
+import { filterOffersByCityName, getMultipleOfPlaceWord, sortOffers } from 'src/utils/utils';
+import { DEFAULT_OFFER_SORTING_KEY_NAME } from 'src/consts/consts';
+import { OfferSortingOption } from 'src/types/types';
 
 type ActiveOffer = Offer | null;
 
@@ -18,6 +20,7 @@ type MainProps = {
 
 function Main(props: MainProps) {
   const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
+  const [ sortingType, setSortingType ] = useState<OfferSortingOption>(DEFAULT_OFFER_SORTING_KEY_NAME);
   const currentCityName = useAppSelector((state) => state.cityName);
   const allOffers = useAppSelector((state) => state.offers);
   const offers = filterOffersByCityName(allOffers, currentCityName);
@@ -43,14 +46,14 @@ function Main(props: MainProps) {
         </div>
 
         {
-          offers.length <= 0 ?
+          !offers.length ?
             <EmptyOffer cityName={currentCityName} /> :
             <div className="cities">
               <div className="cities__places-container container">
                 <OfferCards
                   className="cities__places"
                   header="Places"
-                  offers={offers}
+                  offers={sortOffers(offers, sortingType)}
                   onActive={(item) => setHoveredOffer(item)}
                   onBlur={() => setHoveredOffer(null)}
                 >
@@ -60,7 +63,10 @@ function Main(props: MainProps) {
                       {getMultipleOfPlaceWord(offers.length)}{' '}
                       to stay in {currentCityName}
                     </b>
-                    <OfferSortingForm />
+                    <OfferSortingForm
+                      sortingType={sortingType}
+                      onChangeSortingType={(selectedType) => setSortingType(selectedType)}
+                    />
                   </>
                 </OfferCards>
 
