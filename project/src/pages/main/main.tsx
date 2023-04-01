@@ -46,7 +46,7 @@ function Main(props: MainProps) {
         </div>
 
         {
-          offers.length <= 0 ?
+          !offers.length ?
             <EmptyOffer cityName={currentCityName} /> :
             <div className="cities">
               <div className="cities__places-container container">
