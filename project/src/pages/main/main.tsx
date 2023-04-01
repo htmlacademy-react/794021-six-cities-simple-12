@@ -4,22 +4,26 @@ import GeoMap from 'src/components/geo-map/geo-map';
 import EmptyOffer from 'src/components/empty-offer/empty-offer';
 import OfferCards from 'src/components/offer-сards/offer-cards';
 import OfferSortingForm from 'src/components/offer-sorting-form/offer-sorting-form';
-import { City, CityNames, Offer, Offers } from 'src/types/types';
-import { getMultipleOfPlaceWord } from 'src/utils/utils';
+import { CityNames, Offer } from 'src/types/types';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { changeCity } from 'src/store/action';
+import { filterOffersByCityName, getMultipleOfPlaceWord } from 'src/utils/utils';
 
 type ActiveOffer = Offer | null;
 
 type MainProps = {
   cityNames: CityNames;
-  currentCity: City;
   headerBlock?: JSX.Element;
-  offers: Offers;
-  offersCount: number;
 };
 
 function Main(props: MainProps) {
   const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
-  const mainTagAdditionalClassName = props.offersCount === 0 ?
+  const currentCityName = useAppSelector((state) => state.cityName);
+  const allOffers = useAppSelector((state) => state.offers);
+  const offers = filterOffersByCityName(allOffers, currentCityName);
+  const dispatch = useAppDispatch();
+
+  const mainTagAdditionalClassName = offers.length === 0 ?
     'page__main--index-empty' :
     '' ;
 
@@ -32,28 +36,29 @@ function Main(props: MainProps) {
           <section className="locations container">
             <CitiesList
               cityNames={props.cityNames}
-              currentCityName={props.currentCity.name}
+              currentCityName={currentCityName}
+              onChangeCityName={(cityName) => dispatch(changeCity(cityName))}
             />
           </section>
         </div>
 
         {
-          props.offersCount <= 0 ?
-            <EmptyOffer /> :
+          offers.length <= 0 ?
+            <EmptyOffer cityName={currentCityName} /> :
             <div className="cities">
               <div className="cities__places-container container">
                 <OfferCards
                   className="cities__places"
                   header="Places"
-                  offers={props.offers}
+                  offers={offers}
                   onActive={(item) => setHoveredOffer(item)}
                   onBlur={() => setHoveredOffer(null)}
                 >
                   <>
                     <b className="places__found">
-                      {props.offersCount}{' '}
-                      {getMultipleOfPlaceWord(props.offersCount)}{' '}
-                      to stay in {props.currentCity.name}
+                      {offers.length}{' '}
+                      {getMultipleOfPlaceWord(offers.length)}{' '}
+                      to stay in {currentCityName}
                     </b>
                     <OfferSortingForm />
                   </>
@@ -62,9 +67,8 @@ function Main(props: MainProps) {
                 <div className="cities__right-section">
                   <GeoMap
                     activeOffer={hoveredOffer}
-                    className={props.offers.length <= 0 ? 'cities__map' : ''}
-                    currentCity={props.currentCity}
-                    offers={props.offers}
+                    className={offers.length <= 0 ? 'cities__map' : ''}
+                    offers={offers}
                   />
                 </div>
               </div>

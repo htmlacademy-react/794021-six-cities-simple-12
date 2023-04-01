@@ -79,7 +79,6 @@ function Room({ headerBlock, nearbyOffers, offer, reviews, isUserLoggedIn }: Roo
           <GeoMap
             activeOffer={hoveredOffer}
             className='property__map'
-            currentCity={offer.city}
             offers={nearbyOffers}
           />
         </section>

@@ -1,4 +1,5 @@
 import { IconOptions } from 'leaflet';
+import { CityName } from 'src/types/types';
 
 export const RATING_TO_PERCENT_STEP = 20;
 
@@ -17,6 +18,8 @@ export const CityNames = [
   'Hamburg',
   'Dusseldorf',
 ] as const;
+
+export const INITIAL_CITY_NAME: CityName = 'Paris' as const;
 
 export const RoomReview = {
   HeaderText: 'Your review',

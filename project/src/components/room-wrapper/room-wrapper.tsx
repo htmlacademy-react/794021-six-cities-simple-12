@@ -4,13 +4,13 @@ import {
 import { Navigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Room from 'src/pages/room/room';
+import { useAppSelector } from 'src/hooks';
 import { parseInteger } from 'src/utils/utils';
 import { AppRoute } from 'src/consts/consts';
 
 type RoomWrapperProps = {
   getNearbyOffers: GetNearbyOffers;
   headerBlock?: JSX.Element;
-  offers: Offers;
   reviews: Reviews;
   isUserLoggedIn: boolean;
 }
@@ -18,7 +18,8 @@ type RoomWrapperProps = {
 function RoomWrapper(props: RoomWrapperProps): JSX.Element | null {
   const { id: offerId } = useParams();
   const offerIdAsInt = parseInteger(offerId);
-  const foundOffer = getOfferById(props.offers, offerIdAsInt);
+  const offers = useAppSelector((state) => state.offers);
+  const foundOffer = getOfferById(offers, offerIdAsInt);
 
   if (foundOffer === undefined) {
     return <Navigate to={AppRoute.NotFound} />;
