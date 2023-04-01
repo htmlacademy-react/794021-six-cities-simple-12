@@ -41,7 +41,7 @@ export function isChildNode(parent: HTMLElement | null, node: HTMLElement | unde
   }
 
   assertHasParentNodeOrUndefined(node);
-  if (parent === undefined || node === null || node === undefined) {
+  if (!parent || !node) {
     return false;
   }
 
