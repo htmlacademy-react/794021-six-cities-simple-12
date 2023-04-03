@@ -1,4 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { fetchOffers } from 'src/store/api-actions';
+import { useAppDispatch } from 'src/hooks';
 import Main from 'src/pages/main/main';
 import Login from 'src/pages/login/login';
 import Header from 'src/components/header/header';
@@ -9,9 +11,6 @@ import PathnameChangeEffectExecutor from
 import { scrollToTop } from 'src/utils/utils';
 import { CityNames, GetNearbyOffers, Reviews, UserLogin } from 'src/types/types';
 import { AppRoute } from 'src/consts/consts';
-import { useAppDispatch } from 'src/hooks';
-import { setOffers } from 'src/store/action';
-import { offers } from 'src/mocks/offers';
 
 type AppProps = {
   cityNames: CityNames;
@@ -24,7 +23,7 @@ function App(props: AppProps): JSX.Element {
   const headerBlock = <Header userLogin={props.userLogin} />;
 
   const dispatch = useAppDispatch();
-  dispatch(setOffers(offers));
+  dispatch(fetchOffers());
 
   return (
     <BrowserRouter>
