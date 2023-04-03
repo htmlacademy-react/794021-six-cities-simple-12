@@ -1,28 +1,6 @@
-import { Images, Offers, User, } from 'src/types/types';
-import { HardwareFeatures, } from 'src/types/types';
+import { Offers, User, } from 'src/types/types';
 
 export const offersCount = 312;
-
-const firstOfferImages: Images = [
-  'img/apartment-01.jpg',
-  'img/room.jpg',
-  'img/apartment-02.jpg',
-  'img/apartment-03.jpg',
-  'img/studio-01.jpg',
-];
-
-const firstOfferGoods: HardwareFeatures = [
-  'Wi-Fi',
-  'Washing machine',
-  'Towels',
-  'Heating',
-  'Coffee machine',
-  'Baby seat',
-  'Kitchen',
-  'Dishwasher',
-  'Cabel TV',
-  'Fridge',
-];
 
 export const userAngelina: User = {
   avatarUrl: 'img/avatar-angelina.jpg',
@@ -38,33 +16,7 @@ export const userMax: User = {
   name: 'Max',
 };
 
-export const offers: Offers = [
-  {
-    bedrooms: 3,
-    city: {
-      location: {
-        latitude: 52.370216,
-        longitude: 4.895168,
-        zoom: 10,
-      },
-      name: 'Amsterdam',
-    },
-    description: `
-      A quiet cozy and picturesque that hides behind a river by the unique lightness of Amsterdam. The building is green and from 18th century.\n
-      An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
-    `,
-    goods: firstOfferGoods,
-    host: userAngelina,
-    id: 1,
-    isPremium: true,
-    images: firstOfferImages,
-    location: { latitude: 52.3909553943508, longitude: 4.85309666406198, zoom: 8 },
-    maxAdults: 4,
-    price: 120,
-    rating: 4.8,
-    title: 'Beautiful & luxurious apartment at great location',
-    type: 'apartment',
-  },
+export const nearbyOffers: Offers = [
   {
     bedrooms: 1,
     city: {
@@ -157,10 +109,4 @@ export const offers: Offers = [
     title: 'Wood and stone place',
     type: 'private room',
   },
-];
-
-export const nearbyOffers: Offers = [
-  offers[1],
-  offers[2],
-  offers[3],
 ];
