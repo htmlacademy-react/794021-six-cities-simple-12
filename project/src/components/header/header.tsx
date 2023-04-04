@@ -1,16 +1,15 @@
 import { Link } from 'react-router-dom';
-import { UserLogin } from 'src/types/types';
 import HeaderNav from './header-nav';
 import { useLocation } from 'react-router-dom';
 import { AppRoute } from 'src/consts/consts';
 import { isCurrentPage } from 'src/utils/utils';
+import { useAppSelector } from 'src/hooks';
+import { AuthorizationStatus } from 'src/consts/api';
 
-type HeaderMainProps = {
-  userLogin: UserLogin;
-}
-
-function HeaderMain({ userLogin }: HeaderMainProps): JSX.Element {
+function HeaderMain(): JSX.Element {
   const { pathname: currentPath } = useLocation();
+  const userLogin = useAppSelector((state) => state.userLogin);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const linkClassName = isCurrentPage(currentPath, AppRoute.Root) ?
     'header__logo-link header__logo-link--active' :
     'header__logo-link';
@@ -25,7 +24,11 @@ function HeaderMain({ userLogin }: HeaderMainProps): JSX.Element {
             </Link>
           </div>
 
-          {isCurrentPage(currentPath, AppRoute.Login) ? null : <HeaderNav userLogin={userLogin} />}
+          {
+            isCurrentPage(currentPath, AppRoute.Login) ?
+              null :
+              <HeaderNav userLogin={authorizationStatus === AuthorizationStatus.Authorized ? userLogin : ''} />
+          }
         </div>
       </div>
     </header>
