@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './components/app/app';
 import { userLogin, } from 'src/mocks/mocks';
-import { reviews } from 'src/mocks/reviews';
 import { CityNames } from 'src/consts/consts';
 import { store } from 'src/store/index';
 
@@ -16,7 +15,6 @@ root.render(
     <Provider store={store}>
       <App
         cityNames={CityNames}
-        reviews={reviews}
         userLogin={userLogin}
       />
     </Provider>

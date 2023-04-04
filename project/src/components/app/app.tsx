@@ -9,12 +9,11 @@ import NotFound from 'src/components/not-found/not-found';
 import PathnameChangeEffectExecutor from
   'src/components/pathname-change-effect-executor/pathname-change-effect-executor';
 import { scrollToTop } from 'src/utils/utils';
-import { CityNames, Reviews, UserLogin } from 'src/types/types';
+import { CityNames, UserLogin } from 'src/types/types';
 import { AppRoute } from 'src/consts/consts';
 
 type AppProps = {
   cityNames: CityNames;
-  reviews: Reviews;
   userLogin: UserLogin;
 };
 
