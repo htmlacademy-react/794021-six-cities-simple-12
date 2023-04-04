@@ -13,4 +13,7 @@ export const setIsFetchingReviews = createAction<boolean>('data/setIsFetchinRevi
 
 export const setAuthorizationStatus =
   createAction<AuthorizationStatus>('user/setAuthorizationStatus');
+
+export const setIsUserLoggingIn = createAction<boolean>('user/setIsLoggingIn');
+export const setUserLogin = createAction<string>('user/setLogin');
 // TODO rename file to 'actions.ts' ?
