@@ -1,9 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { changeCity,setOffers, setIsFetchingOffers, setReviews, setIsFetchingReviews, setIsFetchedOffers, setAuthorizationStatus } from './action';
 import { INITIAL_CITY_NAME } from 'src/consts/consts';
-import { changeCity,setOffers, setIsFetchingOffers, setReviews, setIsFetchingReviews, setIsFetchedOffers } from './action';
+import { AuthorizationStatus } from 'src/consts/api';
 import { Offers, Reviews } from 'src/types/types';
 
 const initialState = {
+  authorizationStatus: AuthorizationStatus.Unknown,
   cityName: INITIAL_CITY_NAME,
   isFetchingOffers: false,
   isFetchedOffers: false,
@@ -39,6 +41,10 @@ export const reducer = createReducer(initialState, (builder) => {
 
     .addCase(setIsFetchingReviews, (state, action) => {
       state.isFetchingReviews = action.payload;
+    })
+
+    .addCase(setAuthorizationStatus, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });
 
