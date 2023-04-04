@@ -18,10 +18,11 @@ type AppProps = {
 
 function App(props: AppProps): JSX.Element {
   const userLogin = useAppSelector((state) => state.userLogin);
-  const headerBlock = <Header />;
-
+  const isFetchedOffers = useAppSelector((state) => state.isFetchedOffers);
   const dispatch = useAppDispatch();
-  dispatch(fetchOffers());
+
+  const headerBlock = <Header />;
+  !isFetchedOffers && dispatch(fetchOffers());
 
   return (
     <BrowserRouter>

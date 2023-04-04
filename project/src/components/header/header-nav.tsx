@@ -1,12 +1,14 @@
-import { UserLogin } from 'src/types/types';
+import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from 'src/consts/consts';
+import { UserLogin } from 'src/types/types';
 
 type HeaderNavProps = {
+  onClick: (evt: MouseEvent) => void;
   userLogin: UserLogin;
 }
 
-function HeaderNav({ userLogin }: HeaderNavProps): JSX.Element {
+function HeaderNav({ onClick, userLogin }: HeaderNavProps): JSX.Element {
   const linkText = userLogin ? 'Sign out' : 'Sign in';
   const href = userLogin ? '' : AppRoute.Login;
   const signClassName = userLogin ? 'header__signout' : 'header__login';
@@ -25,7 +27,7 @@ function HeaderNav({ userLogin }: HeaderNavProps): JSX.Element {
         }
 
         <li className="header__nav-item">
-          <Link className="header__nav-link" to={href}>
+          <Link className="header__nav-link" to={href} onClick={onClick}>
             {
               userLogin ?
                 null :

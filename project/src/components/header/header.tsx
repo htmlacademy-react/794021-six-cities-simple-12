@@ -1,18 +1,30 @@
+import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderNav from './header-nav';
 import { useLocation } from 'react-router-dom';
-import { AppRoute } from 'src/consts/consts';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { isCurrentPage } from 'src/utils/utils';
-import { useAppSelector } from 'src/hooks';
+import { AppRoute } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
+import { logoutUser } from 'src/store/api-actions';
 
 function HeaderMain(): JSX.Element {
   const { pathname: currentPath } = useLocation();
   const userLogin = useAppSelector((state) => state.userLogin);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const dispatch = useAppDispatch();
   const linkClassName = isCurrentPage(currentPath, AppRoute.Root) ?
     'header__logo-link header__logo-link--active' :
     'header__logo-link';
+
+  const handleOnClick = (evt: MouseEvent) => {
+    if (authorizationStatus !== AuthorizationStatus.Authorized) {
+      return;
+    }
+
+    evt.preventDefault();
+    dispatch(logoutUser());
+  };
 
   return (
     <header className="header">
@@ -27,7 +39,10 @@ function HeaderMain(): JSX.Element {
           {
             isCurrentPage(currentPath, AppRoute.Login) ?
               null :
-              <HeaderNav userLogin={authorizationStatus === AuthorizationStatus.Authorized ? userLogin : ''} />
+              <HeaderNav
+                onClick={handleOnClick}
+                userLogin={authorizationStatus === AuthorizationStatus.Authorized ? userLogin : ''}
+              />
           }
         </div>
       </div>
