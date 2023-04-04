@@ -8,4 +8,4 @@ export const setReviews = createAction<Reviews>('reviews/set');
 
 export const setOffersFetchingFinishedStatus = createAction<boolean>('data/setOffersFetchingStatus');
 export const setIsFetchingReviews = createAction<boolean>('data/setIsFetchinReviews');
-
+// TODO rename file to 'actions.ts' ?
