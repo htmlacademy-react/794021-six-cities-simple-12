@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { fetchOffers } from 'src/store/api-actions';
-import { useAppDispatch } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import Main from 'src/pages/main/main';
 import Login from 'src/pages/login/login';
 import Header from 'src/components/header/header';
@@ -9,16 +9,16 @@ import NotFound from 'src/components/not-found/not-found';
 import PathnameChangeEffectExecutor from
   'src/components/pathname-change-effect-executor/pathname-change-effect-executor';
 import { scrollToTop } from 'src/utils/utils';
-import { CityNames, UserLogin } from 'src/types/types';
+import { CityNames } from 'src/types/types';
 import { AppRoute } from 'src/consts/consts';
 
 type AppProps = {
   cityNames: CityNames;
-  userLogin: UserLogin;
 };
 
 function App(props: AppProps): JSX.Element {
-  const headerBlock = <Header userLogin={props.userLogin} />;
+  const userLogin = useAppSelector((state) => state.userLogin);
+  const headerBlock = <Header />;
 
   const dispatch = useAppDispatch();
   dispatch(fetchOffers());
@@ -35,7 +35,7 @@ function App(props: AppProps): JSX.Element {
             element={
               <RoomWrapper
                 headerBlock={headerBlock}
-                isUserLoggedIn={props.userLogin !== undefined}
+                isUserLoggedIn={!!userLogin}
               />
             }
           />
