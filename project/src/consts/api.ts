@@ -3,6 +3,7 @@ export const BACKEND_URL_DESCRIPTION = 'https://12.react.pages.academy/six-citie
 
 export enum APIRoute {
   Offers = '/hotels',
+  Reviews = '/comments'
 }
 
 export const TOKEN_HEADER_NAME = 'X-Token';

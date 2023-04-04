@@ -2,15 +2,11 @@ import { Location, Offer, Offers } from 'src/types/types';
 import { useAppSelector } from 'src/hooks';
 import { useEffect, useState } from 'react';
 
-export function useNearbyOffers(offer: Offer | null, limitCount: number): Offers {
+export function useNearbyOffers(offer: Offer, limitCount: number): Offers {
   const offers = useAppSelector<Offers>((store) => store.offers);
   const [ nearbyOffers, setNearbyOffers ] = useState<Offers>([]);
 
   useEffect(() => {
-    if (!offer) {
-      setNearbyOffers([]);
-      return;
-    }
     const currentCityOffers = offers.filter(
       ({ city }) => () => city.name === offer.city.name
     );
