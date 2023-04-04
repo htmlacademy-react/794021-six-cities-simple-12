@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import OfferCards from 'src/components/offer-сards/offer-cards';
 import RoomDescription from 'src/components/room-description/room-description';
 import RoomGallery from 'src/components/room-gallery/room-gallery';
@@ -6,21 +6,45 @@ import RoomHardwareFeatures from 'src/components/room-hardware-features/room-har
 import RoomHost from 'src/components/room-host/room-host';
 import RoomReviews from 'src/components/room-reviews/room-reviews';
 import GeoMap from 'src/components/geo-map/geo-map';
-import { Offer, Offers, Reviews, } from 'src/types/types';
+import { Offer, OfferId } from 'src/types/types';
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
+import { AppRoute, NEARBY_OFFERS_LIMIT_COUNT } from 'src/consts/consts';
+import { useNearbyOffers } from 'src/hooks/use-nearby-offers';
+import { useAppSelector } from 'src/hooks';
+import { Navigate } from 'react-router-dom';
+import { useOffer } from 'src/hooks/use-offer';
+import { useOfferReviews } from 'src/hooks/use-offer-reviews';
 
 type ActiveOffer = Offer | null;
 
 type RoomProps = {
   headerBlock?: JSX.Element;
-  nearbyOffers: Offers;
-  offer: Offer;
-  reviews: Reviews;
+  offerId: OfferId | null;
   isUserLoggedIn: boolean;
 }
 
-function Room({ headerBlock, nearbyOffers, offer, reviews, isUserLoggedIn }: RoomProps): JSX.Element {
+function Room({ headerBlock, offerId, isUserLoggedIn }: RoomProps): JSX.Element {
   const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
+  const offer = useOffer(offerId);
+  const nearbyOffers = useNearbyOffers(offer, NEARBY_OFFERS_LIMIT_COUNT);
+  const reviews = useOfferReviews(offer);
+  const isFetchingOffersFinished = useAppSelector((state) => state.isFinishedOffersFetching);
+
+  useEffect(() => {
+    if (!isFetchingOffersFinished) {
+      return;
+    }
+    if (!offer) {
+      <Navigate to={AppRoute.NotFound} />;
+    }
+
+  }, [isFetchingOffersFinished, offer]);
+
+  if (!offer) {
+    return (
+      <h1>Loading...</h1>
+    );
+  }
 
   return (
     <div className="page">
