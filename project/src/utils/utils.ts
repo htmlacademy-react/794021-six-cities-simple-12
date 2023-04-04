@@ -1,5 +1,29 @@
 import { OfferSortingVariant, RATING_TO_PERCENT_STEP } from 'src/consts/consts';
-import { Offers, OfferSortingOption } from 'src/types/types';
+import { Location, Offer, OfferId, Offers, OfferSortingOption, Reviews } from 'src/types/types';
+
+export function calcGeoDistance(
+  coordinate1: Location,
+  coordinate2: Location,
+) {
+  const EARTH_RADIUS_IN_KILOMETERS = 6571;
+
+  function calcDegreesFromRadians(degrees: number) {
+    return (degrees * Math.PI) / 180;
+  }
+
+  const startingLat = calcDegreesFromRadians(coordinate1.latitude);
+  const startingLong = calcDegreesFromRadians(coordinate1.longitude);
+  const destinationLat = calcDegreesFromRadians(coordinate2.latitude);
+  const destinationLong = calcDegreesFromRadians(coordinate2.longitude);
+
+  // Haversine equation
+  const distanceInKilometers =
+    Math.acos(Math.sin(startingLat) * Math.sin(destinationLat) +
+    Math.cos(startingLat) * Math.cos(destinationLat) *
+    Math.cos(startingLong - destinationLong)) * EARTH_RADIUS_IN_KILOMETERS;
+
+  return distanceInKilometers;
+}
 
 export function getPercentFromRating(rating: number): string {
   const roundedPercent = Math.round(rating) * RATING_TO_PERCENT_STEP;
@@ -10,6 +34,14 @@ export function getPercentFromRating(rating: number): string {
     return '0%';
   }
   return `${roundedPercent}%`;
+}
+
+export function getOfferReviews(reviews: Reviews, offer: Offer | null): Reviews {
+  if (!offer) {
+    return [];
+  }
+
+  return reviews.filter((review) => review.id === offer.id);
 }
 
 export function capitalizeFirstLetter(text: string): string {
@@ -25,8 +57,36 @@ export function getMultipleOfPlaceWord(count: number): string {
   return 'places';
 }
 
+export function getNearbyOffers(offers: Offers, offer: Offer, limitCount: number): Offers {
+  const offersDistances = offers.map(({ id, location }) => {
+    const distance = calcGeoDistance(location, offer.location);
+    return {
+      id,
+      distance,
+    };
+  });
+
+  offersDistances.sort((offer1, offer2) => offer1.distance - offer2.distance);
+  offersDistances.splice(limitCount);
+  const ids = offersDistances.map((offersDistance) => offersDistance.id);
+
+  return offers.filter((iteratedOffer) => ids.includes(iteratedOffer.id));
+}
+
 export function getUniqueItems<T>(arr: Array<T>): Array<T> {
   return [...new Set(arr)];
+}
+
+export function getOfferById(offers: Offers, id: OfferId | null): Offer | null {
+  if (id === null) {
+    return null;
+  }
+
+  const foundOffers = offers.filter(
+    (offer) => offer.id === id
+  );
+  const [ foundOffer ] = foundOffers;
+  return foundOffer || null;
 }
 
 export function filterOffersByCityName(offers: Offers, cityName: string): Offers {
