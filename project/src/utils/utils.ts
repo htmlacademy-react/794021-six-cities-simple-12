@@ -1,5 +1,5 @@
 import { OfferSortingVariant, RATING_TO_PERCENT_STEP } from 'src/consts/consts';
-import { Location, Offer, OfferId, Offers, OfferSortingOption, Reviews } from 'src/types/types';
+import { Location, Offer, Offers, OfferSortingOption, Reviews } from 'src/types/types';
 
 export function calcGeoDistance(
   coordinate1: Location,
@@ -75,18 +75,6 @@ export function getNearbyOffers(offers: Offers, offer: Offer, limitCount: number
 
 export function getUniqueItems<T>(arr: Array<T>): Array<T> {
   return [...new Set(arr)];
-}
-
-export function getOfferById(offers: Offers, id: OfferId | null): Offer | null {
-  if (id === null) {
-    return null;
-  }
-
-  const foundOffers = offers.filter(
-    (offer) => offer.id === id
-  );
-  const [ foundOffer ] = foundOffers;
-  return foundOffer || null;
 }
 
 export function filterOffersByCityName(offers: Offers, cityName: string): Offers {
