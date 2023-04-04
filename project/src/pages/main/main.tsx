@@ -1,13 +1,14 @@
 import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { changeCity } from 'src/store/action';
 import CitiesList from 'src/components/cities-list/cities-list';
 import GeoMap from 'src/components/geo-map/geo-map';
 import EmptyOffer from 'src/components/empty-offer/empty-offer';
 import OfferCards from 'src/components/offer-сards/offer-cards';
 import OfferSortingForm from 'src/components/offer-sorting-form/offer-sorting-form';
 import { CityNames, Offer } from 'src/types/types';
-import { useAppDispatch, useAppSelector } from 'src/hooks';
-import { changeCity } from 'src/store/action';
 import { filterOffersByCityName, getMultipleOfPlaceWord, sortOffers } from 'src/utils/utils';
+import { Spinner } from 'src/components/spinner/spinner';
 import { DEFAULT_OFFER_SORTING_KEY_NAME } from 'src/consts/consts';
 import { OfferSortingOption } from 'src/types/types';
 
@@ -23,8 +24,10 @@ function Main(props: MainProps) {
   const [ sortingType, setSortingType ] = useState<OfferSortingOption>(DEFAULT_OFFER_SORTING_KEY_NAME);
   const currentCityName = useAppSelector((state) => state.cityName);
   const allOffers = useAppSelector((state) => state.offers);
-  const offers = filterOffersByCityName(allOffers, currentCityName);
+  const isFetchedOffers = useAppSelector((state) => state.isFetchedOffers);
   const dispatch = useAppDispatch();
+  const isFetchingOffers = useAppSelector((state) => state.isFetchingOffers);
+  const offers = filterOffersByCityName(allOffers, currentCityName);
 
   const mainTagAdditionalClassName = offers.length === 0 ?
     'page__main--index-empty' :
@@ -33,6 +36,7 @@ function Main(props: MainProps) {
   return (
     <div className="page page--gray page--main">
       {props.headerBlock}
+
       <main className={`page__main page__main--index ${mainTagAdditionalClassName}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
@@ -46,8 +50,19 @@ function Main(props: MainProps) {
         </div>
 
         {
-          !offers.length ?
+          !offers.length && isFetchedOffers ?
             <EmptyOffer cityName={currentCityName} /> :
+            null
+        }
+
+        {
+          !offers.length && isFetchingOffers ?
+            <Spinner text={'Offers are loading...'} /> :
+            null
+        }
+
+        {
+          offers.length > 0 ?
             <div className="cities">
               <div className="cities__places-container container">
                 <OfferCards
@@ -79,6 +94,8 @@ function Main(props: MainProps) {
                 </div>
               </div>
             </div>
+            :
+            null
         }
       </main>
     </div>
