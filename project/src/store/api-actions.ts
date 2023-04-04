@@ -78,3 +78,17 @@ export const logUserIn = createAsyncThunk<void, UserAuthorizationData, {
     }
   },
 );
+
+export const logoutUser = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: AppState;
+  extra: AxiosInstance;
+}>(
+  'user/logout',
+  async (_arg, { dispatch, extra: api }) => {
+    setToken('');
+    dispatch(setAuthorizationStatus(AuthorizationStatus.NotAuthorized));
+    dispatch(setUserLogin(''));
+    await api.delete<Token>(APIRoute.Logout);
+  }
+);
