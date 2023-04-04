@@ -1,11 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { INITIAL_CITY_NAME } from 'src/consts/consts';
-import { changeCity,setOffers, setIsFetchingOffers, setReviews, setIsFetchingReviews } from './action';
+import { changeCity,setOffers, setIsFetchingOffers, setReviews, setIsFetchingReviews, setIsFetchedOffers } from './action';
 import { Offers, Reviews } from 'src/types/types';
 
 const initialState = {
   cityName: INITIAL_CITY_NAME,
   isFetchingOffers: false,
+  isFetchedOffers: false,
   isFetchingReviews: false,
   offers: [] as Offers,
   reviews: [] as Reviews,
@@ -30,6 +31,10 @@ export const reducer = createReducer(initialState, (builder) => {
 
     .addCase(setIsFetchingOffers, (state, action) => {
       state.isFetchingOffers = action.payload;
+    })
+
+    .addCase(setIsFetchedOffers, (state, action) => {
+      state.isFetchedOffers = action.payload;
     })
 
     .addCase(setIsFetchingReviews, (state, action) => {

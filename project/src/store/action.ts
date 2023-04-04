@@ -7,5 +7,6 @@ export const setOffers = createAction<Offers>('offers/set');
 export const setReviews = createAction<Reviews>('reviews/set');
 
 export const setIsFetchingOffers = createAction<boolean>('data/setIsFetchingOffers');
+export const setIsFetchedOffers = createAction<boolean>('data/setIsFetchedOffers');
 export const setIsFetchingReviews = createAction<boolean>('data/setIsFetchinReviews');
 // TODO rename file to 'actions.ts' ?

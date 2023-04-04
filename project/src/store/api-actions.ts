@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, AppState } from 'src/types/state';
-import { setIsFetchingOffers, setOffers, setIsFetchingReviews, setReviews } from 'src/store/action';
+import { setIsFetchingOffers, setOffers, setIsFetchingReviews, setReviews, setIsFetchedOffers } from 'src/store/action';
 import { APIRoute } from 'src/consts/api';
 import { Offer, Offers, Reviews } from 'src/types/types';
 import { store } from '.';
@@ -17,6 +17,7 @@ export const fetchOffers = createAsyncThunk<void, undefined, {
     try {
       const { data: offers } = await api.get<Offers>(APIRoute.Offers);
       dispatch(setOffers(offers));
+      dispatch(setIsFetchedOffers(true));
     } finally {
       dispatch(setIsFetchingOffers(false));
     }
