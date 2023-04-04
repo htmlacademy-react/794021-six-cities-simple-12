@@ -12,7 +12,7 @@ export const TOKEN_HEADER_NAME = 'X-Token';
 export const REQUEST_TIMEOUT = 5000;
 
 export enum AuthorizationStatus {
-  Authorized = 'AUTH',
+  Authorized = 'AUTHORIZED',
   NotAuthorized = 'NOT_AUTHORIZED',
   Unknown = 'UNKNOWN',
 }
