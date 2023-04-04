@@ -17,7 +17,7 @@ export type Offer = {
   type: string;
 }
 
-export type OfferId = number;
+export type OfferId = number
 export type Offers = Offer[]
 
 export type City = {
