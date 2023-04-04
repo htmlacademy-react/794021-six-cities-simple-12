@@ -40,7 +40,7 @@ function Room({ headerBlock, offerId, isUserLoggedIn }: RoomProps): JSX.Element 
 
   }, [isFetchingOffersFinished, offer]);
 
-  if (!offer) {
+  if (!offer) { // TODO change to spinner
     return (
       <h1>Loading...</h1>
     );
