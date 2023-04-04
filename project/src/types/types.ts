@@ -71,6 +71,4 @@ export type Review = {
 
 export type Reviews = Review[]
 
-export type GetNearbyOffers = (id: number) => Offers;
-
 export type OfferSortingOption = keyof typeof OfferSortingVariant;
