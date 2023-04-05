@@ -58,7 +58,7 @@ export const logUserIn = createAsyncThunk<void, UserAuthorizationData, {
   state: AppState;
   extra: AxiosInstance;
 }>(
-  'user/login',
+  'user/logIn',
   async (authData, { dispatch, extra: api }) => {
     if (store.getState().isUserLoggingIn) {
       return;
