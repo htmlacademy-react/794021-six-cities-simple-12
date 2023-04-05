@@ -4,7 +4,7 @@ import { store } from 'src/store';
 import {
   setIsFetchingOffers, setOffers, setIsFetchedOffers,
   setIsFetchingReviews, setReviews,
-  setIsUserLoggingIn, setAuthorizationStatus, setUserLogin,
+  setIsUserLoggingIn, setAuthorizationStatus, setUserLogin, setUserAvatarUrl,
 } from 'src/store/action';
 import { Token, dropToken, setToken } from 'src/services/token';
 import { APIRoute, AuthorizationStatus } from 'src/consts/api';
@@ -67,6 +67,7 @@ export const logUserIn = createAsyncThunk<void, UserAuthorizationData, {
       return;
     }
     dispatch(setIsUserLoggingIn(true));
+    dispatch(setUserLogin(authData.email));
     try {
       const { data } = await api.post<UserData>(
         APIRoute.Login,
@@ -74,11 +75,11 @@ export const logUserIn = createAsyncThunk<void, UserAuthorizationData, {
       );
       setToken(data.token);
       dispatch(setAuthorizationStatus(AuthorizationStatus.Authorized));
-      dispatch(setUserLogin(data.email)); // TODO add avatar url
+      dispatch(setUserLogin(data.email));
+      dispatch(setUserAvatarUrl(data.avatarUrl));
     } catch (_err) {
       dispatch(setAuthorizationStatus(AuthorizationStatus.NotAuthorized));
     } finally {
-      dispatch(setUserLogin(authData.email));
       dispatch(setIsUserLoggingIn(false));
     }
   },
@@ -113,7 +114,8 @@ export const checkIfUserAuthorized = createAsyncThunk<void, void, {
       const { data } = await api.get<UserData>(AppRoute.Login);
       setToken(data.token);
       dispatch(setAuthorizationStatus(AuthorizationStatus.Authorized));
-      dispatch(setUserLogin(data.email)); // TODO add avatar url
+      dispatch(setUserLogin(data.email));
+      dispatch(setUserAvatarUrl(data.avatarUrl));
     } catch (_err) {
       dispatch(setAuthorizationStatus(AuthorizationStatus.NotAuthorized));
     } finally {

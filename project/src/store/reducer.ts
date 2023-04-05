@@ -3,7 +3,7 @@ import {
   setCity,
   setOffers, setIsFetchingOffers, setIsFetchedOffers,
   setReviews, setIsFetchingReviews,
-  setAuthorizationStatus, setUserLogin, setIsUserLoggingIn,
+  setAuthorizationStatus, setUserLogin, setIsUserLoggingIn, setUserAvatarUrl,
 } from 'src/store/action';
 import { INITIAL_CITY_NAME } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
@@ -18,6 +18,7 @@ const initialState = {
   isUserLoggingIn: false,
   offers: [] as Offers,
   reviews: [] as Reviews,
+  userAvatarUrl: '' as string,
   userLogin: '' as UserLogin,
 };
 
@@ -60,6 +61,10 @@ export const reducer = createReducer(initialState, (builder) => {
 
     .addCase(setIsUserLoggingIn, (state, action) => {
       state.isUserLoggingIn = action.payload;
+    })
+
+    .addCase(setUserAvatarUrl, (state, { payload }) => {
+      state.userAvatarUrl = payload;
     });
 });
 

@@ -16,4 +16,5 @@ export const setAuthorizationStatus =
 
 export const setIsUserLoggingIn = createAction<boolean>('user/setIsLoggingIn');
 export const setUserLogin = createAction<string>('user/setLogin');
+export const setUserAvatarUrl = createAction<string>('user/setAvatarUrl');
 // TODO rename file to 'actions.ts' ?
