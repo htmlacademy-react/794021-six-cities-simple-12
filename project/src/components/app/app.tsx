@@ -20,9 +20,16 @@ type AppProps = {
 function App(props: AppProps): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isFetchedOffers = useAppSelector((state) => state.isFetchedOffers);
+  const userLogin = useAppSelector((state) => state.userLogin);
   const dispatch = useAppDispatch();
 
-  const headerBlock = <Header />;
+  const headerBlock = (
+    <Header
+      isAuthorized={authorizationStatus === AuthorizationStatus.Authorized}
+      isNotAuthorized={authorizationStatus === AuthorizationStatus.NotAuthorized}
+      userLogin={userLogin}
+    />
+  );
   authorizationStatus === AuthorizationStatus.Unknown && dispatch(checkIfUserAuthorized());
   !isFetchedOffers && dispatch(fetchOffers());
 
