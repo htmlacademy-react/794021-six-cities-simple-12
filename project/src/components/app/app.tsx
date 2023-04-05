@@ -12,6 +12,7 @@ import { scrollToTop } from 'src/utils/utils';
 import { CityNames } from 'src/types/types';
 import { AppRoute } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
+import { useEffect } from 'react';
 
 type AppProps = {
   cityNames: CityNames;
@@ -23,15 +24,20 @@ function App(props: AppProps): JSX.Element {
   const userLogin = useAppSelector((state) => state.userLogin);
   const dispatch = useAppDispatch();
 
-  const headerBlock = (
-    <Header
-      isAuthorized={authorizationStatus === AuthorizationStatus.Authorized}
-      isNotAuthorized={authorizationStatus === AuthorizationStatus.NotAuthorized}
-      userLogin={userLogin}
-    />
-  );
-  authorizationStatus === AuthorizationStatus.Unknown && dispatch(checkIfUserAuthorized());
-  !isFetchedOffers && dispatch(fetchOffers());
+  const headerBlock = !authorizationStatus ?
+    (
+      <Header
+        isAuthorized={authorizationStatus === AuthorizationStatus.Authorized}
+        isNotAuthorized={authorizationStatus === AuthorizationStatus.NotAuthorized}
+        userLogin={userLogin}
+      />
+    ) :
+    <div></div>;
+
+  useEffect(() => {
+    authorizationStatus === AuthorizationStatus.Unknown && dispatch(checkIfUserAuthorized());
+    !isFetchedOffers && dispatch(fetchOffers());
+  }, [authorizationStatus, dispatch, isFetchedOffers]);
 
   return (
     <BrowserRouter>
