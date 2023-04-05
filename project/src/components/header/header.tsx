@@ -8,12 +8,14 @@ import { logUserOut } from 'src/store/api-actions';
 type HeaderProps = {
   isAuthorized: boolean;
   isNotAuthorized: boolean;
+  userAvatarUrl: string;
   userLogin: string;
 }
 
 function Header(props: HeaderProps): JSX.Element {
   const dispatch = useAppDispatch();
   const { pathname: locationPathname } = useLocation();
+  const avatarCssStyle = { backgroundImage: `url(${props.userAvatarUrl})` };
 
   let href = '';
   let signInOutClassName = '';
@@ -60,7 +62,7 @@ function Header(props: HeaderProps): JSX.Element {
                     props.isAuthorized &&
                     <li className="header__nav-item user">
                       <div className="header__nav-profile">
-                        <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                        <div className="header__avatar-wrapper user__avatar-wrapper" style={avatarCssStyle}></div>
                         <span className="header__user-name user__name">{props.userLogin}</span>
                       </div>
                     </li>

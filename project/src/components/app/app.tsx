@@ -22,6 +22,7 @@ function App(props: AppProps): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isFetchedOffers = useAppSelector((state) => state.isFetchedOffers);
   const userLogin = useAppSelector((state) => state.userLogin);
+  const userAvatarUrl = useAppSelector((state) => state.userAvatarUrl);
   const dispatch = useAppDispatch();
 
   const headerBlock = (
@@ -29,6 +30,7 @@ function App(props: AppProps): JSX.Element {
       isAuthorized={authorizationStatus === AuthorizationStatus.Authorized}
       isNotAuthorized={authorizationStatus === AuthorizationStatus.NotAuthorized}
       userLogin={userLogin}
+      userAvatarUrl={userAvatarUrl}
     />
   );
 
