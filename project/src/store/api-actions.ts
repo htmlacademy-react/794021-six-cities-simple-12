@@ -20,6 +20,9 @@ export const fetchOffers = createAsyncThunk<void, undefined, {
 }>(
   'data/fetchQuestions',
   async (_arg, { dispatch, extra: api }) => {
+    if (store.getState().isFetchingOffers) {
+      return;
+    }
     dispatch(setIsFetchingOffers(true));
     try {
       const { data: offers } = await api.get<Offers>(APIRoute.Offers);
