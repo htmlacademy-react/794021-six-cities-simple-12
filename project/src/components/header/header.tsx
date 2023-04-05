@@ -15,9 +15,9 @@ function Header(props: HeaderProps): JSX.Element {
   const dispatch = useAppDispatch();
   const { pathname: locationPathname } = useLocation();
 
-  let href: string;
-  let signInOutClassName: string;
-  let linkText: string;
+  let href = '';
+  let signInOutClassName = '';
+  let linkText = '';
 
   if (props.isAuthorized) {
     signInOutClassName = 'header__signout';
@@ -27,10 +27,6 @@ function Header(props: HeaderProps): JSX.Element {
     signInOutClassName = 'header__login';
     linkText = 'Sign in';
     href = AppRoute.Login;
-  } else {
-    signInOutClassName = '';
-    linkText = '';
-    href = '';
   }
 
   const linkClassName = isCurrentPage(locationPathname, AppRoute.Root) ?
