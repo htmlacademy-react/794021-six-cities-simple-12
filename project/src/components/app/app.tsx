@@ -24,15 +24,13 @@ function App(props: AppProps): JSX.Element {
   const userLogin = useAppSelector((state) => state.userLogin);
   const dispatch = useAppDispatch();
 
-  const headerBlock = !authorizationStatus ?
-    (
-      <Header
-        isAuthorized={authorizationStatus === AuthorizationStatus.Authorized}
-        isNotAuthorized={authorizationStatus === AuthorizationStatus.NotAuthorized}
-        userLogin={userLogin}
-      />
-    ) :
-    <div></div>;
+  const headerBlock = (
+    <Header
+      isAuthorized={authorizationStatus === AuthorizationStatus.Authorized}
+      isNotAuthorized={authorizationStatus === AuthorizationStatus.NotAuthorized}
+      userLogin={userLogin}
+    />
+  );
 
   useEffect(() => {
     authorizationStatus === AuthorizationStatus.Unknown && dispatch(checkIfUserAuthorized());
