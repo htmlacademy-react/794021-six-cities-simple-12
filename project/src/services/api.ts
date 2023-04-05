@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { toast } from 'react-toastify';
 import { BACKEND_URL, REQUEST_TIMEOUT } from 'src/consts/api';
 import { getToken } from 'src/services/token';
 
@@ -32,7 +31,8 @@ export const createAPI = (): AxiosInstance => {
 
     (error: AxiosError<{error: string}>) => {
       if (error.response) {
-        toast.warn(error.response.data.error);
+        // eslint-disable-next-line no-console
+        console.log(error.response.data.error);
       }
       throw error;
     },

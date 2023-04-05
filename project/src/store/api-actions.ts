@@ -72,7 +72,7 @@ export const logUserIn = createAsyncThunk<void, UserAuthorizationData, {
       setToken(data.token);
       dispatch(setAuthorizationStatus(AuthorizationStatus.Authorized));
       dispatch(setUserLogin(data.email)); // TODO add avatar url
-    } catch (_) {
+    } catch (_err) {
       dispatch(setAuthorizationStatus(AuthorizationStatus.NotAuthorized));
     } finally {
       dispatch(setUserLogin(authData.email));
@@ -102,6 +102,10 @@ export const checkIfUserAuthorized = createAsyncThunk<void, void, {
 }>(
   'user/checkIfAuthorized',
   async (_arg, { dispatch, extra: api }) => {
+    if (store.getState().isUserLoggingIn) {
+      return;
+    }
+    dispatch(setIsUserLoggingIn(true));
     try {
       const { data } = await api.get<UserData>(AppRoute.Login);
       setToken(data.token);
@@ -109,6 +113,8 @@ export const checkIfUserAuthorized = createAsyncThunk<void, void, {
       dispatch(setUserLogin(data.email)); // TODO add avatar url
     } catch (_err) {
       dispatch(setAuthorizationStatus(AuthorizationStatus.NotAuthorized));
+    } finally {
+      dispatch(setIsUserLoggingIn(false));
     }
   }
 );
