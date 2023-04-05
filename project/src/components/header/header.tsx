@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { isCurrentPage } from 'src/utils/utils';
 import { AppRoute } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
-import { logoutUser } from 'src/store/api-actions';
+import { logUserOut } from 'src/store/api-actions';
 
 function HeaderMain(): JSX.Element {
   const { pathname: currentPath } = useLocation();
@@ -23,7 +23,7 @@ function HeaderMain(): JSX.Element {
     }
 
     evt.preventDefault();
-    dispatch(logoutUser());
+    dispatch(logUserOut());
   };
 
   return (

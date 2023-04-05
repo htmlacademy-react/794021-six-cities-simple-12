@@ -79,7 +79,7 @@ export const logUserIn = createAsyncThunk<void, UserAuthorizationData, {
   },
 );
 
-export const logoutUser = createAsyncThunk<void, undefined, {
+export const logUserOut = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: AppState;
   extra: AxiosInstance;
