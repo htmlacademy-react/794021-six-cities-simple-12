@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { fetchOffers } from 'src/store/api-actions';
+import { checkIfUserAuthorized, fetchOffers } from 'src/store/api-actions';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import Main from 'src/pages/main/main';
 import Login from 'src/pages/login/login';
@@ -11,17 +11,19 @@ import PathnameChangeEffectExecutor from
 import { scrollToTop } from 'src/utils/utils';
 import { CityNames } from 'src/types/types';
 import { AppRoute } from 'src/consts/consts';
+import { AuthorizationStatus } from 'src/consts/api';
 
 type AppProps = {
   cityNames: CityNames;
 };
 
 function App(props: AppProps): JSX.Element {
-  const userLogin = useAppSelector((state) => state.userLogin);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isFetchedOffers = useAppSelector((state) => state.isFetchedOffers);
   const dispatch = useAppDispatch();
 
   const headerBlock = <Header />;
+  authorizationStatus === AuthorizationStatus.Unknown && dispatch(checkIfUserAuthorized());
   !isFetchedOffers && dispatch(fetchOffers());
 
   return (
@@ -36,7 +38,7 @@ function App(props: AppProps): JSX.Element {
             element={
               <RoomWrapper
                 headerBlock={headerBlock}
-                isUserLoggedIn={!!userLogin}
+                isUserLoggedIn={authorizationStatus !== AuthorizationStatus.NotAuthorized}
               />
             }
           />

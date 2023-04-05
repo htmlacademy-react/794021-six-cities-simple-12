@@ -10,6 +10,7 @@ import { logUserOut } from 'src/store/api-actions';
 
 function HeaderMain(): JSX.Element {
   const { pathname: currentPath } = useLocation();
+  // TODO: coponents must not ask for state! Only Pages may. Move to Page or App
   const userLogin = useAppSelector((state) => state.userLogin);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const dispatch = useAppDispatch();

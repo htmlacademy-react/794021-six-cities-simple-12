@@ -8,9 +8,10 @@ import {
 } from 'src/store/action';
 import { Token, setToken } from 'src/services/token';
 import { APIRoute, AuthorizationStatus } from 'src/consts/api';
+import { AppRoute } from 'src/consts/consts';
 import { AppDispatch, AppState } from 'src/types/state';
 import { Offer, Offers, Reviews } from 'src/types/types';
-import { UserAuthorizationData } from 'src/types/api';
+import { UserAuthorizationData, UserData } from 'src/types/api';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -64,13 +65,14 @@ export const logUserIn = createAsyncThunk<void, UserAuthorizationData, {
     }
     dispatch(setIsUserLoggingIn(true));
     try {
-      const { data: token } = await api.post<Token>(
+      const { data } = await api.post<UserData>(
         APIRoute.Login,
         authData,
       );
-      setToken(token);
+      setToken(data.token);
       dispatch(setAuthorizationStatus(AuthorizationStatus.Authorized));
-    } catch {
+      dispatch(setUserLogin(data.email)); // TODO add avatar url
+    } catch (_) {
       dispatch(setAuthorizationStatus(AuthorizationStatus.NotAuthorized));
     } finally {
       dispatch(setUserLogin(authData.email));
@@ -90,5 +92,23 @@ export const logUserOut = createAsyncThunk<void, undefined, {
     dispatch(setAuthorizationStatus(AuthorizationStatus.NotAuthorized));
     dispatch(setUserLogin(''));
     await api.delete<Token>(APIRoute.Logout);
+  }
+);
+
+export const checkIfUserAuthorized = createAsyncThunk<void, void, {
+  dispatch: AppDispatch;
+  state: AppState;
+  extra: AxiosInstance;
+}>(
+  'user/checkIfAuthorized',
+  async (_arg, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<UserData>(AppRoute.Login);
+      setToken(data.token);
+      dispatch(setAuthorizationStatus(AuthorizationStatus.Authorized));
+      dispatch(setUserLogin(data.email)); // TODO add avatar url
+    } catch (_err) {
+      dispatch(setAuthorizationStatus(AuthorizationStatus.NotAuthorized));
+    }
   }
 );
