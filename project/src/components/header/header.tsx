@@ -71,7 +71,7 @@ function Header(props: HeaderProps): JSX.Element {
                   }
 
                   <li className="header__nav-item">
-                    <Link className="header__nav-link" to={href} onClick={props.isNotAuthorized ? handleOnClick : undefined}>
+                    <Link className="header__nav-link" to={href} onClick={props.isAuthorized ? handleOnClick : undefined}>
                       {
                         !props.isAuthorized ?
                           null :
