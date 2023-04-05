@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
-import { changeCity } from 'src/store/action';
+import { setCity } from 'src/store/action';
 import CitiesList from 'src/components/cities-list/cities-list';
 import GeoMap from 'src/components/geo-map/geo-map';
 import EmptyOffer from 'src/components/empty-offer/empty-offer';
@@ -44,7 +44,7 @@ function Main(props: MainProps) {
             <CitiesList
               cityNames={props.cityNames}
               currentCityName={currentCityName}
-              onChangeCityName={(cityName) => dispatch(changeCity(cityName))}
+              onChangeCityName={(cityName) => dispatch(setCity(cityName))}
             />
           </section>
         </div>

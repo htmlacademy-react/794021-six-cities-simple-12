@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from 'src/consts/api';
 import { CityName, Offers, Reviews } from 'src/types/types';
 
-export const changeCity = createAction<CityName>('city/change');
+export const setCity = createAction<CityName>('city/set');
 
 export const setOffers = createAction<Offers>('offers/set');
 export const setReviews = createAction<Reviews>('reviews/set');
