@@ -6,7 +6,7 @@ import {
   setIsFetchingReviews, setReviews,
   setIsUserLoggingIn, setAuthorizationStatus, setUserLogin,
 } from 'src/store/action';
-import { Token, setToken } from 'src/services/token';
+import { Token, dropToken, setToken } from 'src/services/token';
 import { APIRoute, AuthorizationStatus } from 'src/consts/api';
 import { AppRoute } from 'src/consts/consts';
 import { AppDispatch, AppState } from 'src/types/state';
@@ -86,9 +86,9 @@ export const logUserOut = createAsyncThunk<void, undefined, {
   state: AppState;
   extra: AxiosInstance;
 }>(
-  'user/logout',
+  'user/logOut',
   async (_arg, { dispatch, extra: api }) => {
-    setToken('');
+    dropToken();
     dispatch(setAuthorizationStatus(AuthorizationStatus.NotAuthorized));
     dispatch(setUserLogin(''));
     await api.delete<Token>(APIRoute.Logout);
