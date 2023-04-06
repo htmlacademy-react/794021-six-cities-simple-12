@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import OfferCards from 'src/components/offer-сards/offer-cards';
 import RoomDescription from 'src/components/room-description/room-description';
 import RoomGallery from 'src/components/room-gallery/room-gallery';
@@ -6,21 +6,30 @@ import RoomHardwareFeatures from 'src/components/room-hardware-features/room-har
 import RoomHost from 'src/components/room-host/room-host';
 import RoomReviews from 'src/components/room-reviews/room-reviews';
 import GeoMap from 'src/components/geo-map/geo-map';
-import { Offer, Offers, Reviews, } from 'src/types/types';
+import { Offer } from 'src/types/types';
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
+import { NEARBY_OFFERS_LIMIT_COUNT } from 'src/consts/consts';
+import { useNearbyOffers } from 'src/hooks/use-nearby-offers';
+import { useOfferReviews } from 'src/hooks/use-offer-reviews';
+import { fetchReviwes } from 'src/store/api-actions';
+import { store } from 'src/store';
 
 type ActiveOffer = Offer | null;
 
 type RoomProps = {
   headerBlock?: JSX.Element;
-  nearbyOffers: Offers;
   offer: Offer;
-  reviews: Reviews;
   isUserLoggedIn: boolean;
 }
 
-function Room({ headerBlock, nearbyOffers, offer, reviews, isUserLoggedIn }: RoomProps): JSX.Element {
+function Room({ headerBlock, offer, isUserLoggedIn }: RoomProps): JSX.Element {
   const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
+  const nearbyOffers = useNearbyOffers(offer, NEARBY_OFFERS_LIMIT_COUNT);
+  const reviews = useOfferReviews(offer);
+
+  useEffect(() => {
+    store.dispatch(fetchReviwes(offer));
+  }, [ offer ]);
 
   return (
     <div className="page">
@@ -65,7 +74,7 @@ function Room({ headerBlock, nearbyOffers, offer, reviews, isUserLoggedIn }: Roo
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <RoomHardwareFeatures goods={offer.goods}/>
-
+              {/*  move whole following block to <Host>? */}
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <RoomHost host={offer.host} />

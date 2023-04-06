@@ -9,7 +9,7 @@ export type Offer = {
   id: OfferId;
   isPremium: boolean;
   images: Images;
-  location: Location;
+  location: OfferLocation;
   maxAdults: number;
   price: number;
   rating: number;
@@ -17,11 +17,11 @@ export type Offer = {
   type: string;
 }
 
-export type OfferId = number;
+export type OfferId = number
 export type Offers = Offer[]
 
 export type City = {
-  location: Location;
+  location: OfferLocation;
   name: CityName;
 }
 
@@ -38,10 +38,15 @@ export type HardwareFeature = string
 export type Location = {
   latitude: number;
   longitude: number;
+}
+
+export type OfferLocation = { // TODO get from Location type!
+  latitude: number;
+  longitude: number;
   zoom: number;
 }
 
-export type Locations = Location[]
+export type OfferLocations = OfferLocation[]
 
 export type User = {
   avatarUrl: string;
@@ -54,6 +59,7 @@ export type OfferHost = User
 export type Reviewer = User
 
 export type UserLogin = string | null
+export type UserPassword = string | null
 
 export type Review = {
   comment: string;

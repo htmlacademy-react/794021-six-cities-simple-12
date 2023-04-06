@@ -54,3 +54,5 @@ export const OfferSortingVariant = {
 } as const;
 
 export const DEFAULT_OFFER_SORTING_KEY_NAME = OfferSortingVariant.popular.id;
+
+export const NEARBY_OFFERS_LIMIT_COUNT = 3 as const;

@@ -1,4 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { fetchOffers } from 'src/store/api-actions';
+import { useAppDispatch } from 'src/hooks';
 import Main from 'src/pages/main/main';
 import Login from 'src/pages/login/login';
 import Header from 'src/components/header/header';
@@ -7,16 +9,11 @@ import NotFound from 'src/components/not-found/not-found';
 import PathnameChangeEffectExecutor from
   'src/components/pathname-change-effect-executor/pathname-change-effect-executor';
 import { scrollToTop } from 'src/utils/utils';
-import { CityNames, GetNearbyOffers, Reviews, UserLogin } from 'src/types/types';
+import { CityNames, UserLogin } from 'src/types/types';
 import { AppRoute } from 'src/consts/consts';
-import { useAppDispatch } from 'src/hooks';
-import { setOffers } from 'src/store/action';
-import { offers } from 'src/mocks/offers';
 
 type AppProps = {
   cityNames: CityNames;
-  getNearbyOffers: GetNearbyOffers;
-  reviews: Reviews;
   userLogin: UserLogin;
 };
 
@@ -24,7 +21,7 @@ function App(props: AppProps): JSX.Element {
   const headerBlock = <Header userLogin={props.userLogin} />;
 
   const dispatch = useAppDispatch();
-  dispatch(setOffers(offers));
+  dispatch(fetchOffers());
 
   return (
     <BrowserRouter>
@@ -37,9 +34,7 @@ function App(props: AppProps): JSX.Element {
             path={AppRoute.Offer}
             element={
               <RoomWrapper
-                getNearbyOffers={props.getNearbyOffers}
                 headerBlock={headerBlock}
-                reviews={props.reviews}
                 isUserLoggedIn={props.userLogin !== undefined}
               />
             }

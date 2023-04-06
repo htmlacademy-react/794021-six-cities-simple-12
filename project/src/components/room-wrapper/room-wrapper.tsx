@@ -1,54 +1,33 @@
-import {
-  GetNearbyOffers, Offer, OfferId, Offers, Reviews,
-} from 'src/types/types';
-import { Navigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import Room from 'src/pages/room/room';
-import { useAppSelector } from 'src/hooks';
 import { parseInteger } from 'src/utils/utils';
 import { AppRoute } from 'src/consts/consts';
+import { store } from 'src/store';
+
 
 type RoomWrapperProps = {
-  getNearbyOffers: GetNearbyOffers;
   headerBlock?: JSX.Element;
-  reviews: Reviews;
   isUserLoggedIn: boolean;
 }
 
 function RoomWrapper(props: RoomWrapperProps): JSX.Element | null {
   const { id: offerId } = useParams();
   const offerIdAsInt = parseInteger(offerId);
-  const offers = useAppSelector((state) => state.offers);
-  const foundOffer = getOfferById(offers, offerIdAsInt);
 
-  if (foundOffer === undefined) {
+  const { offers: allOffers } = store.getState();
+  const offer = allOffers.find(({ id }) => id === offerIdAsInt) ?? null;
+
+  if (offerIdAsInt === undefined || offerIdAsInt === null || !offer) {
     return <Navigate to={AppRoute.NotFound} />;
   }
 
-  const offerReviews = getReviewsById(props.reviews, foundOffer.id);
-  const nearbyOffers = props.getNearbyOffers(foundOffer.id);
-
   return (
     <Room
+      offer={offer}
       headerBlock={props.headerBlock}
-      nearbyOffers={nearbyOffers}
-      offer={foundOffer}
-      reviews={offerReviews}
       isUserLoggedIn={props.isUserLoggedIn}
     />
   );
-}
-
-function getOfferById(offers: Offers, id: OfferId): Offer | undefined {
-  const foundOffers = offers.filter(
-    (offer) => offer.id === id
-  );
-  const [ foundOffer ] = foundOffers;
-  return foundOffer;
-}
-
-function getReviewsById(reviews: Reviews, id: OfferId): Reviews {
-  return reviews.filter((review) => review.id === id);
 }
 
 export default RoomWrapper;

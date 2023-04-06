@@ -1,0 +1,20 @@
+.block {
+  align-items: center;
+  background-color: rgb(255, 255, 255 / 50%);
+  bottom: 0;
+  border: 1px brown solid;
+  border-radius: 1em;
+  color: black;
+  display: flex;
+  font-size: 3rem;
+  justify-content: center;
+  left: 50%;
+  min-height: 50vh;
+  min-width: 80vw;
+  position: absolute;
+  padding: 2rem;
+  right: 0;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}

@@ -13,8 +13,9 @@ type GeoMapProps = {
 
 function GeoMap(props: GeoMapProps): JSX.Element {
   const nodeRef = useRef<HTMLElement | null>(null);
-  const [{ city: currentCity }] = props.offers;
-  const geoMap = useGeoMap(nodeRef, currentCity);
+  const [ firstOffer ] = props.offers;
+  const city = firstOffer?.city ?? null;
+  const geoMap = useGeoMap(nodeRef, city);
   useGeoMapPins(geoMap, props.offers, props.activeOffer);
 
   return (
