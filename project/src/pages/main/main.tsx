@@ -3,14 +3,14 @@ import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { setCity } from 'src/store/action';
 import CitiesList from 'src/components/cities-list/cities-list';
 import GeoMap from 'src/components/geo-map/geo-map';
-import EmptyOffer from 'src/components/empty-offer/empty-offer';
 import OfferCards from 'src/components/offer-сards/offer-cards';
 import OfferSortingForm from 'src/components/offer-sorting-form/offer-sorting-form';
 import { CityNames, Offer } from 'src/types/types';
-import { filterOffersByCityName, getMultipleOfPlaceWord, sortOffers } from 'src/utils/utils';
+import { getMultipleOfPlaceWord, sortOffers } from 'src/utils/utils';
 import { Spinner } from 'src/components/spinner/spinner';
 import { DEFAULT_OFFER_SORTING_KEY_NAME } from 'src/consts/consts';
 import { OfferSortingOption } from 'src/types/types';
+import { useFoundOffers } from 'src/hooks/use-found-offers';
 
 type ActiveOffer = Offer | null;
 
@@ -23,11 +23,8 @@ function Main(props: MainProps) {
   const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
   const [ sortingType, setSortingType ] = useState<OfferSortingOption>(DEFAULT_OFFER_SORTING_KEY_NAME);
   const currentCityName = useAppSelector((state) => state.cityName);
-  const allOffers = useAppSelector((state) => state.offers);
-  const isFetchedOffers = useAppSelector((state) => state.isFetchedOffers);
   const dispatch = useAppDispatch();
-  const isFetchingOffers = useAppSelector((state) => state.isFetchingOffers);
-  const offers = filterOffersByCityName(allOffers, currentCityName);
+  const offers = useFoundOffers(currentCityName);
 
   const mainTagAdditionalClassName = offers.length === 0 ?
     'page__main--index-empty' :
@@ -50,14 +47,8 @@ function Main(props: MainProps) {
         </div>
 
         {
-          !offers.length && isFetchedOffers ?
-            <EmptyOffer cityName={currentCityName} /> :
-            null
-        }
-
-        {
-          !offers.length && isFetchingOffers ?
-            <Spinner text={'Offers are loading...'} /> :
+          !offers.length ?
+            <Spinner text={'Offers are loading ...'} /> :
             null
         }
 
