@@ -18,7 +18,7 @@ export const fetchOffers = createAsyncThunk<void, undefined, {
   state: AppState;
   extra: AxiosInstance;
 }>(
-  'data/fetchQuestions',
+  'data/fetchOffers',
   async (_arg, { dispatch, extra: api }) => {
     if (store.getState().isFetchingOffers) {
       return;
@@ -123,3 +123,4 @@ export const checkIfUserAuthorized = createAsyncThunk<void, void, {
     }
   }
 );
+
