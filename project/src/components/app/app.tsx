@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { checkIfUserAuthorized, fetchOffers } from 'src/store/api-actions';
+import { checkIfUserAuthorized } from 'src/store/api-actions';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import Main from 'src/pages/main/main';
 import Login from 'src/pages/login/login';
@@ -20,7 +20,6 @@ type AppProps = {
 
 function App(props: AppProps): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isFetchedOffers = useAppSelector((state) => state.isFetchedOffers);
   const userLogin = useAppSelector((state) => state.userLogin);
   const userAvatarUrl = useAppSelector((state) => state.userAvatarUrl);
   const dispatch = useAppDispatch();
@@ -36,8 +35,7 @@ function App(props: AppProps): JSX.Element {
 
   useEffect(() => {
     authorizationStatus === AuthorizationStatus.Unknown && dispatch(checkIfUserAuthorized());
-    !isFetchedOffers && dispatch(fetchOffers());
-  }, [authorizationStatus, dispatch, isFetchedOffers]);
+  }, [authorizationStatus, dispatch]);
 
   return (
     <BrowserRouter>
