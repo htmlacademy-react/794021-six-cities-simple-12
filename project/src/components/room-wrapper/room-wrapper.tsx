@@ -18,7 +18,7 @@ function RoomWrapper(props: RoomWrapperProps): JSX.Element {
   }
 
   if (!offer) {
-    return <Spinner text={'Loading offers...'} />;
+    return <Spinner text={'Loading offer ...'} />;
   }
 
   return (

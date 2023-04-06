@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { parseInteger } from 'src/utils/utils';
 import { Offer } from 'src/types/types';
 import { useAppSelector } from '.';
+import { store } from 'src/store';
+import { fetchOffer } from 'src/store/api-actions';
 
 type UseFoundOfferResult = {
   isNotFound: boolean;
@@ -11,22 +13,30 @@ type UseFoundOfferResult = {
 export function useFoundOffer(idAsString: string): UseFoundOfferResult {
   const offerIdAsInt = parseInteger(idAsString);
   const [ isNotFound, setIsNotFound ] = useState<boolean>(isNaN(offerIdAsInt));
-  const [ offer, setOffer ] = useState<Offer | null>(null);
+  const [ foundOffer, setFoundOffer ] = useState<Offer | null>(null);
+  const isStartedFetchingRef = useRef(false);
 
   const allOffers = useAppSelector((state) => state.offers);
-  const isFetchedOffers = useAppSelector((state) => state.isFetchedOffers);
 
   useEffect(() => {
-    if (!isFetchedOffers) {
+    const offer = allOffers.find(({ id }) => id === offerIdAsInt) ?? null;
+    if (offer) {
+      setFoundOffer(offer);
       return;
     }
-    const foundOffer = allOffers.find(({ id }) => id === offerIdAsInt) ?? null;
-    setOffer(foundOffer);
-    setIsNotFound(!foundOffer);
-  }, [allOffers, isFetchedOffers, offerIdAsInt]);
+
+    if (!isStartedFetchingRef.current) {
+      isStartedFetchingRef.current = true;
+      store.dispatch(fetchOffer(offerIdAsInt));
+      return;
+    }
+
+    const state = store.getState();
+    !state.isFetchingOffers && setIsNotFound(true);
+  }, [allOffers, offerIdAsInt]);
 
   return {
     isNotFound,
-    offer,
+    offer: foundOffer,
   };
 }
