@@ -4,13 +4,13 @@ import { store } from 'src/store';
 import {
   setIsFetchingOffers, setOffers, setIsFetchedOffers,
   setIsFetchingReviews, setReviews,
-  setIsUserLoggingIn, setAuthorizationStatus, setUserLogin, setUserAvatarUrl,
+  setIsUserLoggingIn, setAuthorizationStatus, setUserLogin, setUserAvatarUrl, setOffer,
 } from 'src/store/action';
 import { Token, dropToken, setToken } from 'src/services/token';
 import { APIRoute, AuthorizationStatus } from 'src/consts/api';
 import { AppRoute } from 'src/consts/consts';
 import { AppDispatch, AppState } from 'src/types/state';
-import { Offer, Offers, Reviews } from 'src/types/types';
+import { Offer, OfferId, Offers, Reviews } from 'src/types/types';
 import { UserAuthorizationData, UserData } from 'src/types/api';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
@@ -28,6 +28,27 @@ export const fetchOffers = createAsyncThunk<void, undefined, {
       const { data: offers } = await api.get<Offers>(APIRoute.Offers);
       dispatch(setOffers(offers));
       dispatch(setIsFetchedOffers(true));
+    } finally {
+      dispatch(setIsFetchingOffers(false));
+    }
+  },
+);
+
+export const fetchOffer = createAsyncThunk<void, OfferId, {
+  dispatch: AppDispatch;
+  state: AppState;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOffer',
+  async (offerId, { dispatch, extra: api }) => {
+    if (store.getState().isFetchingOffers) {
+      return;
+    }
+    dispatch(setIsFetchingOffers(true));
+    try {
+      const url = `${APIRoute.Offer}${offerId}`;
+      const { data: offer } = await api.get<Offer>(url);
+      dispatch(setOffer(offer));
     } finally {
       dispatch(setIsFetchingOffers(false));
     }

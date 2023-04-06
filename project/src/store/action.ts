@@ -1,9 +1,10 @@
 import { createAction } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from 'src/consts/api';
-import { CityName, Offers, Reviews } from 'src/types/types';
+import { CityName, Offer, Offers, Reviews } from 'src/types/types';
 
 export const setCity = createAction<CityName>('city/set');
 
+export const setOffer = createAction<Offer>('offers/setOne');
 export const setOffers = createAction<Offers>('offers/set');
 export const setReviews = createAction<Reviews>('reviews/set');
 

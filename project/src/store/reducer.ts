@@ -3,7 +3,7 @@ import {
   setCity,
   setOffers, setIsFetchingOffers, setIsFetchedOffers,
   setReviews, setIsFetchingReviews,
-  setAuthorizationStatus, setUserLogin, setIsUserLoggingIn, setUserAvatarUrl,
+  setAuthorizationStatus, setUserLogin, setIsUserLoggingIn, setUserAvatarUrl, setOffer,
 } from 'src/store/action';
 import { INITIAL_CITY_NAME } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
@@ -33,6 +33,15 @@ export const reducer = createReducer(initialState, (builder) => {
 
     .addCase(setOffers, (state, action) => {
       state.offers = action.payload;
+    })
+
+    .addCase(setOffer, (state, { payload }) => {
+      const foundIndex = state.offers.findIndex(({ id }) => id === payload.id);
+      if (foundIndex >= 0) {
+        state.offers[foundIndex] = payload;
+        return;
+      }
+      state.offers.push(payload);
     })
 
     .addCase(setReviews, (state, action) => {
