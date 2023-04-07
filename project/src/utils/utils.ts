@@ -18,6 +18,10 @@ export function capitalizeFirstLetter(text: string): string {
   return head.toUpperCase() + tail;
 }
 
+export function throwErrorAtImpossibleCase (_arg: never) {
+  throw new Error('This line should never be reached.');
+}
+
 export function getMultipleOfPlaceWord(count: number): string {
   if (count === 1 || count === -1) {
     return 'place';
