@@ -68,3 +68,5 @@ export type Review = {
 }
 
 export type Reviews = Review[]
+
+export type ReviewsMap = Record<OfferId, Reviews>

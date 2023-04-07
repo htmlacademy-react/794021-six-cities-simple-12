@@ -1,14 +1,10 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  setIsFetchingReviewsAction, setReviewsAction,
-} from 'src/store/data/data.slice';
 import { Token } from 'src/services/token';
 import { APIRoute } from 'src/consts/api';
 import { AppRoute } from 'src/consts/consts';
-import { DomainNamespace } from 'src/consts/domain';
 import { AppDispatch, AppState } from 'src/types/store';
-import { Offer, OfferId, Offers, Reviews } from 'src/types/types';
+import { Offer, OfferId, Offers, Reviews, ReviewsMap } from 'src/types/types';
 import { UserAuthorizationData, UserData } from 'src/types/api';
 
 export const fetchOffersAction = createAsyncThunk<Offers, undefined, {
@@ -36,26 +32,23 @@ export const fetchOfferAction = createAsyncThunk<Offer, OfferId, {
   },
 );
 
-export const fetchReviewsAction = createAsyncThunk<void, Offer, {
+export const fetchReviewsAction = createAsyncThunk<ReviewsMap, Offer, {
   dispatch: AppDispatch;
   state: AppState;
   extra: AxiosInstance;
 }>(
   'data/fetchReviews',
-  async (offer, { dispatch, extra: api, getState }) => {
-    const state = getState();
-    if (state[DomainNamespace.BusinessData].isFetchingReviews) {
-      return;
-    }
-
-    dispatch(setIsFetchingReviewsAction(true));
+  async (offer, { extra: api }) => {
     const url = `${APIRoute.Reviews}/${offer.id.toString()}`;
-    try {
-      const { data: reviews } = await api.get<Reviews>(url);
-      dispatch(setReviewsAction(reviews));
-    } finally {
-      dispatch(setIsFetchingReviewsAction(false));
-    }
+    const { data: reviews } = await api.get<Reviews>(url);
+    return {
+      [offer.id]: reviews,
+    };
+    /*
+    return {
+      id: offer.id,
+      reviews,
+    }; */
   },
 );
 

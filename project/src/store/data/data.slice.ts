@@ -1,17 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DomainNamespace } from 'src/consts/domain';
 import { INITIAL_CITY_NAME } from 'src/consts/consts';
-import { Offers, Reviews } from 'src/types/types';
-import { fetchOfferAction, fetchOffersAction } from '../api-actions';
+import { Offers, ReviewsMap } from 'src/types/types';
+import { fetchOfferAction, fetchOffersAction, fetchReviewsAction } from '../api-actions';
+import { getFirstOffer } from 'src/utils/utils';
 
 const initialState = {
   cityName: INITIAL_CITY_NAME,
   areOffersFetched: false,
   areOffersFetching: false,
   isOfferFetching: false,
-  isFetchingReviews: false,
+  areReviewsFetching: false,
   offers: [] as Offers,
-  reviews: [] as Reviews,
+  reviewsMap: {} as ReviewsMap,
 };
 
 export const data = createSlice({
@@ -24,14 +25,6 @@ export const data = createSlice({
       }
       state.cityName = payload;
     },
-
-    setReviewsAction: (state, { payload }: PayloadAction<Reviews>) => {
-      state.reviews = payload;
-    },
-
-    setIsFetchingReviewsAction: (state, { payload }: PayloadAction<boolean>) => {
-      state.isFetchingReviews = payload;
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -40,9 +33,9 @@ export const data = createSlice({
       })
 
       .addCase(fetchOfferAction.fulfilled, (state, { payload }) => {
-        const foundIndex = state.offers.findIndex(({ id }) => id === payload.id);
-        if (foundIndex >= 0) {
-          state.offers[foundIndex] = payload;
+        const foundOffer = getFirstOffer(state.offers, payload.id);
+        if (foundOffer) {
+          state.offers[foundOffer.id] = payload;
         } else {
           state.offers.push(payload);
         }
@@ -66,12 +59,23 @@ export const data = createSlice({
       .addCase(fetchOffersAction.rejected, (state) => {
         state.areOffersFetched = false;
         state.areOffersFetching = false;
+      })
+
+      .addCase(fetchReviewsAction.pending, (state) => {
+        state.areReviewsFetching = true;
+      })
+
+      .addCase(fetchReviewsAction.fulfilled, (state, { payload }) => {
+        state.reviewsMap = { ...state.reviewsMap, ...payload };
+        state.areReviewsFetching = false;
+      })
+
+      .addCase(fetchReviewsAction.rejected, (state) => {
+        state.areReviewsFetching = false;
       });
   }
 });
 
 export const {
   setCityNameAction,
-  setReviewsAction,
-  setIsFetchingReviewsAction,
 } = data.actions;
