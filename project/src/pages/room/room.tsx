@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { fetchReviwesAction } from 'src/store/api-actions';
 import { useNearbyOffers } from 'src/hooks/use-nearby-offers';
 import { useOfferReviews } from 'src/hooks/use-offer-reviews';
 import OfferCards from 'src/components/offer-сards/offer-cards';
@@ -13,6 +12,7 @@ import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
 import { NEARBY_OFFERS_LIMIT_COUNT } from 'src/consts/consts';
 import { Offer } from 'src/types/types';
 import { store } from 'src/store';
+import { fetchReviewsAction } from 'src/store/api-actions';
 
 type ActiveOffer = Offer | null;
 
@@ -28,7 +28,7 @@ function Room({ headerBlock, offer, isUserLoggedIn }: RoomProps): JSX.Element {
   const reviews = useOfferReviews(offer);
 
   useEffect(() => {
-    store.dispatch(fetchReviwesAction(offer));
+    store.dispatch(fetchReviewsAction(offer));
   }, [ offer ]);
 
   return (

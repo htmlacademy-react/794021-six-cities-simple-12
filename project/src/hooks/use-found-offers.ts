@@ -7,13 +7,13 @@ import { DomainNamespace } from 'src/consts/domain';
 import { CityName, Offers } from 'src/types/types';
 
 export function useFoundOffers(cityName: CityName): Offers {
-  const [ foundOffers, setFoundOffers ] = useState<Offers | []>([]);
+  const [ foundOffers, setFoundOffers ] = useState<Offers>([]);
   const allOffers = useAppSelector(getOffers);
 
   useEffect(() => {
     const state = store.getState();
 
-    if (!state[DomainNamespace.BusinessData].isFetchedOffers) {
+    if (!state[DomainNamespace.BusinessData].areOffersFetched) {
       store.dispatch(fetchOffersAction());
       return;
     }

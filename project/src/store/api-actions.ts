@@ -1,8 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  setIsFetchingOffersAction, setOffersAction, setIsFetchedOffersAction,
-  setIsFetchingReviewsAction, setReviewsAction, setOfferAction,
+  setIsFetchingReviewsAction, setReviewsAction,
 } from 'src/store/data/data.slice';
 import { Token } from 'src/services/token';
 import { APIRoute } from 'src/consts/api';
@@ -12,51 +11,32 @@ import { AppDispatch, AppState } from 'src/types/store';
 import { Offer, OfferId, Offers, Reviews } from 'src/types/types';
 import { UserAuthorizationData, UserData } from 'src/types/api';
 
-export const fetchOffersAction = createAsyncThunk<void, undefined, {
+export const fetchOffersAction = createAsyncThunk<Offers, undefined, {
   dispatch: AppDispatch;
   state: AppState;
   extra: AxiosInstance;
 }>(
   'data/fetchOffers',
-  async (_arg, { dispatch, extra: api, getState }) => {
-    const state = getState();
-    if (state[DomainNamespace.BusinessData].isFetchingOffers) {
-      return;
-    }
-    dispatch(setIsFetchingOffersAction(true));
-    try {
-      const { data: offers } = await api.get<Offers>(APIRoute.Offers);
-      dispatch(setOffersAction(offers));
-      dispatch(setIsFetchedOffersAction(true));
-    } finally {
-      dispatch(setIsFetchingOffersAction(false));
-    }
+  async (_arg, { extra: api }) => {
+    const { data: offers } = await api.get<Offers>(APIRoute.Offers);
+    return offers;
   },
 );
 
-export const fetchOfferAction = createAsyncThunk<void, OfferId, {
+export const fetchOfferAction = createAsyncThunk<Offer, OfferId, {
   dispatch: AppDispatch;
   state: AppState;
   extra: AxiosInstance;
 }>(
   'data/fetchOffer',
-  async (offerId, { dispatch, extra: api, getState }) => {
-    const state = getState();
-    if (state[DomainNamespace.BusinessData].isFetchingOffers) {
-      return;
-    }
-    dispatch(setIsFetchingOffersAction(true));
-    try {
-      const url = `${APIRoute.Offer}${offerId}`;
-      const { data: offer } = await api.get<Offer>(url);
-      dispatch(setOfferAction(offer));
-    } finally {
-      dispatch(setIsFetchingOffersAction(false));
-    }
+  async (offerId, { extra: api }) => {
+    const url = `${APIRoute.Offer}${offerId}`;
+    const { data } = await api.get<Offer>(url);
+    return data;
   },
 );
 
-export const fetchReviwesAction = createAsyncThunk<void, Offer, {
+export const fetchReviewsAction = createAsyncThunk<void, Offer, {
   dispatch: AppDispatch;
   state: AppState;
   extra: AxiosInstance;
