@@ -29,7 +29,7 @@ export const RoomReview = {
   TextCharacterMaxLimit: 300,
 } as const;
 
-export const MapPinSettings = {
+export const MapPinSetting = {
   Active: {
     iconUrl: '/img/pin-active.svg',
     iconSize: [27, 39],
