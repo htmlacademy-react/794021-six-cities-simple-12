@@ -1,8 +1,7 @@
 import { FocusEvent, KeyboardEvent, useRef, useState } from 'react';
 import cn from 'classnames';
-import { OfferSortingVariant } from 'src/consts/consts';
-import { OfferSortingOption } from 'src/types/types';
 import { isChildNode } from 'src/utils/utils';
+import { OfferSortingOption } from 'src/consts/consts';
 
 type OfferSortingFormProps = {
   onChangeSortingType: (item: OfferSortingOption) => void;
@@ -58,7 +57,7 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
         ref={menuRef}
         tabIndex={0}
       >
-        {OfferSortingVariant[props.sortingType].title}
+        {props.sortingType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
@@ -71,18 +70,18 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
         ref={listRef}
       >
         {
-          Object.values(OfferSortingVariant).map((sortingOption) => (
+          Object.values(OfferSortingOption).map((sortingOption) => (
             <li
               className={cn(
                 'places__option',
-                { 'places__option--active': sortingOption.id === props.sortingType }
+                { 'places__option--active': sortingOption === props.sortingType }
               )}
-              key={sortingOption.id}
+              key={sortingOption}
               tabIndex={0}
-              onClick={() => handleClickMenuItem(sortingOption.id)}
-              onKeyDown={(evt) => handleKeyDownMenuItem(evt, sortingOption.id)}
+              onClick={() => handleClickMenuItem(sortingOption)}
+              onKeyDown={(evt) => handleKeyDownMenuItem(evt, sortingOption)}
             >
-              {sortingOption.title}
+              {sortingOption}
             </li>
           ))
         }

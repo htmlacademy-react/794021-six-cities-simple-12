@@ -10,8 +10,7 @@ import OfferCards from 'src/components/offer-сards/offer-cards';
 import OfferSortingForm from 'src/components/offer-sorting-form/offer-sorting-form';
 import { Spinner } from 'src/components/spinner/spinner';
 import { getMultipleOfPlaceWord, sortOffers } from 'src/utils/utils';
-import { DEFAULT_OFFER_SORTING_KEY_NAME } from 'src/consts/consts';
-import { OfferSortingOption } from 'src/types/types';
+import { DEFAULT_OFFER_SORTING_KEY_NAME, OfferSortingOption } from 'src/consts/consts';
 import { CityNames, Offer } from 'src/types/types';
 
 type ActiveOffer = Offer | null;

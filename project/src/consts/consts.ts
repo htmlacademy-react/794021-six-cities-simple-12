@@ -46,13 +46,13 @@ export const MapPinSettings = {
   Default: DEFAULT_PIN_SETTING,
 };
 
-export const OfferSortingVariant = {
-  popular: {id: 'popular', title: 'Popular' },
-  priceLowToHigh: { id: 'priceLowToHigh', title: 'Price: low to high' },
-  priceHighToLow: { id: 'priceHighToLow', title: 'Price: high to low' },
-  topRatedFirst: { id: 'topRatedFirst', title: 'Top rated first' },
-} as const;
+export enum OfferSortingOption {
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price low to high',
+  PriceHighToLow = 'Price high to low',
+  TopRatedFirst = 'Top rated first',
+}
 
-export const DEFAULT_OFFER_SORTING_KEY_NAME = OfferSortingVariant.popular.id;
+export const DEFAULT_OFFER_SORTING_KEY_NAME = OfferSortingOption.Popular;
 
 export const NEARBY_OFFERS_LIMIT_COUNT = 3 as const;
