@@ -1,4 +1,5 @@
 import { FocusEvent, KeyboardEvent, useRef, useState } from 'react';
+import cn from 'classnames';
 import { OfferSortingVariant } from 'src/consts/consts';
 import { OfferSortingOption } from 'src/types/types';
 import { isChildNode } from 'src/utils/utils';
@@ -12,7 +13,6 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
   const menuRef = useRef<HTMLElement>(null);
   const listRef = useRef(null);
   const [ isOpen, setIsOpen ] = useState(false);
-  const menuAdditionalClassName = isOpen ? 'places__options--opened' : '';
 
   const handleClickMenu = () => setIsOpen(!isOpen);
 
@@ -63,26 +63,28 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className={`places__options places__options--custom ${menuAdditionalClassName}`}
+      <ul
+        className={cn(
+          'places__options places__options--custom',
+          { 'places__options--opened': isOpen }
+        )}
         ref={listRef}
       >
         {
-          Object.values(OfferSortingVariant).map((sortingOption) => {
-            const additionalClassName = sortingOption.id === props.sortingType ?
-              'places__option--active' :
-              '';
-            return (
-              <li
-                className={`places__option ${additionalClassName}`}
-                key={sortingOption.id}
-                tabIndex={0}
-                onClick={() => handleClickMenuItem(sortingOption.id)}
-                onKeyDown={(evt) => handleKeyDownMenuItem(evt, sortingOption.id)}
-              >
-                {sortingOption.title}
-              </li>
-            );
-          })
+          Object.values(OfferSortingVariant).map((sortingOption) => (
+            <li
+              className={cn(
+                'places__option',
+                { 'places__option--active': sortingOption.id === props.sortingType }
+              )}
+              key={sortingOption.id}
+              tabIndex={0}
+              onClick={() => handleClickMenuItem(sortingOption.id)}
+              onKeyDown={(evt) => handleKeyDownMenuItem(evt, sortingOption.id)}
+            >
+              {sortingOption.title}
+            </li>
+          ))
         }
       </ul>
     </form>

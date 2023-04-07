@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import cn from 'classnames';
 import { setCityNameAction } from 'src/store/data/data.slice';
 import { getCityName } from 'src/store/data/data.selectors';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
@@ -27,15 +28,15 @@ function Main(props: MainProps) {
   const dispatch = useAppDispatch();
   const offers = useFoundOffers(currentCityName);
 
-  const mainTagAdditionalClassName = offers.length ?
-    '' :
-    'page__main--index-empty';
-
   return (
     <div className="page page--gray page--main">
       {props.headerBlock}
 
-      <main className={`page__main page__main--index ${mainTagAdditionalClassName}`}>
+      <main className={cn(
+        'page__main page__main--index',
+        { 'page__main--index-empty': !offers.length }
+      )}
+      >
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
