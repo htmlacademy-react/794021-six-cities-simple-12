@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { checkIfUserAuthorized } from 'src/store/api-actions';
+import { checkIfUserAuthorizedAction } from 'src/store/api-actions';
 import { getAuthorizationStatus, getUserAvatarUrl, getUserLogin } from 'src/store/user/user.selectors';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import PathnameChangeEffectExecutor from
@@ -35,7 +35,7 @@ function App(props: AppProps): JSX.Element {
   );
 
   useEffect(() => {
-    authorizationStatus === AuthorizationStatus.Unknown && dispatch(checkIfUserAuthorized());
+    authorizationStatus === AuthorizationStatus.Unknown && dispatch(checkIfUserAuthorizedAction());
   }, [authorizationStatus, dispatch]);
 
   return (

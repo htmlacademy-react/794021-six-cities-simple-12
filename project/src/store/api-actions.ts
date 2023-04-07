@@ -113,7 +113,7 @@ export const logUserInAction = createAsyncThunk<void, UserAuthorizationData, {
   },
 );
 
-export const logUserOut = createAsyncThunk<void, undefined, {
+export const logUserOutAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: AppState;
   extra: AxiosInstance;
@@ -127,7 +127,7 @@ export const logUserOut = createAsyncThunk<void, undefined, {
   }
 );
 
-export const checkIfUserAuthorized = createAsyncThunk<void, void, {
+export const checkIfUserAuthorizedAction = createAsyncThunk<void, void, {
   dispatch: AppDispatch;
   state: AppState;
   extra: AxiosInstance;

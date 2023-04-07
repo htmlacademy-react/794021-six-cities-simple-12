@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch } from 'src/hooks';
 import { isCurrentPage } from 'src/utils/utils';
 import { AppRoute } from 'src/consts/consts';
-import { logUserOut } from 'src/store/api-actions';
+import { logUserOutAction } from 'src/store/api-actions';
 
 type HeaderProps = {
   isAuthorized: boolean;
@@ -40,7 +40,7 @@ function Header(props: HeaderProps): JSX.Element {
       return;
     }
     evt.preventDefault();
-    dispatch(logUserOut());
+    dispatch(logUserOutAction());
   };
 
   return (
