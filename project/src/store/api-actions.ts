@@ -4,11 +4,8 @@ import {
   setIsFetchingOffersAction, setOffersAction, setIsFetchedOffersAction,
   setIsFetchingReviewsAction, setReviewsAction, setOfferAction,
 } from 'src/store/data/data.slice';
-import {
-  setIsUserLoggingInAction, setAuthorizationStatusAction, setUserLoginAction, setUserAvatarUrlAction,
-} from 'src/store/user/user.slice';
-import { Token, dropToken, setToken } from 'src/services/token';
-import { APIRoute, AuthorizationStatus } from 'src/consts/api';
+import { Token } from 'src/services/token';
+import { APIRoute } from 'src/consts/api';
 import { AppRoute } from 'src/consts/consts';
 import { DomainNamespace } from 'src/consts/domain';
 import { AppDispatch, AppState } from 'src/types/store';
@@ -82,33 +79,18 @@ export const fetchReviwesAction = createAsyncThunk<void, Offer, {
   },
 );
 
-export const logUserInAction = createAsyncThunk<void, UserAuthorizationData, {
+export const logUserInAction = createAsyncThunk<Token, UserAuthorizationData, {
   dispatch: AppDispatch;
   state: AppState;
   extra: AxiosInstance;
 }>(
   'user/logIn',
-  async (authData, { dispatch, extra: api, getState }) => {
-    const state = getState();
-    if (state[DomainNamespace.User].isUserLoggingIn) {
-      return;
-    }
-    dispatch(setIsUserLoggingInAction(true));
-    dispatch(setUserLoginAction(authData.email));
-    try {
-      const { data } = await api.post<UserData>(
-        APIRoute.Login,
-        authData,
-      );
-      setToken(data.token);
-      dispatch(setAuthorizationStatusAction(AuthorizationStatus.Authorized));
-      dispatch(setUserLoginAction(data.email));
-      dispatch(setUserAvatarUrlAction(data.avatarUrl));
-    } catch (_err) {
-      dispatch(setAuthorizationStatusAction(AuthorizationStatus.NotAuthorized));
-    } finally {
-      dispatch(setIsUserLoggingInAction(false));
-    }
+  async (authData, { extra: api }) => {
+    const { data } = await api.post<UserData>(
+      APIRoute.Login,
+      authData,
+    );
+    return data.token;
   },
 );
 
@@ -118,40 +100,17 @@ export const logUserOutAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   'user/logOut',
-  async (_arg, { dispatch, extra: api }) => {
-    dropToken();
-    dispatch(setAuthorizationStatusAction(AuthorizationStatus.NotAuthorized));
-    dispatch(setUserLoginAction(''));
+  async (_arg, { extra: api }) => {
     await api.delete<Token>(APIRoute.Logout);
   }
 );
 
-export const checkIfUserAuthorizedAction = createAsyncThunk<void, void, {
-  dispatch: AppDispatch;
-  state: AppState;
+export const checkIfUserAuthorizedAction = createAsyncThunk<UserData, void, {
   extra: AxiosInstance;
 }>(
   'user/checkIfAuthorized',
-  async (_arg, { dispatch, extra: api, getState }) => {
-    const state = getState();
-    if (state[DomainNamespace.User].isUserLoggingIn) {
-      return;
-    }
-    if (state[DomainNamespace.User].authorizationStatus !== AuthorizationStatus.Unknown) {
-      return;
-    }
-    dispatch(setIsUserLoggingInAction(true));
-    try {
-      const { data } = await api.get<UserData>(AppRoute.Login);
-      setToken(data.token);
-      dispatch(setAuthorizationStatusAction(AuthorizationStatus.Authorized));
-      dispatch(setUserLoginAction(data.email));
-      dispatch(setUserAvatarUrlAction(data.avatarUrl));
-    } catch (_err) {
-      dispatch(setAuthorizationStatusAction(AuthorizationStatus.NotAuthorized));
-    } finally {
-      dispatch(setIsUserLoggingInAction(false));
-    }
+  async (_arg, { extra: api }) => {
+    const { data } = await api.get<UserData>(AppRoute.Login);
+    return data;
   }
 );
-
