@@ -1,6 +1,5 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { store } from 'src/store';
 import {
   setIsFetchingOffersAction, setOffersAction, setIsFetchedOffersAction,
   setIsFetchingReviewsAction, setReviewsAction, setOfferAction,
@@ -22,8 +21,8 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   'data/fetchOffers',
-  async (_arg, { dispatch, extra: api }) => {
-    const state = store.getState();
+  async (_arg, { dispatch, extra: api, getState }) => {
+    const state = getState();
     if (state[DomainNamespace.BusinessData].isFetchingOffers) {
       return;
     }
@@ -44,8 +43,8 @@ export const fetchOfferAction = createAsyncThunk<void, OfferId, {
   extra: AxiosInstance;
 }>(
   'data/fetchOffer',
-  async (offerId, { dispatch, extra: api }) => {
-    const state = store.getState();
+  async (offerId, { dispatch, extra: api, getState }) => {
+    const state = getState();
     if (state[DomainNamespace.BusinessData].isFetchingOffers) {
       return;
     }
@@ -66,8 +65,8 @@ export const fetchReviwesAction = createAsyncThunk<void, Offer, {
   extra: AxiosInstance;
 }>(
   'data/fetchReviews',
-  async (offer, { dispatch, extra: api }) => {
-    const state = store.getState();
+  async (offer, { dispatch, extra: api, getState }) => {
+    const state = getState();
     if (state[DomainNamespace.BusinessData].isFetchingReviews) {
       return;
     }
@@ -89,8 +88,8 @@ export const logUserInAction = createAsyncThunk<void, UserAuthorizationData, {
   extra: AxiosInstance;
 }>(
   'user/logIn',
-  async (authData, { dispatch, extra: api }) => {
-    const state = store.getState();
+  async (authData, { dispatch, extra: api, getState }) => {
+    const state = getState();
     if (state[DomainNamespace.User].isUserLoggingIn) {
       return;
     }
