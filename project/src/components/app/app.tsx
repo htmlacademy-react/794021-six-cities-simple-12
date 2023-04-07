@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { checkIfUserAuthorizedAction } from 'src/store/api-actions';
+import { store } from 'src/store';
 import { getAuthorizationStatus, getUserAvatarUrl, getUserLogin } from 'src/store/user/user.selectors';
-import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { useAppSelector } from 'src/hooks';
 import PathnameChangeEffectExecutor from
   'src/components/pathname-change-effect-executor/pathname-change-effect-executor';
 import Main from 'src/pages/main/main';
@@ -19,11 +19,12 @@ type AppProps = {
   cityNames: CityNames;
 };
 
+store.dispatch(checkIfUserAuthorizedAction());
+
 function App(props: AppProps): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const userLogin = useAppSelector(getUserLogin);
   const userAvatarUrl = useAppSelector(getUserAvatarUrl);
-  const dispatch = useAppDispatch();
 
   const headerBlock = (
     <Header
@@ -33,10 +34,6 @@ function App(props: AppProps): JSX.Element {
       userAvatarUrl={userAvatarUrl}
     />
   );
-
-  useEffect(() => {
-    authorizationStatus === AuthorizationStatus.Unknown && dispatch(checkIfUserAuthorizedAction());
-  }, [authorizationStatus, dispatch]);
 
   return (
     <BrowserRouter>

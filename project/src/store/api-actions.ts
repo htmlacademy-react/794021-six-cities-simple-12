@@ -133,9 +133,12 @@ export const checkIfUserAuthorizedAction = createAsyncThunk<void, void, {
   extra: AxiosInstance;
 }>(
   'user/checkIfAuthorized',
-  async (_arg, { dispatch, extra: api }) => {
-    const state = store.getState();
+  async (_arg, { dispatch, extra: api, getState }) => {
+    const state = getState();
     if (state[DomainNamespace.User].isUserLoggingIn) {
+      return;
+    }
+    if (state[DomainNamespace.User].authorizationStatus !== AuthorizationStatus.Unknown) {
       return;
     }
     dispatch(setIsUserLoggingInAction(true));
