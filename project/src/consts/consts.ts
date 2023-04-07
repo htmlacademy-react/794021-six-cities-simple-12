@@ -1,7 +1,7 @@
 import { IconOptions } from 'leaflet';
 import { CityName } from 'src/types/types';
 
-export const RATING_TO_PERCENT_STEP = 20;
+export const RATING_TO_PERCENT_STEP = 20 as const;
 
 export enum AppRoute {
   Root = '/',
@@ -29,22 +29,18 @@ export const RoomReview = {
   TextCharacterMaxLimit: 300,
 } as const;
 
-const ACTIVE_PIN_SETTING: IconOptions = {
-  iconUrl: '/img/pin-active.svg',
-  iconSize: [27, 39],
-  iconAnchor: [13.336, 37.2],
-};
-
-const DEFAULT_PIN_SETTING: IconOptions = {
-  iconUrl: '/img/pin.svg',
-  iconSize: [27, 39],
-  iconAnchor: [13.336, 37.2],
-};
-
 export const MapPinSettings = {
-  Active: ACTIVE_PIN_SETTING,
-  Default: DEFAULT_PIN_SETTING,
-};
+  Active: {
+    iconUrl: '/img/pin-active.svg',
+    iconSize: [27, 39],
+    iconAnchor: [13.336, 37.2],
+  } as IconOptions,
+  Default: {
+    iconUrl: '/img/pin.svg',
+    iconSize: [27, 39],
+    iconAnchor: [13.336, 37.2],
+  } as IconOptions,
+} as const;
 
 export enum OfferSortingOption {
   Popular = 'Popular',
@@ -53,6 +49,6 @@ export enum OfferSortingOption {
   TopRatedFirst = 'Top rated first',
 }
 
-export const DEFAULT_OFFER_SORTING_KEY_NAME = OfferSortingOption.Popular;
+export const DEFAULT_OFFER_SORTING_KEY_NAME = OfferSortingOption.Popular as const;
 
 export const NEARBY_OFFERS_LIMIT_COUNT = 3 as const;
