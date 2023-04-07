@@ -1,9 +1,10 @@
-import { Location, Offer, Offers } from 'src/types/types';
-import { useAppSelector } from 'src/hooks';
 import { useEffect, useState } from 'react';
+import { getOffers } from 'src/store/data/data.selectors';
+import { useAppSelector } from 'src/hooks';
+import { Location, Offer, Offers } from 'src/types/types';
 
 export function useNearbyOffers(offer: Offer, limitCount: number): Offers {
-  const offers = useAppSelector<Offers>((store) => store.offers);
+  const offers = useAppSelector<Offers>(getOffers);
   const [ nearbyOffers, setNearbyOffers ] = useState<Offers>([]);
 
   useEffect(() => {

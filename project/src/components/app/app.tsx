@@ -1,27 +1,28 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { checkIfUserAuthorized } from 'src/store/api-actions';
+import { getAuthorizationStatus, getUserAvatarUrl, getUserLogin } from 'src/store/user/user.selectors';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
+import PathnameChangeEffectExecutor from
+  'src/components/pathname-change-effect-executor/pathname-change-effect-executor';
 import Main from 'src/pages/main/main';
 import Login from 'src/pages/login/login';
 import Header from 'src/components/header/header';
 import RoomWrapper from 'src/components/room-wrapper/room-wrapper';
 import NotFound from 'src/components/not-found/not-found';
-import PathnameChangeEffectExecutor from
-  'src/components/pathname-change-effect-executor/pathname-change-effect-executor';
 import { scrollToTop } from 'src/utils/utils';
-import { CityNames } from 'src/types/types';
 import { AppRoute } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
-import { useEffect } from 'react';
+import { CityNames } from 'src/types/types';
 
 type AppProps = {
   cityNames: CityNames;
 };
 
 function App(props: AppProps): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userLogin = useAppSelector((state) => state.userLogin);
-  const userAvatarUrl = useAppSelector((state) => state.userAvatarUrl);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userLogin = useAppSelector(getUserLogin);
+  const userAvatarUrl = useAppSelector(getUserAvatarUrl);
   const dispatch = useAppDispatch();
 
   const headerBlock = (
