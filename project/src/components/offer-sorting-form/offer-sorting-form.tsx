@@ -34,6 +34,7 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
 
   const handleClickMenuItem = (soringType: OfferSortingOption) => {
     setIsOpen(false);
+    menuRef.current && menuRef.current.focus();
     props.onChangeSortingType(soringType);
   };
 
