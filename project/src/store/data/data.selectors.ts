@@ -1,5 +1,5 @@
 import { DomainNamespace } from 'src/consts/domain';
-import { AppState } from 'src/types/state';
+import { AppState } from 'src/types/store';
 import { CityName, Offers, Reviews } from 'src/types/types';
 
 export function getCityName(state: AppState): CityName {

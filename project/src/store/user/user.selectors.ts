@@ -1,6 +1,6 @@
 import { AuthorizationStatus } from 'src/consts/api';
 import { DomainNamespace } from 'src/consts/domain';
-import { AppState } from 'src/types/state';
+import { AppState } from 'src/types/store';
 
 export function getAuthorizationStatus(state: AppState): AuthorizationStatus {
   return state[DomainNamespace.User].authorizationStatus;

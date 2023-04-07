@@ -12,7 +12,7 @@ import { Token, dropToken, setToken } from 'src/services/token';
 import { APIRoute, AuthorizationStatus } from 'src/consts/api';
 import { AppRoute } from 'src/consts/consts';
 import { DomainNamespace } from 'src/consts/domain';
-import { AppDispatch, AppState } from 'src/types/state';
+import { AppDispatch, AppState } from 'src/types/store';
 import { Offer, OfferId, Offers, Reviews } from 'src/types/types';
 import { UserAuthorizationData, UserData } from 'src/types/api';
 
