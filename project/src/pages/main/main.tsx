@@ -27,9 +27,9 @@ function Main(props: MainProps) {
   const dispatch = useAppDispatch();
   const offers = useFoundOffers(currentCityName);
 
-  const mainTagAdditionalClassName = offers.length === 0 ?
-    'page__main--index-empty' :
-    '' ;
+  const mainTagAdditionalClassName = offers.length ?
+    '' :
+    'page__main--index-empty';
 
   return (
     <div className="page page--gray page--main">
@@ -54,7 +54,7 @@ function Main(props: MainProps) {
         }
 
         {
-          offers.length > 0 ?
+          offers.length ?
             <div className="cities">
               <div className="cities__places-container container">
                 <OfferCards
@@ -80,7 +80,7 @@ function Main(props: MainProps) {
                 <div className="cities__right-section">
                   <GeoMap
                     activeOffer={hoveredOffer}
-                    className={offers.length <= 0 ? 'cities__map' : ''}
+                    className={offers.length ? '' : 'cities__map'}
                     offers={offers}
                   />
                 </div>
