@@ -5,7 +5,7 @@ import { MapPinSetting } from 'src/consts/consts';
 
 export function useGeoMapPins(
   geoMap: LeafletGeoMap | null,
-  offers: Offers, // TODO: could be null ?
+  offers: Offers,
   activeOffer: Offer | null,
 ): void {
   const icon = useMemo(() => {
@@ -21,7 +21,10 @@ export function useGeoMapPins(
 
     for(const offer of offers) {
       const { latitude, longitude } = offer.location;
-      const currentIcon = offer === activeOffer ? icon.active : icon.default;
+      const currentIcon = offer === activeOffer ?
+        icon.active :
+        icon.default;
+
       marker(
         [ latitude, longitude ],
         { icon: currentIcon },

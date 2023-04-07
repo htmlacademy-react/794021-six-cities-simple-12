@@ -34,12 +34,12 @@ export const MapPinSetting = {
     iconUrl: '/img/pin-active.svg',
     iconSize: [27, 39],
     iconAnchor: [13.336, 37.2],
-  } as IconOptions,
+  } as IconOptions, // TODO can 'as' be avoided?
   Default: {
     iconUrl: '/img/pin.svg',
     iconSize: [27, 39],
     iconAnchor: [13.336, 37.2],
-  } as IconOptions,
+  } as IconOptions, // TODO can 'as' be avoided?
 } as const;
 
 export enum OfferSortingOption {
