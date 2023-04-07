@@ -1,5 +1,5 @@
 import { OfferSortingOption, RATING_TO_PERCENT_STEP } from 'src/consts/consts';
-import { Offers } from 'src/types/types';
+import { Offer, OfferId, Offers } from 'src/types/types';
 
 export function getPercentFromRating(rating: number): string {
   const roundedPercent = Math.round(rating) * RATING_TO_PERCENT_STEP;
@@ -27,6 +27,10 @@ export function getMultipleOfPlaceWord(count: number): string {
     return 'place';
   }
   return 'places';
+}
+
+export function getFirstOffer(offers: Offers, offerId: OfferId): Offer | null {
+  return offers.find(({ id }) => id === offerId) ?? null;
 }
 
 export function getUniqueItems<T>(arr: Array<T>): Array<T> {
