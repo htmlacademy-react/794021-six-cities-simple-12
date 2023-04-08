@@ -52,3 +52,4 @@ export enum OfferSortingOption {
 export const DEFAULT_OFFER_SORTING_KEY_NAME = OfferSortingOption.Popular as const;
 
 export const NEARBY_OFFERS_LIMIT_COUNT = 3 as const;
+export const OFFER_PHOTO_LIMIT_COUNT = 6 as const;
