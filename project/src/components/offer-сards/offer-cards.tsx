@@ -6,8 +6,8 @@ type OfferCardsProps = {
   className: string;
   header: string;
   offers: Offers;
-  onActive: (item: Offer) => void;
-  onBlur: () => void;
+  onActive?: (item: Offer) => void;
+  onBlur?: () => void;
 }
 
 function OfferCards(props: OfferCardsProps): JSX.Element {
@@ -24,8 +24,8 @@ function OfferCards(props: OfferCardsProps): JSX.Element {
               className='cities__card'
               key={offer.id}
               offer={offer}
-              onActive={() => props.onActive(offer)}
-              onBlur={() => props.onBlur()}
+              onActive={() => props.onActive && props.onActive(offer)}
+              onBlur={() => props.onBlur && props.onBlur()}
             />
           ))
         }
