@@ -29,7 +29,7 @@ function Header(props: HeaderProps): JSX.Element {
     signInOutLinkHref = AppRoute.Login;
   }
 
-  const handleOnClick = (evt: MouseEvent) => {
+  const handleSignInOutClick = (evt: MouseEvent) => {
     if (!props.isAuthorized) {
       return;
     }
@@ -69,7 +69,7 @@ function Header(props: HeaderProps): JSX.Element {
                   }
 
                   <li className="header__nav-item">
-                    <Link className="header__nav-link" to={signInOutLinkHref} onClick={props.isAuthorized ? handleOnClick : undefined}>
+                    <Link className="header__nav-link" to={signInOutLinkHref} onClick={handleSignInOutClick}>
                       {
                         props.isAuthorized ?
                           <div className="header__avatar-wrapper user__avatar-wrapper"></div> :
