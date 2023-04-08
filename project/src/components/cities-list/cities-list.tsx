@@ -15,14 +15,14 @@ function CitiesList(props: CitiesListProps): JSX.Element {
           <li className="locations__item"
             key={cityName}
           >
-            { /* TODO: remove eslint rule eventually */ }
+            { /* TODO: remove eslint rule eventually, or not? */ }
             { /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
             <a
               className={cn(
                 'locations__item-link tabs__item',
                 { 'tabs__item--active': cityName === props.currentCityName }
               )}
-              href="#"
+              href={cityName === props.currentCityName ? undefined : '#'}
               onClick={() => props.onChangeCityName(cityName)}
             >
               <span>{cityName}</span>
