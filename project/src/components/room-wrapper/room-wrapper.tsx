@@ -1,24 +1,24 @@
 import { Navigate, useParams } from 'react-router-dom';
 import Room from 'src/pages/room/room';
-import { parseInteger } from 'src/utils/utils';
+import { Spinner } from '../spinner/spinner';
+import { useFoundOffer } from 'src/hooks/use-found-offer';
 import { AppRoute } from 'src/consts/consts';
-import { store } from 'src/store';
-
 
 type RoomWrapperProps = {
   headerBlock?: JSX.Element;
   isUserLoggedIn: boolean;
 }
 
-function RoomWrapper(props: RoomWrapperProps): JSX.Element | null {
+function RoomWrapper(props: RoomWrapperProps): JSX.Element {
   const { id: offerId } = useParams();
-  const offerIdAsInt = parseInteger(offerId);
+  const { isNotFound, offer } = useFoundOffer(offerId ?? '');
 
-  const { offers: allOffers } = store.getState();
-  const offer = allOffers.find(({ id }) => id === offerIdAsInt) ?? null;
-
-  if (offerIdAsInt === undefined || offerIdAsInt === null || !offer) {
+  if (isNotFound) {
     return <Navigate to={AppRoute.NotFound} />;
+  }
+
+  if (!offer) {
+    return <Spinner text={'Loading offer ...'} />;
   }
 
   return (

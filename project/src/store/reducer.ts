@@ -1,20 +1,30 @@
 import { createReducer } from '@reduxjs/toolkit';
+import {
+  setCity,
+  setOffers, setIsFetchingOffers, setIsFetchedOffers,
+  setReviews, setIsFetchingReviews,
+  setAuthorizationStatus, setUserLogin, setIsUserLoggingIn, setUserAvatarUrl, setOffer,
+} from 'src/store/action';
 import { INITIAL_CITY_NAME } from 'src/consts/consts';
-import { changeCity,setOffers, setIsFetchingOffers, setReviews, setIsFetchingReviews, setIsFetchedOffers } from './action';
-import { Offers, Reviews } from 'src/types/types';
+import { AuthorizationStatus } from 'src/consts/api';
+import { Offers, Reviews, UserLogin } from 'src/types/types';
 
 const initialState = {
+  authorizationStatus: AuthorizationStatus.Unknown,
   cityName: INITIAL_CITY_NAME,
-  isFetchingOffers: false,
   isFetchedOffers: false,
+  isFetchingOffers: false,
   isFetchingReviews: false,
+  isUserLoggingIn: false,
   offers: [] as Offers,
   reviews: [] as Reviews,
+  userAvatarUrl: '' as string,
+  userLogin: '' as UserLogin,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(changeCity, (state, action) => {
+    .addCase(setCity, (state, action) => {
       if (action.payload === state.cityName) {
         return;
       }
@@ -23,6 +33,15 @@ export const reducer = createReducer(initialState, (builder) => {
 
     .addCase(setOffers, (state, action) => {
       state.offers = action.payload;
+    })
+
+    .addCase(setOffer, (state, { payload }) => {
+      const foundIndex = state.offers.findIndex(({ id }) => id === payload.id);
+      if (foundIndex >= 0) {
+        state.offers[foundIndex] = payload;
+        return;
+      }
+      state.offers.push(payload);
     })
 
     .addCase(setReviews, (state, action) => {
@@ -39,6 +58,22 @@ export const reducer = createReducer(initialState, (builder) => {
 
     .addCase(setIsFetchingReviews, (state, action) => {
       state.isFetchingReviews = action.payload;
+    })
+
+    .addCase(setAuthorizationStatus, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+
+    .addCase(setUserLogin, (state, action) => {
+      state.userLogin = action.payload;
+    })
+
+    .addCase(setIsUserLoggingIn, (state, action) => {
+      state.isUserLoggingIn = action.payload;
+    })
+
+    .addCase(setUserAvatarUrl, (state, { payload }) => {
+      state.userAvatarUrl = payload;
     });
 });
 

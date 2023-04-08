@@ -1,15 +1,16 @@
-import { Token } from 'src/types/local-storage';
-import { AUTH_TOKEN_LOCAL_STORAGE_KEY_NAME } from 'src/consts/local-storage';
+export type Token = string;
+
+const AUTH_TOKEN_KEY_NAME = 'htmlacademy-794021-six-sities-simple';
 
 export const getToken = (): Token => {
-  const token = localStorage.getItem(AUTH_TOKEN_LOCAL_STORAGE_KEY_NAME);
+  const token = localStorage.getItem(AUTH_TOKEN_KEY_NAME);
   return token ?? '';
 };
 
-export const saveToken = (token: Token): void => {
-  localStorage.setItem(AUTH_TOKEN_LOCAL_STORAGE_KEY_NAME, token);
+export const setToken = (token: Token): void => {
+  localStorage.setItem(AUTH_TOKEN_KEY_NAME, token);
 };
 
-export const deleteToken = (): void => {
-  localStorage.removeItem(AUTH_TOKEN_LOCAL_STORAGE_KEY_NAME);
+export const dropToken = (): void => {
+  localStorage.removeItem(AUTH_TOKEN_KEY_NAME);
 };

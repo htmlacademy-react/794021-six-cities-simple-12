@@ -5,9 +5,9 @@ export const RATING_TO_PERCENT_STEP = 20;
 
 export enum AppRoute {
   Root = '/',
-  Login = 'login',
+  Login = '/login',
   NotFound = '/404-not-found',
-  Offer = 'offer/:id',
+  Offer = '/offer/:id',
 }
 
 export const CityNames = [

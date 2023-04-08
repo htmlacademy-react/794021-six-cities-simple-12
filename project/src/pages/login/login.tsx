@@ -1,8 +1,43 @@
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { useRedirectingIfAuthorized } from 'src/hooks/use-redirecting-if-authorized';
+import { AppRoute } from 'src/consts/consts';
+import { UserAuthorizationData } from 'src/types/api';
+import { logUserIn } from 'src/store/api-actions';
+import { store } from 'src/store';
+import { UserLogin } from 'src/types/types';
+
 type LoginProps = {
   headerBlock?: JSX.Element;
 }
-
+// TODO add '-screen' to filename?
 function Login({ headerBlock }: LoginProps): JSX.Element {
+  const { userLogin: storeUserLogin } = store.getState();
+  const [ userLogin, setUserLogin ] = useState<UserLogin>(storeUserLogin);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const dispatch = useAppDispatch();
+  const currentCity = useAppSelector((state) => state.cityName);
+  useRedirectingIfAuthorized(AppRoute.Root);
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    if (!userLogin || !passwordRef.current) {
+      return;
+    }
+    const authData: UserAuthorizationData = {
+      email: userLogin,
+      password: passwordRef.current.value,
+    };
+
+    dispatch(logUserIn(authData));
+  };
+
+  const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { value } = evt.target;
+    setUserLogin(value);
+  };
+
   return (
     <div className="page page--gray page--login">
       {headerBlock}
@@ -10,25 +45,29 @@ function Login({ headerBlock }: LoginProps): JSX.Element {
         <div className="page__login-container container">
           <section className="login">
             <h1 className="login__title">Sign in</h1>
-            <form className="login__form form" action="#" method="post">
+            <form className="login__form form" action="#" method="post"
+              onSubmit={handleSubmit}
+            >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" type="email" name="email" placeholder="Email" required />
+                <input className="login__input form__input" type="email" name="email" placeholder="Email" required
+                  onChange={handleInputChange}
+                />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required />
+                <input className="login__input form__input" type="password" name="password" placeholder="Password" required
+                  ref={passwordRef}
+                />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              { /* TODO: remove eslint rule eventually */ }
-              { /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span> {/* FIXME: use props or state */}
-              </a>
+              <Link className="locations__item-link" to={AppRoute.Root}>
+                <span>{currentCity}</span>
+              </Link>
             </div>
           </section>
         </div>

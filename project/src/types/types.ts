@@ -58,8 +58,8 @@ export type User = {
 export type OfferHost = User
 export type Reviewer = User
 
-export type UserLogin = string | null
-export type UserPassword = string | null
+export type UserLogin = string
+export type UserPassword = string
 
 export type Review = {
   comment: string;
@@ -70,7 +70,5 @@ export type Review = {
 }
 
 export type Reviews = Review[]
-
-export type GetNearbyOffers = (id: number) => Offers;
 
 export type OfferSortingOption = keyof typeof OfferSortingVariant;
