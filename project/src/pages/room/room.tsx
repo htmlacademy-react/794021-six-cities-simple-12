@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNearbyOffers } from 'src/hooks/use-nearby-offers';
 import { useOfferReviews } from 'src/hooks/use-offer-reviews';
 import OfferCards from 'src/components/offer-сards/offer-cards';
@@ -14,8 +14,6 @@ import { Offer } from 'src/types/types';
 import { store } from 'src/store';
 import { fetchReviewsAction } from 'src/store/api-actions';
 
-type ActiveOffer = Offer | null;
-
 type RoomProps = {
   headerBlock?: JSX.Element;
   offer: Offer;
@@ -23,7 +21,6 @@ type RoomProps = {
 }
 
 function Room({ headerBlock, offer, isUserLoggedIn }: RoomProps): JSX.Element {
-  const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
   const nearbyOffers = useNearbyOffers(offer, NEARBY_OFFERS_LIMIT_COUNT);
   const reviews = useOfferReviews(offer);
 
@@ -86,7 +83,7 @@ function Room({ headerBlock, offer, isUserLoggedIn }: RoomProps): JSX.Element {
             </div>
           </div>
           <GeoMap
-            activeOffer={hoveredOffer}
+            activeOffer={null}
             className='property__map'
             offers={nearbyOffers}
           />
@@ -96,8 +93,6 @@ function Room({ headerBlock, offer, isUserLoggedIn }: RoomProps): JSX.Element {
             className="near-places"
             header="Other places in the neighbourhood"
             offers={nearbyOffers}
-            onActive={(item) => setHoveredOffer(item)}
-            onBlur={() => setHoveredOffer(null)}
           />
         </div>
       </main>
