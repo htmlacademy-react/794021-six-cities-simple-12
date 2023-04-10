@@ -29,7 +29,7 @@ export function getMultipleOfPlaceWord(count: number): string {
   return 'places';
 }
 
-export function getFirstOffer(offers: Offers, offerId: OfferId): Offer | null {
+export function findFirstOffer(offers: Offers, offerId: OfferId): Offer | null {
   return offers.find(({ id }) => id === offerId) ?? null;
 }
 

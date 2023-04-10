@@ -3,7 +3,7 @@ import { DomainNamespace } from 'src/consts/domain';
 import { INITIAL_CITY_NAME } from 'src/consts/consts';
 import { Offers, ReviewsMap } from 'src/types/types';
 import { fetchOfferAction, fetchOffersAction, fetchReviewsAction } from '../api-actions';
-import { getFirstOffer } from 'src/utils/utils';
+import { findFirstOffer } from 'src/utils/utils';
 import { FetchStatus } from 'src/consts/api';
 
 const initialState = {
@@ -33,7 +33,7 @@ export const data = createSlice({
       })
 
       .addCase(fetchOfferAction.fulfilled, (state, { payload }) => {
-        const foundOffer = getFirstOffer(state.offers, payload.id);
+        const foundOffer = findFirstOffer(state.offers, payload.id);
         if (foundOffer) {
           state.offers[foundOffer.id] = payload;
         } else {
