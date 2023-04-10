@@ -4,11 +4,11 @@ import { INITIAL_CITY_NAME } from 'src/consts/consts';
 import { Offers, ReviewsMap } from 'src/types/types';
 import { fetchOfferAction, fetchOffersAction, fetchReviewsAction } from '../api-actions';
 import { getFirstOffer } from 'src/utils/utils';
+import { FetchStatus } from 'src/consts/api';
 
 const initialState = {
   cityName: INITIAL_CITY_NAME,
-  areOffersFetched: false,
-  areOffersFetching: false,
+  offersFetchStatus: FetchStatus.NotStarted as FetchStatus,
   isOfferFetching: false,
   areReviewsFetching: false,
   offers: [] as Offers,
@@ -47,18 +47,16 @@ export const data = createSlice({
       })
 
       .addCase(fetchOffersAction.pending, (state) => {
-        state.areOffersFetching = true;
+        state.offersFetchStatus = FetchStatus.Pending;
       })
 
       .addCase(fetchOffersAction.fulfilled, (state, { payload }) => {
         state.offers = payload;
-        state.areOffersFetched = true;
-        state.areOffersFetching = false;
+        state.offersFetchStatus = FetchStatus.FetchedWithNoError;
       })
 
       .addCase(fetchOffersAction.rejected, (state) => {
-        state.areOffersFetched = false;
-        state.areOffersFetching = false;
+        state.offersFetchStatus = FetchStatus.FetchedWithError;
       })
 
       .addCase(fetchReviewsAction.pending, (state) => {

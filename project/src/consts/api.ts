@@ -18,3 +18,10 @@ export enum AuthorizationStatus {
   NotAuthorized = 'NOT_AUTHORIZED',
   Unknown = 'UNKNOWN',
 }
+
+export enum FetchStatus {
+  FetchedWithError = 'fetched-with-error',
+  FetchedWithNoError = 'fetched-with-no-error',
+  NotStarted = 'not-started',
+  Pending = 'pending',
+}
