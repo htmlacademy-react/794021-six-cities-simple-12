@@ -9,7 +9,7 @@ import GeoMap from 'src/components/geo-map/geo-map';
 import OfferCards from 'src/components/offer-сards/offer-cards';
 import OfferSortingForm from 'src/components/offer-sorting-form/offer-sorting-form';
 import { Spinner } from 'src/components/spinner/spinner';
-import EmptyOffer from 'src/components/empty-offer/empty-offer';
+import NoOfferBlock from 'src/components/no-offer-block/no-offer-block';
 import { getMultipleOfPlaceWord, sortOffers } from 'src/utils/utils';
 import { DEFAULT_OFFER_SORTING_KEY_NAME, OfferSortingOption } from 'src/consts/consts';
 import { FetchStatus } from 'src/consts/api';
@@ -89,7 +89,7 @@ function Main(props: MainProps) {
               </div>
             </div>
             :
-            <EmptyOffer cityName={currentCityName} />
+            <NoOfferBlock cityName={currentCityName} />
         }
       </main>
     </div>
