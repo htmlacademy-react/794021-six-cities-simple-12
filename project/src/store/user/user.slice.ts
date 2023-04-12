@@ -15,10 +15,6 @@ export const user = createSlice({
   name: DomainNamespace.User,
   initialState,
   reducers: {
-    setUserAvatarUrlAction: (state, { payload }: PayloadAction<string>) => {
-      state.avatarUrl = payload;
-    },
-
     setUserLoginAction: (state, { payload }: PayloadAction<string>) => {
       state.login = payload;
     },
@@ -51,4 +47,4 @@ export const user = createSlice({
   }
 });
 
-export const { setUserAvatarUrlAction, setUserLoginAction } = user.actions;
+export const { setUserLoginAction } = user.actions;
