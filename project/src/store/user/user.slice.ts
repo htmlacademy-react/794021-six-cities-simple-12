@@ -8,7 +8,6 @@ import { dropToken, setToken } from 'src/services/token';
 const initialState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   avatarUrl: '' as string,
-  isUserLoggingIn: false,
   login: '' as UserLogin,
 };
 
@@ -16,15 +15,11 @@ export const user = createSlice({
   name: DomainNamespace.User,
   initialState,
   reducers: {
-    setIsUserLoggingInAction: (state, { payload }:PayloadAction<boolean>) => {
-      state.isUserLoggingIn = payload;
-    },
-
-    setUserAvatarUrlAction: (state, { payload }:PayloadAction<string>) => {
+    setUserAvatarUrlAction: (state, { payload }: PayloadAction<string>) => {
       state.avatarUrl = payload;
     },
 
-    setUserLoginAction: (state, { payload }:PayloadAction<string>) => {
+    setUserLoginAction: (state, { payload }: PayloadAction<string>) => {
       state.login = payload;
     },
   },
@@ -45,7 +40,7 @@ export const user = createSlice({
         state.authorizationStatus = AuthorizationStatus.Authorized;
       })
 
-      .addCase(logUserInAction.rejected, (state) => {
+      .addCase(logUserInAction.pending, (state) => {
         state.authorizationStatus = AuthorizationStatus.NotAuthorized;
       })
 
@@ -56,4 +51,4 @@ export const user = createSlice({
   }
 });
 
-export const { setIsUserLoggingInAction, setUserAvatarUrlAction, setUserLoginAction } = user.actions;
+export const { setUserAvatarUrlAction, setUserLoginAction } = user.actions;
