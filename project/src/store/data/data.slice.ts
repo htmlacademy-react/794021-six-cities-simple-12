@@ -28,10 +28,6 @@ export const data = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchOfferAction.pending, (state) => {
-        state.isOfferFetching = true;
-      })
-
       .addCase(fetchOfferAction.fulfilled, (state, { payload }) => {
         const foundOffer = findFirstOffer(state.offers, payload.id);
         if (foundOffer) {
@@ -42,12 +38,12 @@ export const data = createSlice({
         state.isOfferFetching = false;
       })
 
-      .addCase(fetchOfferAction.rejected, (state) => {
-        state.isOfferFetching = false;
+      .addCase(fetchOfferAction.pending, (state) => {
+        state.isOfferFetching = true;
       })
 
-      .addCase(fetchOffersAction.pending, (state) => {
-        state.offersFetchStatus = FetchStatus.Pending;
+      .addCase(fetchOfferAction.rejected, (state) => {
+        state.isOfferFetching = false;
       })
 
       .addCase(fetchOffersAction.fulfilled, (state, { payload }) => {
@@ -55,17 +51,21 @@ export const data = createSlice({
         state.offersFetchStatus = FetchStatus.FetchedWithNoError;
       })
 
-      .addCase(fetchOffersAction.rejected, (state) => {
-        state.offersFetchStatus = FetchStatus.FetchedWithError;
+      .addCase(fetchOffersAction.pending, (state) => {
+        state.offersFetchStatus = FetchStatus.Pending;
       })
 
-      .addCase(fetchReviewsAction.pending, (state) => {
-        state.areReviewsFetching = true;
+      .addCase(fetchOffersAction.rejected, (state) => {
+        state.offersFetchStatus = FetchStatus.FetchedWithError;
       })
 
       .addCase(fetchReviewsAction.fulfilled, (state, { payload }) => {
         state.reviewsMap = { ...state.reviewsMap, ...payload };
         state.areReviewsFetching = false;
+      })
+
+      .addCase(fetchReviewsAction.pending, (state) => {
+        state.areReviewsFetching = true;
       })
 
       .addCase(fetchReviewsAction.rejected, (state) => {
