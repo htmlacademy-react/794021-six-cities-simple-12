@@ -44,11 +44,6 @@ export const fetchReviewsAction = createAsyncThunk<ReviewsMap, Offer, {
     return {
       [offer.id]: reviews,
     };
-    /*
-    return {
-      id: offer.id,
-      reviews,
-    }; */
   },
 );
 
