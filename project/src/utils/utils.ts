@@ -1,5 +1,5 @@
-import { OfferSortingVariant, RATING_TO_PERCENT_STEP } from 'src/consts/consts';
-import { Offers, OfferSortingOption } from 'src/types/types';
+import { OfferSortingOption, RATING_TO_PERCENT_STEP } from 'src/consts/consts';
+import { Offer, OfferId, Offers } from 'src/types/types';
 
 export function getPercentFromRating(rating: number): string {
   const roundedPercent = Math.round(rating) * RATING_TO_PERCENT_STEP;
@@ -18,11 +18,19 @@ export function capitalizeFirstLetter(text: string): string {
   return head.toUpperCase() + tail;
 }
 
+export function throwErrorAtImpossibleCase (_arg: never) {
+  throw new Error('This line should never be reached.');
+}
+
 export function getMultipleOfPlaceWord(count: number): string {
   if (count === 1 || count === -1) {
     return 'place';
   }
   return 'places';
+}
+
+export function getFirstOffer(offers: Offers, offerId: OfferId): Offer | null {
+  return offers.find(({ id }) => id === offerId) ?? null;
 }
 
 export function getUniqueItems<T>(arr: Array<T>): Array<T> {
@@ -74,17 +82,19 @@ export function parseInteger(numberAsString = ''): number | typeof NaN {
 export function sortOffers(offers: Offers, sortingType: OfferSortingOption): Offers {
   const newOffers = [...offers];
   switch (sortingType) {
-    case OfferSortingVariant.popular.id: // FIXME: change to constant
+    case OfferSortingOption.Popular:
       return offers;
-    case OfferSortingVariant.priceLowToHigh.id:
+    case OfferSortingOption.PriceLowToHigh:
       newOffers.sort((offer1, offer2) => offer1.price < offer2.price ? -1 : 1);
       break;
-    case OfferSortingVariant.priceHighToLow.id:
+    case OfferSortingOption.PriceHighToLow:
       newOffers.sort((offer1, offer2) => offer1.price > offer2.price ? -1 : 1);
       break;
-    case OfferSortingVariant.topRatedFirst.id:
+    case OfferSortingOption.TopRatedFirst:
       newOffers.sort((offer1, offer2) => offer1.rating > offer2.rating ? -1 : 1);
       break;
+    default:
+      throwErrorAtImpossibleCase(sortingType);
   }
   return newOffers;
 }

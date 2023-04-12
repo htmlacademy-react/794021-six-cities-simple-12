@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
-import { useAppSelector } from 'src/hooks';
+import { getReviewsMap } from 'src/store/data/data.selectors';
 import { Reviews } from 'src/types/types';
+import { useAppSelector } from 'src/hooks';
 import { Offer } from 'src/types/types';
 
-const NO_REVIEWS: Reviews = [];
-
 export function useOfferReviews(offer: Offer): Reviews {
-  const [ reviews, setReviews ] = useState<Reviews>(NO_REVIEWS);
-  const allReviews = useAppSelector((state) => state.reviews);
+  const [ reviews, setReviews ] = useState<Reviews>([]);
+  const allReviewsMap = useAppSelector(getReviewsMap);
 
   useEffect(() => {
-    const foundReviews = allReviews.filter((review) => review.id === offer.id);
+    const foundReviews = allReviewsMap[offer.id] ?? [];
     setReviews(foundReviews);
 
-  }, [allReviews, offer]);
+  }, [allReviewsMap, offer]);
 
   return reviews;
 }

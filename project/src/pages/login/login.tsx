@@ -1,23 +1,25 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { store } from 'src/store';
+import { getCityName } from 'src/store/data/data.selectors';
+import { logUserInAction } from 'src/store/api-actions';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { useRedirectingIfAuthorized } from 'src/hooks/use-redirecting-if-authorized';
 import { AppRoute } from 'src/consts/consts';
-import { UserAuthorizationData } from 'src/types/api';
-import { logUserIn } from 'src/store/api-actions';
-import { store } from 'src/store';
+import { DomainNamespace } from 'src/consts/domain';
 import { UserLogin } from 'src/types/types';
+import { UserAuthorizationData } from 'src/types/api';
 
 type LoginProps = {
   headerBlock?: JSX.Element;
 }
 // TODO add '-screen' to filename?
 function Login({ headerBlock }: LoginProps): JSX.Element {
-  const { userLogin: storeUserLogin } = store.getState();
+  const { login: storeUserLogin } = store.getState()[DomainNamespace.User];
   const [ userLogin, setUserLogin ] = useState<UserLogin>(storeUserLogin);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
-  const currentCity = useAppSelector((state) => state.cityName);
+  const currentCity = useAppSelector(getCityName);
   useRedirectingIfAuthorized(AppRoute.Root);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -30,7 +32,7 @@ function Login({ headerBlock }: LoginProps): JSX.Element {
       password: passwordRef.current.value,
     };
 
-    dispatch(logUserIn(authData));
+    dispatch(logUserInAction(authData));
   };
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {

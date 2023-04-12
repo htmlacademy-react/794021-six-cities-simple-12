@@ -1,9 +1,10 @@
 import { MouseEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import cn from 'classnames';
 import { useAppDispatch } from 'src/hooks';
 import { isCurrentPage } from 'src/utils/utils';
 import { AppRoute } from 'src/consts/consts';
-import { logUserOut } from 'src/store/api-actions';
+import { logUserOutAction } from 'src/store/api-actions';
 
 type HeaderProps = {
   isAuthorized: boolean;
@@ -17,30 +18,23 @@ function Header(props: HeaderProps): JSX.Element {
   const { pathname: locationPathname } = useLocation();
   const avatarCssStyle = { backgroundImage: `url(${props.userAvatarUrl})` };
 
-  let href = '';
-  let signInOutClassName = '';
-  let linkText = '';
+  let signInOutLinkHref = '';
+  let signInOutLinkText = '';
 
   if (props.isAuthorized) {
-    signInOutClassName = 'header__signout';
-    linkText = 'Sign out';
-    href = '';
+    signInOutLinkText = 'Sign out';
+    signInOutLinkHref = '';
   } else if (props.isNotAuthorized) {
-    signInOutClassName = 'header__login';
-    linkText = 'Sign in';
-    href = AppRoute.Login;
+    signInOutLinkText = 'Sign in';
+    signInOutLinkHref = AppRoute.Login;
   }
 
-  const linkClassName = isCurrentPage(locationPathname, AppRoute.Root) ?
-    'header__logo-link header__logo-link--active' :
-    'header__logo-link';
-
-  const handleOnClick = (evt: MouseEvent) => {
+  const handleSignInOutClick = (evt: MouseEvent) => {
     if (!props.isAuthorized) {
       return;
     }
     evt.preventDefault();
-    dispatch(logUserOut());
+    dispatch(logUserOutAction());
   };
 
   return (
@@ -48,7 +42,13 @@ function Header(props: HeaderProps): JSX.Element {
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">
-            <Link className={linkClassName} to="/">
+            <Link
+              className={cn(
+                'header__logo-link',
+                {'header__logo-link--active':  isCurrentPage(locationPathname, AppRoute.Root)}
+              )}
+              to="/"
+            >
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
             </Link>
           </div>
@@ -69,16 +69,19 @@ function Header(props: HeaderProps): JSX.Element {
                   }
 
                   <li className="header__nav-item">
-                    <Link className="header__nav-link" to={href} onClick={props.isAuthorized ? handleOnClick : undefined}>
+                    <Link className="header__nav-link" to={signInOutLinkHref} onClick={handleSignInOutClick}>
                       {
-                        !props.isAuthorized ?
-                          null :
-                          <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                        props.isAuthorized ?
+                          <div className="header__avatar-wrapper user__avatar-wrapper"></div> :
+                          null
                       }
                       <span
-                        className={signInOutClassName}
+                        className={cn({
+                          'header__signout': props.isAuthorized,
+                          'header__login': props.isNotAuthorized,
+                        })}
                       >
-                        {linkText}
+                        {signInOutLinkText}
                       </span>
                     </Link>
                   </li>

@@ -1,7 +1,7 @@
 import { FocusEvent, KeyboardEvent, useRef, useState } from 'react';
-import { OfferSortingVariant } from 'src/consts/consts';
-import { OfferSortingOption } from 'src/types/types';
+import cn from 'classnames';
 import { isChildNode } from 'src/utils/utils';
+import { OfferSortingOption } from 'src/consts/consts';
 
 type OfferSortingFormProps = {
   onChangeSortingType: (item: OfferSortingOption) => void;
@@ -12,7 +12,6 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
   const menuRef = useRef<HTMLElement>(null);
   const listRef = useRef(null);
   const [ isOpen, setIsOpen ] = useState(false);
-  const menuAdditionalClassName = isOpen ? 'places__options--opened' : '';
 
   const handleClickMenu = () => setIsOpen(!isOpen);
 
@@ -35,6 +34,7 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
 
   const handleClickMenuItem = (soringType: OfferSortingOption) => {
     setIsOpen(false);
+    menuRef.current && menuRef.current.focus();
     props.onChangeSortingType(soringType);
   };
 
@@ -58,31 +58,33 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
         ref={menuRef}
         tabIndex={0}
       >
-        {OfferSortingVariant[props.sortingType].title}
+        {props.sortingType}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className={`places__options places__options--custom ${menuAdditionalClassName}`}
+      <ul
+        className={cn(
+          'places__options places__options--custom',
+          { 'places__options--opened': isOpen }
+        )}
         ref={listRef}
       >
         {
-          Object.values(OfferSortingVariant).map((sortingOption) => {
-            const additionalClassName = sortingOption.id === props.sortingType ?
-              'places__option--active' :
-              '';
-            return (
-              <li
-                className={`places__option ${additionalClassName}`}
-                key={sortingOption.id}
-                tabIndex={0}
-                onClick={() => handleClickMenuItem(sortingOption.id)}
-                onKeyDown={(evt) => handleKeyDownMenuItem(evt, sortingOption.id)}
-              >
-                {sortingOption.title}
-              </li>
-            );
-          })
+          Object.values(OfferSortingOption).map((sortingOption) => (
+            <li
+              className={cn(
+                'places__option',
+                { 'places__option--active': sortingOption === props.sortingType }
+              )}
+              key={sortingOption}
+              tabIndex={0}
+              onClick={() => handleClickMenuItem(sortingOption)}
+              onKeyDown={(evt) => handleKeyDownMenuItem(evt, sortingOption)}
+            >
+              {sortingOption}
+            </li>
+          ))
         }
       </ul>
     </form>

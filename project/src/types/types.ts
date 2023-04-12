@@ -1,5 +1,3 @@
-import { OfferSortingVariant } from 'src/consts/consts';
-
 export type Offer = {
   bedrooms: number;
   city: City;
@@ -71,4 +69,4 @@ export type Review = {
 
 export type Reviews = Review[]
 
-export type OfferSortingOption = keyof typeof OfferSortingVariant;
+export type ReviewsMap = Record<OfferId, Reviews>

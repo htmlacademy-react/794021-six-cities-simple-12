@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useNearbyOffers } from 'src/hooks/use-nearby-offers';
+import { useOfferReviews } from 'src/hooks/use-offer-reviews';
 import OfferCards from 'src/components/offer-сards/offer-cards';
 import RoomDescription from 'src/components/room-description/room-description';
 import RoomGallery from 'src/components/room-gallery/room-gallery';
@@ -6,15 +8,11 @@ import RoomHardwareFeatures from 'src/components/room-hardware-features/room-har
 import RoomHost from 'src/components/room-host/room-host';
 import RoomReviews from 'src/components/room-reviews/room-reviews';
 import GeoMap from 'src/components/geo-map/geo-map';
-import { Offer } from 'src/types/types';
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
 import { NEARBY_OFFERS_LIMIT_COUNT } from 'src/consts/consts';
-import { useNearbyOffers } from 'src/hooks/use-nearby-offers';
-import { useOfferReviews } from 'src/hooks/use-offer-reviews';
-import { fetchReviwes } from 'src/store/api-actions';
+import { Offer } from 'src/types/types';
 import { store } from 'src/store';
-
-type ActiveOffer = Offer | null;
+import { fetchReviewsAction } from 'src/store/api-actions';
 
 type RoomProps = {
   headerBlock?: JSX.Element;
@@ -23,12 +21,11 @@ type RoomProps = {
 }
 
 function Room({ headerBlock, offer, isUserLoggedIn }: RoomProps): JSX.Element {
-  const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
   const nearbyOffers = useNearbyOffers(offer, NEARBY_OFFERS_LIMIT_COUNT);
   const reviews = useOfferReviews(offer);
 
   useEffect(() => {
-    store.dispatch(fetchReviwes(offer));
+    store.dispatch(fetchReviewsAction(offer));
   }, [ offer ]);
 
   return (
@@ -86,7 +83,7 @@ function Room({ headerBlock, offer, isUserLoggedIn }: RoomProps): JSX.Element {
             </div>
           </div>
           <GeoMap
-            activeOffer={hoveredOffer}
+            activeOffer={null}
             className='property__map'
             offers={nearbyOffers}
           />
@@ -96,8 +93,6 @@ function Room({ headerBlock, offer, isUserLoggedIn }: RoomProps): JSX.Element {
             className="near-places"
             header="Other places in the neighbourhood"
             offers={nearbyOffers}
-            onActive={(item) => setHoveredOffer(item)}
-            onBlur={() => setHoveredOffer(null)}
           />
         </div>
       </main>

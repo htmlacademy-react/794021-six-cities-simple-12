@@ -1,7 +1,7 @@
 import { Navigate, useParams } from 'react-router-dom';
-import Room from 'src/pages/room/room';
-import { Spinner } from '../spinner/spinner';
 import { useFoundOffer } from 'src/hooks/use-found-offer';
+import Room from 'src/pages/room/room';
+import { Spinner } from 'src/components/spinner/spinner';
 import { AppRoute } from 'src/consts/consts';
 
 type RoomWrapperProps = {

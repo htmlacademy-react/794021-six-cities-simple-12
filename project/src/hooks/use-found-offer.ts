@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
-import { parseInteger } from 'src/utils/utils';
-import { Offer } from 'src/types/types';
-import { useAppSelector } from '.';
+import { useEffect, useState } from 'react';
 import { store } from 'src/store';
-import { fetchOffer } from 'src/store/api-actions';
+import { fetchOfferAction } from 'src/store/api-actions';
+import { getOffers } from 'src/store/data/data.selectors';
+import { useAppSelector } from 'src/hooks';
+import { getFirstOffer, parseInteger } from 'src/utils/utils';
+import { DomainNamespace } from 'src/consts/domain';
+import { Offer } from 'src/types/types';
 
 type UseFoundOfferResult = {
   isNotFound: boolean;
@@ -12,27 +14,29 @@ type UseFoundOfferResult = {
 
 export function useFoundOffer(idAsString: string): UseFoundOfferResult {
   const offerIdAsInt = parseInteger(idAsString);
+  const allOffers = useAppSelector(getOffers);
   const [ isNotFound, setIsNotFound ] = useState<boolean>(isNaN(offerIdAsInt));
   const [ foundOffer, setFoundOffer ] = useState<Offer | null>(null);
-  const isStartedFetchingRef = useRef(false);
-
-  const allOffers = useAppSelector((state) => state.offers);
 
   useEffect(() => {
-    const offer = allOffers.find(({ id }) => id === offerIdAsInt) ?? null;
+    const offer = getFirstOffer(allOffers, offerIdAsInt);
     if (offer) {
       setFoundOffer(offer);
       return;
     }
 
-    if (!isStartedFetchingRef.current) {
-      isStartedFetchingRef.current = true;
-      store.dispatch(fetchOffer(offerIdAsInt));
+    const state = store.getState();
+    const { areOffersFetched, areOffersFetching, isOfferFetching } = state[DomainNamespace.BusinessData];
+    if (areOffersFetching || isOfferFetching) {
       return;
     }
 
-    const state = store.getState();
-    !state.isFetchingOffers && setIsNotFound(true);
+    if (!areOffersFetched) {
+      store.dispatch(fetchOfferAction(offerIdAsInt));
+      return;
+    }
+
+    setIsNotFound(true);
   }, [allOffers, offerIdAsInt]);
 
   return {
