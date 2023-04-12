@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from 'src/consts/api';
 import { DomainNamespace } from 'src/consts/domain';
 import { UserLogin } from 'src/types/types';
@@ -8,26 +8,13 @@ import { dropToken, setToken } from 'src/services/token';
 const initialState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   avatarUrl: '' as string,
-  isUserLoggingIn: false,
   login: '' as UserLogin,
 };
 
 export const user = createSlice({
   name: DomainNamespace.User,
   initialState,
-  reducers: {
-    setIsUserLoggingInAction: (state, { payload }:PayloadAction<boolean>) => {
-      state.isUserLoggingIn = payload;
-    },
-
-    setUserAvatarUrlAction: (state, { payload }:PayloadAction<string>) => {
-      state.avatarUrl = payload;
-    },
-
-    setUserLoginAction: (state, { payload }:PayloadAction<string>) => {
-      state.login = payload;
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(checkIfUserAuthorizedAction.fulfilled, (state, { payload }) => {
@@ -41,8 +28,14 @@ export const user = createSlice({
       })
 
       .addCase(logUserInAction.fulfilled, (state, { payload }) => {
-        setToken(payload);
+        setToken(payload.token);
+        state.avatarUrl = payload.avatarUrl;
+        state.login = payload.email;
         state.authorizationStatus = AuthorizationStatus.Authorized;
+      })
+
+      .addCase(logUserInAction.pending, (state, { meta }) => {
+        state.login = meta.arg?.email;
       })
 
       .addCase(logUserInAction.rejected, (state) => {
@@ -51,9 +44,8 @@ export const user = createSlice({
 
       .addCase(logUserOutAction.pending, (state) => {
         dropToken();
+        state.login = '';
         state.authorizationStatus = AuthorizationStatus.NotAuthorized;
       });
   }
 });
-
-export const { setIsUserLoggingInAction, setUserAvatarUrlAction, setUserLoginAction } = user.actions;

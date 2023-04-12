@@ -28,7 +28,7 @@ export type CityName = string
 export type CityNames = readonly CityName[]
 
 export type Image = string
-export type Images = string[]
+export type Images = Image[]
 
 export type HardwareFeatures = HardwareFeature[]
 export type HardwareFeature = string

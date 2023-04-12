@@ -3,12 +3,12 @@ import { DomainNamespace } from 'src/consts/domain';
 import { INITIAL_CITY_NAME } from 'src/consts/consts';
 import { Offers, ReviewsMap } from 'src/types/types';
 import { fetchOfferAction, fetchOffersAction, fetchReviewsAction } from '../api-actions';
-import { getFirstOffer } from 'src/utils/utils';
+import { findFirstOffer } from 'src/utils/utils';
+import { FetchStatus } from 'src/consts/api';
 
 const initialState = {
   cityName: INITIAL_CITY_NAME,
-  areOffersFetched: false,
-  areOffersFetching: false,
+  offersFetchStatus: FetchStatus.NotStarted as FetchStatus,
   isOfferFetching: false,
   areReviewsFetching: false,
   offers: [] as Offers,
@@ -28,12 +28,8 @@ export const data = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchOfferAction.pending, (state) => {
-        state.isOfferFetching = true;
-      })
-
       .addCase(fetchOfferAction.fulfilled, (state, { payload }) => {
-        const foundOffer = getFirstOffer(state.offers, payload.id);
+        const foundOffer = findFirstOffer(state.offers, payload.id);
         if (foundOffer) {
           state.offers[foundOffer.id] = payload;
         } else {
@@ -42,32 +38,34 @@ export const data = createSlice({
         state.isOfferFetching = false;
       })
 
+      .addCase(fetchOfferAction.pending, (state) => {
+        state.isOfferFetching = true;
+      })
+
       .addCase(fetchOfferAction.rejected, (state) => {
         state.isOfferFetching = false;
       })
 
-      .addCase(fetchOffersAction.pending, (state) => {
-        state.areOffersFetching = true;
-      })
-
       .addCase(fetchOffersAction.fulfilled, (state, { payload }) => {
         state.offers = payload;
-        state.areOffersFetched = true;
-        state.areOffersFetching = false;
+        state.offersFetchStatus = FetchStatus.FetchedWithNoError;
+      })
+
+      .addCase(fetchOffersAction.pending, (state) => {
+        state.offersFetchStatus = FetchStatus.Pending;
       })
 
       .addCase(fetchOffersAction.rejected, (state) => {
-        state.areOffersFetched = false;
-        state.areOffersFetching = false;
-      })
-
-      .addCase(fetchReviewsAction.pending, (state) => {
-        state.areReviewsFetching = true;
+        state.offersFetchStatus = FetchStatus.FetchedWithError;
       })
 
       .addCase(fetchReviewsAction.fulfilled, (state, { payload }) => {
         state.reviewsMap = { ...state.reviewsMap, ...payload };
         state.areReviewsFetching = false;
+      })
+
+      .addCase(fetchReviewsAction.pending, (state) => {
+        state.areReviewsFetching = true;
       })
 
       .addCase(fetchReviewsAction.rejected, (state) => {

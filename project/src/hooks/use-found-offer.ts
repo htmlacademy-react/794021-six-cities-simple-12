@@ -3,8 +3,9 @@ import { store } from 'src/store';
 import { fetchOfferAction } from 'src/store/api-actions';
 import { getOffers } from 'src/store/data/data.selectors';
 import { useAppSelector } from 'src/hooks';
-import { getFirstOffer, parseInteger } from 'src/utils/utils';
+import { findFirstOffer, parseInteger } from 'src/utils/utils';
 import { DomainNamespace } from 'src/consts/domain';
+import { FetchStatus } from 'src/consts/api';
 import { Offer } from 'src/types/types';
 
 type UseFoundOfferResult = {
@@ -19,19 +20,19 @@ export function useFoundOffer(idAsString: string): UseFoundOfferResult {
   const [ foundOffer, setFoundOffer ] = useState<Offer | null>(null);
 
   useEffect(() => {
-    const offer = getFirstOffer(allOffers, offerIdAsInt);
+    const offer = findFirstOffer(allOffers, offerIdAsInt);
     if (offer) {
       setFoundOffer(offer);
       return;
     }
 
     const state = store.getState();
-    const { areOffersFetched, areOffersFetching, isOfferFetching } = state[DomainNamespace.BusinessData];
-    if (areOffersFetching || isOfferFetching) {
+    const { offersFetchStatus, isOfferFetching } = state[DomainNamespace.BusinessData];
+    if (offersFetchStatus === FetchStatus.Pending || isOfferFetching) {
       return;
     }
 
-    if (!areOffersFetched) {
+    if (offersFetchStatus === FetchStatus.NotStarted || offersFetchStatus === FetchStatus.FetchedWithError) {
       store.dispatch(fetchOfferAction(offerIdAsInt));
       return;
     }

@@ -1,10 +1,10 @@
 import { CityName } from 'src/types/types';
 
-type EmptyOfferProps = {
+type NoOfferBlockProps = {
   cityName: CityName;
 }
 
-function EmptyOffer({ cityName }: EmptyOfferProps): JSX.Element {
+function NoOfferBlock({ cityName }: NoOfferBlockProps): JSX.Element {
   return (
     <div className="cities">
       <div className="cities__places-container container cities__places-container--empty">
@@ -23,4 +23,4 @@ function EmptyOffer({ cityName }: EmptyOfferProps): JSX.Element {
   );
 }
 
-export default EmptyOffer;
+export default NoOfferBlock;

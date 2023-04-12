@@ -9,8 +9,10 @@ import GeoMap from 'src/components/geo-map/geo-map';
 import OfferCards from 'src/components/offer-сards/offer-cards';
 import OfferSortingForm from 'src/components/offer-sorting-form/offer-sorting-form';
 import { Spinner } from 'src/components/spinner/spinner';
+import NoOfferBlock from 'src/components/no-offer-block/no-offer-block';
 import { getMultipleOfPlaceWord, sortOffers } from 'src/utils/utils';
 import { DEFAULT_OFFER_SORTING_KEY_NAME, OfferSortingOption } from 'src/consts/consts';
+import { FetchStatus } from 'src/consts/api';
 import { CityNames, Offer } from 'src/types/types';
 
 type ActiveOffer = Offer | null;
@@ -25,7 +27,7 @@ function Main(props: MainProps) {
   const [ sortingType, setSortingType ] = useState<OfferSortingOption>(DEFAULT_OFFER_SORTING_KEY_NAME);
   const currentCityName = useAppSelector(getCityName);
   const dispatch = useAppDispatch();
-  const offers = useFoundOffers(currentCityName);
+  const { fetchStatus, offers } = useFoundOffers(currentCityName);
 
   return (
     <div className="page page--gray page--main">
@@ -48,13 +50,13 @@ function Main(props: MainProps) {
         </div>
 
         {
-          !offers.length ?
+          fetchStatus === FetchStatus.Pending || fetchStatus === FetchStatus.NotStarted ?
             <Spinner text={'Offers are loading ...'} /> :
             null
         }
 
         {
-          offers.length ?
+          fetchStatus === FetchStatus.FetchedWithNoError && offers.length > 0 ?
             <div className="cities">
               <div className="cities__places-container container">
                 <OfferCards
@@ -87,7 +89,7 @@ function Main(props: MainProps) {
               </div>
             </div>
             :
-            null
+            <NoOfferBlock cityName={currentCityName} />
         }
       </main>
     </div>
