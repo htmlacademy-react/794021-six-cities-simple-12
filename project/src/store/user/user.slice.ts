@@ -28,16 +28,23 @@ export const user = createSlice({
       })
 
       .addCase(logUserInAction.fulfilled, (state, { payload }) => {
-        setToken(payload);
+        setToken(payload.token);
+        state.avatarUrl = payload.avatarUrl;
+        state.login = payload.email;
         state.authorizationStatus = AuthorizationStatus.Authorized;
       })
 
-      .addCase(logUserInAction.pending, (state) => {
+      .addCase(logUserInAction.pending, (state, { meta }) => {
+        state.login = meta.arg?.email;
+      })
+
+      .addCase(logUserInAction.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NotAuthorized;
       })
 
       .addCase(logUserOutAction.pending, (state) => {
         dropToken();
+        state.login = '';
         state.authorizationStatus = AuthorizationStatus.NotAuthorized;
       });
   }

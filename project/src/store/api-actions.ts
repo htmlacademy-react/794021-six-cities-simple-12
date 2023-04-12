@@ -47,18 +47,18 @@ export const fetchReviewsAction = createAsyncThunk<ReviewsMap, Offer, {
   },
 );
 
-export const logUserInAction = createAsyncThunk<Token, UserAuthorizationData, {
+export const logUserInAction = createAsyncThunk<UserData, UserAuthorizationData, {
   dispatch: AppDispatch;
   state: AppState;
   extra: AxiosInstance;
 }>(
   'user/logIn',
   async (authData, { extra: api }) => {
-    const { data } = await api.post<UserData>(
+    const { data: userData } = await api.post<UserData>(
       APIRoute.Login,
       authData,
     );
-    return data.token;
+    return userData;
   },
 );
 
