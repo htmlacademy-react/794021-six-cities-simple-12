@@ -35,7 +35,7 @@ const makeMockImages = (): Images =>
   new Array(datatype.number(3) + 7)
     .fill(internet.url()) as Images;
 
-export const makeFakeOffer = (): Offer => ({
+export const makeMockOffer = (): Offer => ({
   bedrooms: datatype.number(100) + 1,
   city: makeMockCity(),
   description: lorem.sentence(),

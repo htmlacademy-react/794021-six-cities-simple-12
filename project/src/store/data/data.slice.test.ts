@@ -1,7 +1,7 @@
 import { address } from 'faker';
 import { data, setCityNameAction } from './data.slice';
 import { fetchOfferAction, fetchOffersAction, fetchReviewsAction } from 'src/store/api-actions';
-import { makeFakeOffer } from 'src/utils/mock-offer';
+import { makeMockOffer } from 'src/utils/mock-offer';
 import { makeMockReviewsMap } from 'src/utils/mock-review';
 import { FetchStatus } from 'src/consts/api';
 
@@ -38,7 +38,7 @@ describe('Reducer: data', () => {
 
     it('checks fulfilled status', () => {
       const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
-      const offer = makeFakeOffer();
+      const offer = makeMockOffer();
 
       const stateToBe = {
         ...initialState,
@@ -52,7 +52,7 @@ describe('Reducer: data', () => {
 
     it('checks adding the same offer again', () => {
       const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
-      const offer = makeFakeOffer();
+      const offer = makeMockOffer();
       const stateBefore = reducer(initialState, { type: action.fulfilled.type, payload: offer });
       const stateAfter = reducer(stateBefore, { type: action.fulfilled.type, payload: offer });
 
@@ -90,7 +90,7 @@ describe('Reducer: data', () => {
     const action = fetchOffersAction;
     it('checks fulfilled status', () => {
       const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
-      const offers = new Array(30).fill(makeFakeOffer());
+      const offers = new Array(30).fill(makeMockOffer());
 
       const stateToBe = {
         ...initialState,
@@ -157,7 +157,6 @@ describe('Reducer: data', () => {
         .toEqual(stateToBe);
 
     });
-
 
     it('checks rejected status', () => {
       const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
