@@ -20,9 +20,6 @@ export const data = createSlice({
   initialState,
   reducers: {
     setCityNameAction: (state, { payload }: PayloadAction<string>) => {
-      if (payload === state.cityName) {
-        return;
-      }
       state.cityName = payload;
     },
   },
