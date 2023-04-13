@@ -5,13 +5,13 @@ import { City } from 'src/types/types';
 import { OfferLocation } from 'src/types/types';
 import { Offer } from 'src/types/types';
 
-const makeFakeLocation = (): OfferLocation => ({
+const makeMockLocation = (): OfferLocation => ({
   latitude: +address.latitude(),
   longitude: +address.longitude(),
   zoom: datatype.number(10) + 1,
 });
 
-const makeFakeCity = (): City => ({
+const makeMockCity = (): City => ({
   location: {
     latitude: +address.latitude(),
     longitude: +address.longitude(),
@@ -20,30 +20,34 @@ const makeFakeCity = (): City => ({
   name: address.cityName(),
 });
 
-const makeFakeHost = (): OfferHost => ({
+const makeMockHost = (): OfferHost => ({
   avatarUrl: internet.url(),
   id: datatype.number(100) + 1,
   isPro: datatype.boolean(),
   name: name.firstName(),
 });
 
-const makeFakeGoods = (): HardwareFeatures => new Array(datatype.number(5) + 1).fill(lorem.words(4)) as HardwareFeatures;
+const makeMockGoods = (): HardwareFeatures =>
+  new Array(datatype.number(5) + 1)
+    .fill(lorem.words(4)) as HardwareFeatures;
 
-const makeFakeImages = (): Images => new Array(datatype.number(3) + 7).fill(internet.url()) as Images;
+const makeMockImages = (): Images =>
+  new Array(datatype.number(3) + 7)
+    .fill(internet.url()) as Images;
 
 export const makeFakeOffer = (): Offer => ({
   bedrooms: datatype.number(100) + 1,
-  city: makeFakeCity(),
+  city: makeMockCity(),
   description: lorem.sentence(),
-  goods: makeFakeGoods(),
-  host: makeFakeHost(),
+  goods: makeMockGoods(),
+  host: makeMockHost(),
   id: datatype.number(100) + 1,
-  images: makeFakeImages(),
+  images: makeMockImages(),
   isPremium: datatype.boolean(),
-  location: makeFakeLocation(),
+  location: makeMockLocation(),
   maxAdults: datatype.number(5) + 1,
   price: +finance.amount(1, 1001, 2),
   rating: datatype.number(5),
-  title: 'a',
-  type: 'a',
+  title: lorem.sentence(),
+  type: lorem.words(4),
 });
