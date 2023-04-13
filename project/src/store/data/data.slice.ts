@@ -26,12 +26,16 @@ export const data = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchOfferAction.fulfilled, (state, { payload }) => {
-        const foundOffer = findFirstOffer(state.offers, payload.id);
-        if (foundOffer) {
-          state.offers[foundOffer.id] = payload;
+        const foundIndex = state.offers.findIndex(
+          ({ id }) => id === payload.id
+        );
+
+        if (foundIndex >= 0) {
+          state.offers[foundIndex] = payload;
         } else {
           state.offers.push(payload);
         }
+
         state.isOfferFetching = false;
       })
 
