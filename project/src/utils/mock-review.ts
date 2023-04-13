@@ -10,15 +10,15 @@ const makeMockReviewer = (): Reviewer => ({
 
 const makeMockReview = (): Review => ({
   comment: lorem.paragraphs(2, '\n'),
-  date: datatype.datetime().toDateString(), // Check format
+  date: datatype.datetime().toDateString(),
   id: datatype.number(10),
   rating: datatype.number(50) / 10,
   user: makeMockReviewer(),
 });
 
 export const makeMockReviewsMap = (
-  count: number,
   offerId: OfferId,
+  count: number,
 ): ReviewsMap => {
   const reviews = new Array(count).fill(makeMockReview());
 
