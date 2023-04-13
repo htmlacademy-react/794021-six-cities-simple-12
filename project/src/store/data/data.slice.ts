@@ -3,7 +3,6 @@ import { DomainNamespace } from 'src/consts/domain';
 import { INITIAL_CITY_NAME } from 'src/consts/consts';
 import { Offers, ReviewsMap } from 'src/types/types';
 import { fetchOfferAction, fetchOffersAction, fetchReviewsAction } from '../api-actions';
-import { findFirstOffer } from 'src/utils/utils';
 import { FetchStatus } from 'src/consts/api';
 
 const initialState = {
@@ -75,6 +74,4 @@ export const data = createSlice({
   }
 });
 
-export const {
-  setCityNameAction,
-} = data.actions;
+export const { setCityNameAction } = data.actions;
