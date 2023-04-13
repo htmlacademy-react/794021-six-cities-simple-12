@@ -12,7 +12,7 @@ describe('Component: CitiesList', () => {
       <CitiesList
         cityNames={cityNames}
         currentCityName={currentCityName}
-        onChangeCityName={(_cityName) => (_cityName)}
+        onChangeCityName={jest.fn()}
       />
     );
 
