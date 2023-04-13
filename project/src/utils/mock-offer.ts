@@ -1,5 +1,5 @@
 import { address, datatype, finance, lorem, name, internet } from 'faker';
-import { Images, OfferHost } from 'src/types/types';
+import { Images, OfferHost, Offers } from 'src/types/types';
 import { HardwareFeatures } from 'src/types/types';
 import { City } from 'src/types/types';
 import { OfferLocation } from 'src/types/types';
@@ -51,3 +51,6 @@ export const makeMockOffer = (): Offer => ({
   title: lorem.sentence(),
   type: lorem.words(4),
 });
+
+export const makeMockOffers = (count: number): Offers =>
+  new Array(count).fill(makeMockOffer()) as Offers;
