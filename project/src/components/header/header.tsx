@@ -1,10 +1,10 @@
 import { MouseEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import cn from 'classnames';
-import { useAppDispatch } from 'src/hooks';
 import { isCurrentPage } from 'src/utils/utils';
 import { AppRoute } from 'src/consts/consts';
 import { logUserOutAction } from 'src/store/api-actions';
+import { store } from 'src/store';
 
 type HeaderProps = {
   isAuthorized: boolean;
@@ -14,7 +14,6 @@ type HeaderProps = {
 }
 
 function Header(props: HeaderProps): JSX.Element {
-  const dispatch = useAppDispatch();
   const { pathname: locationPathname } = useLocation();
   const avatarCssStyle = { backgroundImage: `url(${props.userAvatarUrl})` };
 
@@ -34,7 +33,7 @@ function Header(props: HeaderProps): JSX.Element {
       return;
     }
     evt.preventDefault();
-    dispatch(logUserOutAction());
+    store.dispatch(logUserOutAction());
   };
 
   return (
