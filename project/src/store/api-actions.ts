@@ -49,7 +49,7 @@ export const fetchReviewsAction = createAsyncThunk<ReviewsMap, Offer, {
 }>(
   'data/fetchReviews',
   async (offer, { extra: api }) => {
-    const url = `${APIRoute.Reviews}/${offer.id.toString()}`;
+    const url = `${APIRoute.Reviews}${offer.id.toString()}`;
     const { data: reviews } = await api.get<Reviews>(url);
     return {
       [offer.id]: reviews,
