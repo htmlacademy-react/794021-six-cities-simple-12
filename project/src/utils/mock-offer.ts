@@ -56,4 +56,5 @@ export const makeMockOffer = (): Offer => ({
 
 export const makeMockOffers = (count: number): Offers =>
   new Array(count)
+    .fill({})
     .map((_item) => makeMockOffer()) as Offers;
