@@ -1,4 +1,5 @@
 import { address, datatype, finance, lorem, name, internet } from 'faker';
+import { OFFER_PHOTO_LIMIT_COUNT } from 'src/consts/consts';
 import { Images, OfferHost, OfferId, Offers } from 'src/types/types';
 import { HardwareFeatures } from 'src/types/types';
 import { City } from 'src/types/types';
@@ -33,7 +34,7 @@ const makeMockGoods = (): HardwareFeatures =>
     .map((_item) => lorem.words(4));
 
 const makeMockImages = (): Images =>
-  new Array(datatype.number(4) + 7)
+  new Array(datatype.number(3) + OFFER_PHOTO_LIMIT_COUNT + 1)
     .fill('')
     .map((_item) => internet.url());
 
