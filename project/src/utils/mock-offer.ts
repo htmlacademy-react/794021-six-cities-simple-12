@@ -1,6 +1,6 @@
 import { address, datatype, finance, lorem, name, internet } from 'faker';
 import { OFFER_PHOTO_LIMIT_COUNT } from 'src/consts/consts';
-import { Images, OfferHost, OfferId, Offers } from 'src/types/types';
+import { Images, OfferHost, Offers } from 'src/types/types';
 import { HardwareFeatures } from 'src/types/types';
 import { City } from 'src/types/types';
 import { OfferLocation } from 'src/types/types';
@@ -21,10 +21,10 @@ const makeMockCity = (): City => ({
   name: address.cityName(),
 });
 
-const makeMockHost = (): OfferHost => ({
+export const makeMockHost = (attributes?: Partial<OfferHost>): OfferHost => ({
   avatarUrl: internet.url(),
   id: datatype.number(100) + 1,
-  isPro: datatype.boolean(),
+  isPro: attributes?.isPro ?? datatype.boolean(),
   name: name.firstName(),
 });
 
@@ -38,13 +38,13 @@ const makeMockImages = (): Images =>
     .fill('')
     .map((_item) => internet.url());
 
-export const makeMockOffer = (id?: OfferId): Offer => ({
+export const makeMockOffer = (attributes?: Partial<Offer>): Offer => ({
   bedrooms: datatype.number(100) + 1,
   city: makeMockCity(),
   description: lorem.paragraphs(3, '\n'),
   goods: makeMockGoods(),
   host: makeMockHost(),
-  id: id ?? datatype.number(1000) + 1,
+  id: attributes?.id ?? datatype.number(1000) + 1,
   images: makeMockImages(),
   isPremium: datatype.boolean(),
   location: makeMockLocation(),
@@ -58,4 +58,4 @@ export const makeMockOffer = (id?: OfferId): Offer => ({
 export const makeMockOffers = (count: number): Offers =>
   new Array(count)
     .fill({})
-    .map((_item, index) => makeMockOffer(index)) as Offers;
+    .map((_item, index) => makeMockOffer({ id: index })) as Offers;
