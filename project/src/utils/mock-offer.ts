@@ -1,5 +1,5 @@
 import { address, datatype, finance, lorem, name, internet } from 'faker';
-import { Images, OfferHost, Offers } from 'src/types/types';
+import { Images, OfferHost, OfferId, Offers } from 'src/types/types';
 import { HardwareFeatures } from 'src/types/types';
 import { City } from 'src/types/types';
 import { OfferLocation } from 'src/types/types';
@@ -37,13 +37,13 @@ const makeMockImages = (): Images =>
     .fill('')
     .map((_item) => internet.url());
 
-export const makeMockOffer = (): Offer => ({
+export const makeMockOffer = (id?: OfferId): Offer => ({
   bedrooms: datatype.number(100) + 1,
   city: makeMockCity(),
   description: lorem.paragraphs(3, '\n'),
   goods: makeMockGoods(),
   host: makeMockHost(),
-  id: datatype.number(100) + 1,
+  id: id ?? datatype.number(1000) + 1,
   images: makeMockImages(),
   isPremium: datatype.boolean(),
   location: makeMockLocation(),
@@ -57,4 +57,4 @@ export const makeMockOffer = (): Offer => ({
 export const makeMockOffers = (count: number): Offers =>
   new Array(count)
     .fill({})
-    .map((_item) => makeMockOffer()) as Offers;
+    .map((_item, index) => makeMockOffer(index)) as Offers;
