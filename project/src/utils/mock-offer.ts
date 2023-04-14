@@ -40,7 +40,7 @@ const makeMockImages = (): Images =>
 export const makeMockOffer = (): Offer => ({
   bedrooms: datatype.number(100) + 1,
   city: makeMockCity(),
-  description: lorem.sentence(),
+  description: lorem.paragraphs(3, '\n'),
   goods: makeMockGoods(),
   host: makeMockHost(),
   id: datatype.number(100) + 1,
