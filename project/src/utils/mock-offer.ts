@@ -29,11 +29,13 @@ const makeMockHost = (): OfferHost => ({
 
 const makeMockGoods = (): HardwareFeatures =>
   new Array(datatype.number(5) + 1)
-    .fill(lorem.words(4)) as HardwareFeatures;
+    .fill('')
+    .map((_item) => lorem.words(4));
 
 const makeMockImages = (): Images =>
-  new Array(datatype.number(3) + 7)
-    .fill(internet.url()) as Images;
+  new Array(datatype.number(4) + 7)
+    .fill('')
+    .map((_item) => internet.url());
 
 export const makeMockOffer = (): Offer => ({
   bedrooms: datatype.number(100) + 1,
@@ -53,4 +55,5 @@ export const makeMockOffer = (): Offer => ({
 });
 
 export const makeMockOffers = (count: number): Offers =>
-  new Array(count).map((_item) => makeMockOffer()) as Offers;
+  new Array(count)
+    .map((_item) => makeMockOffer()) as Offers;
