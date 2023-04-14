@@ -5,7 +5,7 @@ import { AppRoute } from 'src/consts/consts';
 
 const TEXT_TO_BE = '404 Not Found' as const;
 
-describe('Component: "NotFound"', () => {
+describe('Component: <NotFound>', () => {
 
   it('renders static block', () => {
     render(

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { address } from 'faker';
 import NoOfferBlock from './no-offer-block';
 
-describe('Component "NoOfferBlock"', () => {
+describe('Component: <NoOfferBlock>', () => {
   it('checks title and city name in text', () => {
     const cityName = address.cityName();
 

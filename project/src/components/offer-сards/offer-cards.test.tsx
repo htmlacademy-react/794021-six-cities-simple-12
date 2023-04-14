@@ -4,7 +4,7 @@ import OfferCards from './offer-cards';
 import { makeMockOffers } from 'src/utils/mock-offer';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-describe('Component: OfferCards', () => {
+describe('Component: <OfferCards>', () => {
   const className = lorem.word();
   const header = lorem.sentence();
   const offersCount = 20;

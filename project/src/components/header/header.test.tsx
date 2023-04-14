@@ -4,7 +4,7 @@ import { internet } from 'faker';
 import { render, screen } from '@testing-library/react';
 import Header from './header';
 
-describe('Component: Header', () => {
+describe('Component: <Header>', () => {
   const userAvatarUrl = internet.url();
   const userLogin = internet.email();
 
