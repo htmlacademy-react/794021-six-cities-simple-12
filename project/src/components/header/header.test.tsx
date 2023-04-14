@@ -8,7 +8,7 @@ describe('Component: Header', () => {
   const userAvatarUrl = internet.url();
   const userLogin = internet.email();
 
-  it('shows header, where user is nor authorized, nor not-authorized', () => {
+  it('shows header navigation block, where user is nor authorized, nor not-authorized', () => {
     render(
       <BrowserRouterWrapper>
         <Header
@@ -25,7 +25,7 @@ describe('Component: Header', () => {
     expect(screen.queryByText('Sign out')).not.toBeInTheDocument();
   });
 
-  it('shows header, where user is authorized', () => {
+  it('shows header navigation block, where user is authorized', () => {
     render(
       <BrowserRouterWrapper>
         <Header
@@ -42,7 +42,7 @@ describe('Component: Header', () => {
     expect(screen.getByText('Sign out')).toBeInTheDocument();
   });
 
-  it('shows header, where user is not authorized', () => {
+  it('shows header navigation block, where user is not authorized', () => {
     render(
       <BrowserRouterWrapper>
         <Header
