@@ -8,8 +8,8 @@ const makeMockReviewer = (): Reviewer => ({
   name: name.firstName(),
 });
 
-const makeMockReview = (): Review => ({
-  comment: lorem.paragraphs(2, '\n'),
+export const makeMockReview = (): Review => ({
+  comment: lorem.paragraphs(2, ' '),
   date: datatype.datetime().toDateString(),
   id: datatype.number(10),
   rating: datatype.number(50) / 10,
