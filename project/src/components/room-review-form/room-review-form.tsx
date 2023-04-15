@@ -1,15 +1,16 @@
+import { ChangeEvent, useEffect, useState, FormEvent } from 'react';
 import OneStarInput from './one-star-input';
 import { RoomReview } from 'src/consts/consts';
-import { ChangeEvent, useEffect, useState, FormEvent } from 'react';
 
 type InputElement = HTMLTextAreaElement | HTMLInputElement
 type RoomReviewFormData = { rating: string; review: string }
 
-function RoomReviewForm() {
+function RoomReviewForm(): JSX.Element {
   const [ formData, setFormData ] = useState({
     rating: '0',
     review: '',
   } as RoomReviewFormData);
+
   const [ isSubmitEnabled, setIsSubmitEnabled ] = useState(false);
 
   const handleChange = (evt: ChangeEvent<InputElement>): void => {
