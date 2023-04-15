@@ -38,7 +38,7 @@ function RoomReviewForm() {
       onSubmit={handleSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">
-        {RoomReview.HeaderText}
+        Your review
       </label>
       <div className="reviews__rating-form form__rating">
         <OneStarInput htmlId='5-stars' labelTitle='perfect' value='5' onChange={handleChange} />
@@ -51,7 +51,7 @@ function RoomReviewForm() {
         id="review" name="review"
         maxLength={RoomReview.TextCharacterMaxLimit}
         onChange={handleChange}
-        placeholder={RoomReview.PlaceholderText}
+        placeholder="Tell how was your stay, what you like and what can be improved"
         value={formData.review}
       >
       </textarea>
@@ -69,7 +69,7 @@ function RoomReviewForm() {
           disabled={!isSubmitEnabled}
           type="submit"
         >
-          {RoomReview.SubmitButtonText}
+          Submit
         </button>
       </div>
     </form>
