@@ -12,16 +12,11 @@ import NotFound from 'src/components/not-found/not-found';
 import { scrollToTop } from 'src/utils/utils';
 import { AppRoute } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
-import { CityNames } from 'src/types/types';
 import Room from 'src/pages/room/room';
-
-type AppProps = {
-  cityNames: CityNames;
-};
 
 store.dispatch(checkIfUserAuthorizedAction());
 
-function App(props: AppProps): JSX.Element {
+function App(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const userLogin = useAppSelector(getUserLogin);
   const userAvatarUrl = useAppSelector(getUserAvatarUrl);
@@ -40,7 +35,7 @@ function App(props: AppProps): JSX.Element {
       <PathnameChangeEffectExecutor onPathnameChange={scrollToTop} />
       <Routes>
         <Route path={AppRoute.Root}>
-          <Route index element={<Main {...props} headerBlock={headerBlock} />}/>
+          <Route index element={<Main headerBlock={headerBlock} />}/>
           <Route path={AppRoute.Login} element={<Login headerBlock={headerBlock} />} />
           <Route path={AppRoute.Offer} element={
             <Room

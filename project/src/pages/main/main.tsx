@@ -11,14 +11,13 @@ import OfferSortingForm from 'src/components/offer-sorting-form/offer-sorting-fo
 import { Spinner } from 'src/components/spinner/spinner';
 import NoOfferBlock from 'src/components/no-offer-block/no-offer-block';
 import { getMultipleOfPlaceWord, sortOffers } from 'src/utils/utils';
-import { DEFAULT_OFFER_SORTING_KEY_NAME, OfferSortingOption } from 'src/consts/consts';
+import { CityNames, DEFAULT_OFFER_SORTING_KEY_NAME, OfferSortingOption } from 'src/consts/consts';
 import { FetchStatus } from 'src/consts/api';
-import { CityNames, Offer } from 'src/types/types';
+import { Offer } from 'src/types/types';
 
 type ActiveOffer = Offer | null;
 
 type MainProps = {
-  cityNames: CityNames;
   headerBlock?: JSX.Element;
 };
 
@@ -42,7 +41,7 @@ function Main(props: MainProps) {
         <div className="tabs">
           <section className="locations container">
             <CitiesList
-              cityNames={props.cityNames}
+              cityNames={CityNames}
               currentCityName={currentCityName}
               onChangeCityName={(cityName) => dispatch(setCityNameAction(cityName))}
             />
