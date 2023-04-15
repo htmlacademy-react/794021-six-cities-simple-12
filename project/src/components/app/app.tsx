@@ -8,12 +8,12 @@ import PathnameChangeEffectExecutor from
 import Main from 'src/pages/main/main';
 import Login from 'src/pages/login/login';
 import Header from 'src/components/header/header';
-import RoomWrapper from 'src/components/room-wrapper/room-wrapper';
 import NotFound from 'src/components/not-found/not-found';
 import { scrollToTop } from 'src/utils/utils';
 import { AppRoute } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
 import { CityNames } from 'src/types/types';
+import Room from 'src/pages/room/room';
 
 type AppProps = {
   cityNames: CityNames;
@@ -42,14 +42,12 @@ function App(props: AppProps): JSX.Element {
         <Route path={AppRoute.Root}>
           <Route index element={<Main {...props} headerBlock={headerBlock} />}/>
           <Route path={AppRoute.Login} element={<Login headerBlock={headerBlock} />} />
-          <Route
-            path={AppRoute.Offer}
-            element={
-              <RoomWrapper
-                headerBlock={headerBlock}
-                isUserLoggedIn={authorizationStatus !== AuthorizationStatus.NotAuthorized}
-              />
-            }
+          <Route path={AppRoute.Offer} element={
+            <Room
+              headerBlock={headerBlock}
+              isUserLoggedIn={authorizationStatus !== AuthorizationStatus.NotAuthorized}
+            />
+          }
           />
           <Route path='*' element={<NotFound />} />
         </Route>
