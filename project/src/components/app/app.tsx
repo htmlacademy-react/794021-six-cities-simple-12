@@ -45,7 +45,7 @@ function App(props: AppProps): JSX.Element {
           <Route path={AppRoute.Offer} element={
             <Room
               headerBlock={headerBlock}
-              isUserLoggedIn={authorizationStatus !== AuthorizationStatus.NotAuthorized}
+              isUserLoggedIn={authorizationStatus === AuthorizationStatus.Authorized}
             />
           }
           />
