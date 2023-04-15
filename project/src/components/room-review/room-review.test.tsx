@@ -3,7 +3,7 @@ import RoomReview from './room-review';
 import { makeMockReview } from 'src/utils/mock-review';
 
 describe('Component: <RoomReview>', () => {
-  it('renders user\'s: avatar, name, comments', () => {
+  it('renders user\'s data: avatar, name, comment', () => {
     const review = makeMockReview();
 
     render(<RoomReview review={review}/>);
