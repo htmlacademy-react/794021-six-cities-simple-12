@@ -22,9 +22,7 @@ export const CityNames = [
 export const INITIAL_CITY_NAME: CityName = 'Paris' as const;
 
 export const RoomReview = {
-  HeaderText: 'Your review',
-  PlaceholderText: 'Tell how was your stay, what you like and what can be improved',
-  SubmitButtonText: 'Submit',
+  PerOfferMaxCount: 10,
   TextCharacterMinLimit: 50,
   TextCharacterMaxLimit: 300,
 } as const;

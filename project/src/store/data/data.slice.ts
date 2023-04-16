@@ -3,7 +3,6 @@ import { DomainNamespace } from 'src/consts/domain';
 import { INITIAL_CITY_NAME } from 'src/consts/consts';
 import { Offers, ReviewsMap } from 'src/types/types';
 import { fetchOfferAction, fetchOffersAction, fetchReviewsAction } from '../api-actions';
-import { findFirstOffer } from 'src/utils/utils';
 import { FetchStatus } from 'src/consts/api';
 
 const initialState = {
@@ -20,21 +19,22 @@ export const data = createSlice({
   initialState,
   reducers: {
     setCityNameAction: (state, { payload }: PayloadAction<string>) => {
-      if (payload === state.cityName) {
-        return;
-      }
       state.cityName = payload;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchOfferAction.fulfilled, (state, { payload }) => {
-        const foundOffer = findFirstOffer(state.offers, payload.id);
-        if (foundOffer) {
-          state.offers[foundOffer.id] = payload;
+        const foundIndex = state.offers.findIndex(
+          ({ id }) => id === payload.id
+        );
+
+        if (foundIndex >= 0) {
+          state.offers[foundIndex] = payload;
         } else {
           state.offers.push(payload);
         }
+
         state.isOfferFetching = false;
       })
 
@@ -74,6 +74,4 @@ export const data = createSlice({
   }
 });
 
-export const {
-  setCityNameAction,
-} = data.actions;
+export const { setCityNameAction } = data.actions;

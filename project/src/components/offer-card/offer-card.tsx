@@ -11,6 +11,8 @@ type OfferCardProps = {
 
 function OfferCard(props: OfferCardProps): JSX.Element {
   const pageLink = `/offer/${props.offer.id}`;
+  const [ imageUrl ] = props.offer.images;
+
   return (
     <article className={`${props.className ?? ''} place-card`}
       onBlur={props.onBlur}
@@ -30,7 +32,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
           <img className="place-card__image"
             alt="The place"
             height="200"
-            src={props.offer.images[0] ?? null}
+            src={imageUrl}
             width="260"
           />
         </Link>
@@ -39,7 +41,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{props.offer.price}</b>
+            <b className="place-card__price-value">{`€${props.offer.price}`}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 

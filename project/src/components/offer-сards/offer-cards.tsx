@@ -13,7 +13,7 @@ type OfferCardsProps = {
 function OfferCards(props: OfferCardsProps): JSX.Element {
   return (
     <section className={`${props.className} places`}>
-      <h2 className="visually-hidden">${props.header}</h2>
+      <h2 className="visually-hidden">{props.header}</h2>
 
       {props.children}
 

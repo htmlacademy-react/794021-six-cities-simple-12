@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { store } from 'src/store';
 import { getCityName } from 'src/store/data/data.selectors';
 import { logUserInAction } from 'src/store/api-actions';
-import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { useAppSelector } from 'src/hooks';
 import { useRedirectingIfAuthorized } from 'src/hooks/use-redirecting-if-authorized';
 import { AppRoute } from 'src/consts/consts';
 import { DomainNamespace } from 'src/consts/domain';
@@ -13,31 +13,29 @@ import { UserAuthorizationData } from 'src/types/api';
 type LoginProps = {
   headerBlock?: JSX.Element;
 }
-// TODO add '-screen' to filename?
+
 function Login({ headerBlock }: LoginProps): JSX.Element {
-  const { login: storeUserLogin } = store.getState()[DomainNamespace.User];
-  const [ userLogin, setUserLogin ] = useState<UserLogin>(storeUserLogin);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
-  const dispatch = useAppDispatch();
+  const { login: userLoginInStore } = store.getState()[DomainNamespace.User];
+  const [ email, setEmail ] = useState<UserLogin>(userLoginInStore);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const currentCity = useAppSelector(getCityName);
   useRedirectingIfAuthorized(AppRoute.Root);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (!userLogin || !passwordRef.current) {
+    if (!areCredentialsValid(email, passwordRef.current?.value)) {
       return;
     }
     const authData: UserAuthorizationData = {
-      email: userLogin,
-      password: passwordRef.current.value,
+      email,
+      password: passwordRef.current?.value ?? '',
     };
 
-    dispatch(logUserInAction(authData));
+    store.dispatch(logUserInAction(authData));
   };
 
-  const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    const { value } = evt.target;
-    setUserLogin(value);
+  const handleInputChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    setEmail(target.value);
   };
 
   return (
@@ -76,6 +74,21 @@ function Login({ headerBlock }: LoginProps): JSX.Element {
       </main>
     </div>
   );
+}
+
+function areCredentialsValid(email: string, password: string | undefined) {
+  if (
+    !password ||
+    email.length <= 4 ||
+    password.length < 2 ||
+    !/\d/.test(password) ||
+    !/\D/i.test(password) ||
+    false
+  ) {
+    return false;
+  }
+
+  return true;
 }
 
 export default Login;

@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
+import { Navigate, useParams } from 'react-router-dom';
+import { store } from 'src/store';
+import { fetchReviewsAction } from 'src/store/api-actions';
 import { useNearbyOffers } from 'src/hooks/use-nearby-offers';
 import { useOfferReviews } from 'src/hooks/use-offer-reviews';
+import { useFoundOffer } from 'src/hooks/use-found-offer';
 import OfferCards from 'src/components/offer-сards/offer-cards';
 import RoomDescription from 'src/components/room-description/room-description';
 import RoomGallery from 'src/components/room-gallery/room-gallery';
@@ -8,25 +12,36 @@ import RoomHardwareFeatures from 'src/components/room-hardware-features/room-har
 import RoomHost from 'src/components/room-host/room-host';
 import RoomReviews from 'src/components/room-reviews/room-reviews';
 import GeoMap from 'src/components/geo-map/geo-map';
+import { Spinner } from 'src/components/spinner/spinner';
 import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
-import { NEARBY_OFFERS_LIMIT_COUNT } from 'src/consts/consts';
-import { Offer } from 'src/types/types';
-import { store } from 'src/store';
-import { fetchReviewsAction } from 'src/store/api-actions';
+import { AppRoute, NEARBY_OFFERS_LIMIT_COUNT } from 'src/consts/consts';
 
 type RoomProps = {
   headerBlock?: JSX.Element;
-  offer: Offer;
   isUserLoggedIn: boolean;
 }
 
-function Room({ headerBlock, offer, isUserLoggedIn }: RoomProps): JSX.Element {
+function Room({ headerBlock, isUserLoggedIn }: RoomProps): JSX.Element {
+  const { id: offerId } = useParams();
+  const { isNotFound, offer } = useFoundOffer(offerId ?? '');
   const nearbyOffers = useNearbyOffers(offer, NEARBY_OFFERS_LIMIT_COUNT);
   const reviews = useOfferReviews(offer);
 
+
   useEffect(() => {
+    if (!offer) {
+      return;
+    }
     store.dispatch(fetchReviewsAction(offer));
   }, [ offer ]);
+
+  if (isNotFound) {
+    return <Navigate to={AppRoute.NotFound} />;
+  }
+
+  if (!offer) {
+    return <Spinner text={'Loading offer ...'} />;
+  }
 
   return (
     <div className="page">

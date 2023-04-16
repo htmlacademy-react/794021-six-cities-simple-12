@@ -53,6 +53,7 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
       <span className="places__sorting-caption">Sort by</span>{' '}
       <span
         className="places__sorting-type"
+        data-testid="sorting-form-header"
         onClick={handleClickMenu}
         onKeyDown={handleKeyDownMenu}
         ref={menuRef}
@@ -77,6 +78,7 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
                 'places__option',
                 { 'places__option--active': sortingOption === props.sortingType }
               )}
+              data-testid="sorting-option-item"
               key={sortingOption}
               tabIndex={0}
               onClick={() => handleClickMenuItem(sortingOption)}

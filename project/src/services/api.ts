@@ -23,11 +23,7 @@ export const createAPI = (): AxiosInstance => {
   );
 
   api.interceptors.response.use(
-    (response: AxiosResponse<void, void>) => {
-      // eslint-disable-next-line no-console
-      console.log(response);
-      return response;
-    },
+    (response: AxiosResponse<void, void>) => response,
 
     (error: AxiosError<{error: string}>) => {
       if (error.response) {

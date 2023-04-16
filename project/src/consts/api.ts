@@ -6,7 +6,7 @@ export enum APIRoute {
   Logout = '/logout',
   Offer = '/hotels/',
   Offers = '/hotels',
-  Reviews = '/comments',
+  Reviews = '/comments/',
 }
 
 export const TOKEN_HEADER_NAME = 'X-Token' as const;
