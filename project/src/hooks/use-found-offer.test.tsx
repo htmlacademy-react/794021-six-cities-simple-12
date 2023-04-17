@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { useFoundOffer } from './use-found-offer';
 import { FetchStatus } from 'src/consts/api';
-import { Offers } from 'src/types/types';
 import { Provider } from 'react-redux';
 import { fetchOfferAction } from 'src/store/api-actions';
 
