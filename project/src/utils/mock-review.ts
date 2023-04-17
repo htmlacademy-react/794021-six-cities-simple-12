@@ -8,20 +8,21 @@ const makeMockReviewer = (): Reviewer => ({
   name: name.firstName(),
 });
 
-export const makeMockReview = (): Review => ({
+export const makeMockReview = (id?: OfferId): Review => ({
   comment: lorem.paragraphs(2, ' '),
   date: datatype.datetime().toDateString(),
-  id: datatype.number(10),
+  id: id ?? datatype.number(1000),
   rating: datatype.number(50) / 10,
   user: makeMockReviewer(),
 });
 
 export const makeMockReviews = (
   count: number,
+  id?: OfferId,
 ): Reviews => (
   new Array(count)
     .fill({})
-    .map(makeMockReview)
+    .map(() => makeMockReview(id))
 );
 
 export const makeMockReviewsMap = (
@@ -29,6 +30,6 @@ export const makeMockReviewsMap = (
   count: number,
 ): ReviewsMap => (
   {
-    [ offerId ]: makeMockReviews(count),
+    [ offerId ]: makeMockReviews(count, offerId),
   }
 );
