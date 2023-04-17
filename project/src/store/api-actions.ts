@@ -17,7 +17,7 @@ export const checkIfUserAuthorizedAction = createAsyncThunk<UserData, void, {
   }
 );
 
-export const fetchNearbyOffers = createAsyncThunk<Offers, OfferId, {
+export const fetchNearbyOffersAction = createAsyncThunk<Offers, OfferId, {
   dispatch: AppDispatch;
   state: AppState;
   extra: AxiosInstance;

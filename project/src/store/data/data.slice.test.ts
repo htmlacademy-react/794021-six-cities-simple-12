@@ -11,7 +11,6 @@ describe('Reducer: data', () => {
     expect(reducer(undefined, { type: 'NON_EXISTENT_ACTION' }))
       .toEqual({
         cityName: 'Paris',
-        nearbyOffers: [],
         offerFetchStatus: FetchStatus.NotStarted as FetchStatus,
         offersFetchStatus: FetchStatus.NotStarted as FetchStatus,
         offers: [],

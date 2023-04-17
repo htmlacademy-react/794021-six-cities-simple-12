@@ -2,12 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DomainNamespace } from 'src/consts/domain';
 import { INITIAL_CITY_NAME } from 'src/consts/consts';
 import { Offers } from 'src/types/types';
-import { fetchNearbyOffers, fetchOfferAction, fetchOffersAction } from '../api-actions';
+import { fetchOfferAction, fetchOffersAction } from '../api-actions';
 import { FetchStatus } from 'src/consts/api';
 
 const initialState = {
   cityName: INITIAL_CITY_NAME,
-  nearbyOffers: [] as Offers,
   offers: [] as Offers,
   offerFetchStatus: FetchStatus.NotStarted as FetchStatus,
   offersFetchStatus: FetchStatus.NotStarted as FetchStatus,
@@ -23,14 +22,6 @@ export const data = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchNearbyOffers.fulfilled, (state, { payload }) => {
-        state.nearbyOffers = payload;
-      })
-
-      .addCase(fetchNearbyOffers.pending, (state) => {
-        state.nearbyOffers = [];
-      })
-
       .addCase(fetchOfferAction.fulfilled, (state, { payload }) => {
         const foundIndex = state.offers.findIndex(
           ({ id }) => id === payload.id
@@ -65,7 +56,7 @@ export const data = createSlice({
       .addCase(fetchOffersAction.rejected, (state) => {
         state.offersFetchStatus = FetchStatus.FetchedWithError;
       });
-  }
+  },
 });
 
 export const { setCityNameAction } = data.actions;

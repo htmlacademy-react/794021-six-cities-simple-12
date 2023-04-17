@@ -1,20 +1,34 @@
-import { useEffect } from 'react';
-import { getNearbyOffers } from 'src/store/data/data.selectors';
+import { useEffect, useState } from 'react';
+import { getNearbyOffers, getNearbyOffersFetchStatus, getNearbyOffersOfferId } from 'src/store/data/data.selectors';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { Offer, Offers } from 'src/types/types';
-import { fetchNearbyOffers } from 'src/store/api-actions';
+import { fetchNearbyOffersAction } from 'src/store/api-actions';
+import { FetchStatus } from 'src/consts/api';
 
 export function useNearbyOffers(offer: Offer | null, limitCount: number): Offers {
   const dispatch = useAppDispatch();
   const nearbyOffers = useAppSelector(getNearbyOffers);
+  const offerId = useAppSelector(getNearbyOffersOfferId);
+  const fetchStatus = useAppSelector(getNearbyOffersFetchStatus);
+  const [ updatedNearbyOffers, setUpdatedNearbyOffers ] = useState<Offers>([]);
 
   useEffect(() => {
     if (!offer) {
       return;
     }
 
-    dispatch(fetchNearbyOffers(offer.id));
-  }, [ dispatch, offer ]);
+    if (fetchStatus === FetchStatus.Pending) {
+      return;
+    }
 
-  return nearbyOffers.filter((_offer, index) => index < limitCount);
+    if (offerId === null || offerId !== offer.id) {
+      dispatch(fetchNearbyOffersAction(offer.id));
+      return;
+    }
+
+    const foundNearbyOffers = nearbyOffers.filter((_offer, index) => index < limitCount);
+    setUpdatedNearbyOffers(foundNearbyOffers);
+  }, [dispatch, fetchStatus, limitCount, nearbyOffers, offer, offerId]);
+
+  return updatedNearbyOffers;
 }
