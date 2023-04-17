@@ -17,10 +17,7 @@ export function useGeoMap(
 
     const layer = new TileLayer(
       GeoMapAttributes.TileType,
-      {
-        attribution:
-          GeoMapAttributes.Copyright,
-      }
+      { attribution: GeoMapAttributes.Copyright }
     );
 
     const mapInstance = new LeafletGeoMap(nodeRef.current);
