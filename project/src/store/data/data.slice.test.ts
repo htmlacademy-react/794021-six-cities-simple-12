@@ -12,8 +12,8 @@ describe('Reducer: data', () => {
     expect(reducer(undefined, { type: 'NON_EXISTENT_ACTION' }))
       .toEqual({
         cityName: 'Paris',
+        offerFetchStatus: FetchStatus.NotStarted as FetchStatus,
         offersFetchStatus: FetchStatus.NotStarted as FetchStatus,
-        isOfferFetching: false,
         areReviewsFetching: false,
         offers: [],
         reviewsMap: {},
@@ -42,7 +42,7 @@ describe('Reducer: data', () => {
 
       const stateToBe = {
         ...initialState,
-        isOfferFetching: false,
+        offerFetchStatus: FetchStatus.FetchedWithNoError,
         offers: [ offer ],
       };
 
@@ -65,7 +65,7 @@ describe('Reducer: data', () => {
 
       const stateToBe = {
         ...initialState,
-        isOfferFetching: true,
+        offerFetchStatus: FetchStatus.Pending,
       };
 
       expect(reducer(initialState, { type: action.pending.type }))
@@ -77,7 +77,7 @@ describe('Reducer: data', () => {
 
       const stateToBe = {
         ...initialState,
-        isOfferFetching: false,
+        offerFetchStatus: FetchStatus.FetchedWithError,
       };
 
       expect(reducer(initialState, { type: action.rejected.type }))
