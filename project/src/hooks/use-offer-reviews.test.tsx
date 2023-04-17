@@ -61,7 +61,8 @@ describe('Hook: useOfferReviews()', () => {
     expect(result.current).toEqual(reviewsForOffer1);
   });
 
-  it('returns empty reviews for unknown', () => {
+
+  it('returns empty array of reviews for unknown offer', () => {
     const store = mockStore(state);
     const offer = offerWithUnknownId;
 
