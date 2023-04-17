@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { fetchOfferAction } from 'src/store/api-actions';
-import { getOffers } from 'src/store/data/data.selectors';
+import { getOfferFetchStatus, getOffers } from 'src/store/data/data.selectors';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { findFirstOffer, parseInteger } from 'src/utils/utils';
-import { DomainNamespace } from 'src/consts/domain';
 import { FetchStatus } from 'src/consts/api';
 import { Offer } from 'src/types/types';
 
@@ -16,7 +15,7 @@ export function useFoundOffer(idAsString: string): UseFoundOfferResult {
   const offerIdAsInt = parseInteger(idAsString);
   const allOffers = useAppSelector(getOffers);
 
-  const offerFetchStatus = useAppSelector((state) => state[DomainNamespace.BusinessData].offerFetchStatus);
+  const offerFetchStatus = useAppSelector(getOfferFetchStatus);
   const [ isNotFound, setIsNotFound ] = useState<boolean>(false);
   const [ foundOffer, setFoundOffer ] = useState<Offer | null>(null);
   const dispatch = useAppDispatch();
