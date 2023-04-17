@@ -1,14 +1,22 @@
+import { Action } from 'redux';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { renderHook } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
+import { fetchNearbyOffersAction } from 'src/store/api-actions';
 import { useNearbyOffers } from './use-nearby-offers';
+import { createAPI } from 'src/services/api';
 import { makeMockOffer, makeMockOffers } from 'src/utils/mock-offer';
 import { FetchStatus } from 'src/consts/api';
-import { fetchNearbyOffersAction } from 'src/store/api-actions';
+import { AppState } from 'src/types/store';
 
+const api = createAPI();
 const middlewares = [ thunk ];
-const makeMockStore = configureMockStore(middlewares);
+const makeMockStore = configureMockStore<
+  AppState,
+  Action<string>,
+  ThunkDispatch<AppState, typeof api, Action>
+>(middlewares);
 
 const NULLISH_OFFER = null;
 const ACTION = fetchNearbyOffersAction;
@@ -18,9 +26,9 @@ const mockOfferWithId2 = makeMockOffer({ id: 2 });
 
 const mockState = {
   NEARBY_OFFERS: {
-    offerId: mockOfferWithId1.id,
-    items: makeMockOffers(10),
     fetchStatus: FetchStatus.NotStarted,
+    items: makeMockOffers(10),
+    offerId: mockOfferWithId1.id,
   },
 };
 
@@ -99,7 +107,4 @@ describe('Hook: useNearbyOffers()', () => {
         ACTION.pending.type,
       ]);
   });
-
-
-
 });
