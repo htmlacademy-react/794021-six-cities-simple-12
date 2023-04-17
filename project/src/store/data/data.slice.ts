@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DomainNamespace } from 'src/consts/domain';
 import { INITIAL_CITY_NAME } from 'src/consts/consts';
-import { Offers, ReviewsMap } from 'src/types/types';
-import { fetchOfferAction, fetchOffersAction, fetchReviewsAction } from '../api-actions';
+import { Offers } from 'src/types/types';
+import { fetchNearbyOffers, fetchOfferAction, fetchOffersAction } from '../api-actions';
 import { FetchStatus } from 'src/consts/api';
 
 const initialState = {

@@ -4,7 +4,7 @@ import { Token } from 'src/services/token';
 import { APIRoute } from 'src/consts/api';
 import { AppRoute } from 'src/consts/consts';
 import { AppDispatch, AppState } from 'src/types/store';
-import { Offer, OfferId, Offers, Reviews, ReviewsMap } from 'src/types/types';
+import { Offer, OfferId, Offers, Reviews } from 'src/types/types';
 import { UserAuthorizationData, UserData } from 'src/types/api';
 
 export const checkIfUserAuthorizedAction = createAsyncThunk<UserData, void, {
@@ -42,7 +42,7 @@ export const fetchOffersAction = createAsyncThunk<Offers, undefined, {
   },
 );
 
-export const fetchReviewsAction = createAsyncThunk<ReviewsMap, Offer, {
+export const fetchReviewsAction = createAsyncThunk<Reviews, Offer, {
   dispatch: AppDispatch;
   state: AppState;
   extra: AxiosInstance;
@@ -51,9 +51,7 @@ export const fetchReviewsAction = createAsyncThunk<ReviewsMap, Offer, {
   async (offer, { extra: api }) => {
     const url = `${APIRoute.Reviews}${offer.id.toString()}`;
     const { data: reviews } = await api.get<Reviews>(url);
-    return {
-      [offer.id]: reviews,
-    };
+    return reviews;
   },
 );
 

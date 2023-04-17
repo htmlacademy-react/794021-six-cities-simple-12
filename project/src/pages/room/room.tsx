@@ -1,7 +1,4 @@
-import { useEffect } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { store } from 'src/store';
-import { fetchReviewsAction } from 'src/store/api-actions';
 import { useNearbyOffers } from 'src/hooks/use-nearby-offers';
 import { useOfferReviews } from 'src/hooks/use-offer-reviews';
 import { useFoundOffer } from 'src/hooks/use-found-offer';
@@ -23,17 +20,9 @@ type RoomProps = {
 
 function Room({ headerBlock, isUserLoggedIn }: RoomProps): JSX.Element {
   const { id: offerId } = useParams();
-  const { isNotFound, offer } = useFoundOffer(offerId ?? '');
+  const { isNotFound, offer } = useFoundOffer(offerId);
   const nearbyOffers = useNearbyOffers(offer, NEARBY_OFFERS_LIMIT_COUNT);
   const reviews = useOfferReviews(offer);
-
-
-  useEffect(() => {
-    if (!offer) {
-      return;
-    }
-    store.dispatch(fetchReviewsAction(offer));
-  }, [ offer ]);
 
   if (isNotFound) {
     return <Navigate to={AppRoute.NotFound} />;

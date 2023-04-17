@@ -1,8 +1,7 @@
 import { address } from 'faker';
 import { data, setCityNameAction } from './data.slice';
-import { fetchOfferAction, fetchOffersAction, fetchReviewsAction } from 'src/store/api-actions';
+import { fetchOfferAction, fetchOffersAction } from 'src/store/api-actions';
 import { makeMockOffer } from 'src/utils/mock-offer';
-import { makeMockReviewsMap } from 'src/utils/mock-review';
 import { FetchStatus } from 'src/consts/api';
 
 const { reducer } = data;
@@ -14,9 +13,7 @@ describe('Reducer: data', () => {
         cityName: 'Paris',
         offerFetchStatus: FetchStatus.NotStarted as FetchStatus,
         offersFetchStatus: FetchStatus.NotStarted as FetchStatus,
-        areReviewsFetching: false,
         offers: [],
-        reviewsMap: {},
       });
   });
 
@@ -124,51 +121,6 @@ describe('Reducer: data', () => {
 
       expect(reducer(initialState, { type: action.rejected.type }))
         .toEqual(stateToBe);
-    });
-  });
-
-
-  describe('Reviews fetching', () => {
-    const action = fetchReviewsAction;
-
-    it('checks fulfilled status', () => {
-      const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
-      const reviewsMap = makeMockReviewsMap(1, 30);
-
-      const stateToBe = {
-        ...initialState,
-        reviewsMap,
-        areReviewsFetching: false,
-      };
-
-      expect(reducer(initialState, { type: action.fulfilled.type, payload: reviewsMap }))
-        .toEqual(stateToBe);
-    });
-
-    it('checks pending status', () => {
-      const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
-
-      const stateToBe = {
-        ...initialState,
-        areReviewsFetching: true,
-      };
-
-      expect(reducer(initialState, { type: action.pending.type }))
-        .toEqual(stateToBe);
-
-    });
-
-    it('checks rejected status', () => {
-      const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
-
-      const stateToBe = {
-        ...initialState,
-        areReviewsFetching: false,
-      };
-
-      expect(reducer(initialState, { type: action.rejected.type }))
-        .toEqual(stateToBe);
-
     });
   });
 });

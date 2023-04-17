@@ -40,8 +40,8 @@ const reviewsForOffer2 = [
 ];
 
 const state = {
-  DATA: {
-    reviewsMap: {
+  REVIEWS: {
+    dataMap: {
       [ offerWithId1.id ]: reviewsForOffer1,
       [ offerWithId2.id ]: reviewsForOffer2,
     }
