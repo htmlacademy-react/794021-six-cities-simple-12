@@ -19,14 +19,18 @@ export const nearbyOffers = createSlice({
       .addCase(fetchNearbyOffersAction.fulfilled, (state, { payload, meta }) => {
         state.items = payload;
         state.offerId = meta.arg;
+        state.fetchStatus = FetchStatus.FetchedWithNoError;
       })
 
-      .addCase(fetchNearbyOffersAction.pending, (state) => {
+      .addCase(fetchNearbyOffersAction.pending, (state, { meta }) => {
         state.fetchStatus = FetchStatus.Pending;
+        state.items = [];
+        state.offerId = meta.arg;
       })
 
-      .addCase(fetchNearbyOffersAction.rejected, (state) => {
+      .addCase(fetchNearbyOffersAction.rejected, (state, { meta }) => {
         state.fetchStatus = FetchStatus.FetchedWithError;
+        state.offerId = meta.arg;
       });
   },
 });
