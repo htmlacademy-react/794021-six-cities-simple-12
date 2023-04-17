@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { store } from 'src/store';
 import { fetchOffersAction } from 'src/store/api-actions';
 import { getOffers } from 'src/store/data/data.selectors';
-import { useAppSelector } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { DomainNamespace } from 'src/consts/domain';
 import { FetchStatus } from 'src/consts/api';
 import { CityName, Offers } from 'src/types/types';
@@ -13,6 +12,7 @@ type UseFoundOffersResult = {
 }
 
 export function useFoundOffers(cityName: CityName): UseFoundOffersResult {
+  const dispatch = useAppDispatch();
   const [ foundOffers, setFoundOffers ] = useState<Offers>([]);
   const fetchStatus = useAppSelector((state) => state[DomainNamespace.BusinessData].offersFetchStatus);
   const allOffers = useAppSelector(getOffers);
@@ -20,19 +20,19 @@ export function useFoundOffers(cityName: CityName): UseFoundOffersResult {
   useEffect(() => {
     switch (fetchStatus) {
       case FetchStatus.NotStarted:
-        store.dispatch(fetchOffersAction());
-        return;
+        dispatch(fetchOffersAction());
+        break;
 
       case FetchStatus.Pending:
-        return;
+        break;
 
       case FetchStatus.FetchedWithError:
-        return;
+        break;
     }
 
     const offers = allOffers.filter(({ city }) => city?.name === cityName);
     setFoundOffers(offers);
-  }, [allOffers, cityName, fetchStatus]);
+  }, [allOffers, cityName, dispatch, fetchStatus]);
 
   return {
     offers: foundOffers,
