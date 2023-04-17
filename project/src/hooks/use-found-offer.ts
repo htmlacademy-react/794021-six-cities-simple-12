@@ -11,7 +11,7 @@ type UseFoundOfferResult = {
   offer: Offer | null;
 }
 
-export function useFoundOffer(idAsString: string): UseFoundOfferResult {
+export function useFoundOffer(idAsString: string | undefined): UseFoundOfferResult {
   const offerIdAsInt = parseInteger(idAsString);
   const allOffers = useAppSelector(getOffers);
 
