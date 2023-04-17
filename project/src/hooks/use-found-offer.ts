@@ -16,9 +16,8 @@ export function useFoundOffer(idAsString: string): UseFoundOfferResult {
   const offerIdAsInt = parseInteger(idAsString);
   const allOffers = useAppSelector(getOffers);
 
-  const offersFetchStatus = useAppSelector((state) => state[DomainNamespace.BusinessData].offersFetchStatus);
-  const isOfferFetching = useAppSelector((state) => state[DomainNamespace.BusinessData].isOfferFetching);
-  const [ isNotFound, setIsNotFound ] = useState<boolean>(isNaN(offerIdAsInt));
+  const offerFetchStatus = useAppSelector((state) => state[DomainNamespace.BusinessData].offerFetchStatus);
+  const [ isNotFound, setIsNotFound ] = useState<boolean>(false);
   const [ foundOffer, setFoundOffer ] = useState<Offer | null>(null);
   const dispatch = useAppDispatch();
 
@@ -29,17 +28,17 @@ export function useFoundOffer(idAsString: string): UseFoundOfferResult {
       return;
     }
 
-    if (offersFetchStatus === FetchStatus.Pending || isOfferFetching) {
+    if (offerFetchStatus === FetchStatus.Pending) {
       return;
     }
 
-    if (offersFetchStatus === FetchStatus.NotStarted || offersFetchStatus === FetchStatus.FetchedWithError) {
+    if (offerFetchStatus === FetchStatus.NotStarted) {
       dispatch(fetchOfferAction(offerIdAsInt));
       return;
     }
 
     setIsNotFound(true);
-  }, [allOffers, dispatch, isOfferFetching, offerIdAsInt, offersFetchStatus]);
+  }, [allOffers, dispatch, offerFetchStatus, offerIdAsInt]);
 
   return {
     isNotFound,
