@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getNearbyOffers, getNearbyOffersFetchStatus, getNearbyOffersOfferId } from 'src/store/data/data.selectors';
+import { getNearbyOffers, getNearbyOffersFetchStatus, getNearbyOffersOfferId } from 'src/store/nearby-offers/nearby-offers.selectors';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { Offer, Offers } from 'src/types/types';
 import { fetchNearbyOffersAction } from 'src/store/api-actions';
