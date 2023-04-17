@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { store } from 'src/store';
 import { fetchOfferAction } from 'src/store/api-actions';
 import { getOffers } from 'src/store/data/data.selectors';
-import { useAppSelector } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { findFirstOffer, parseInteger } from 'src/utils/utils';
 import { DomainNamespace } from 'src/consts/domain';
 import { FetchStatus } from 'src/consts/api';
@@ -16,8 +15,12 @@ type UseFoundOfferResult = {
 export function useFoundOffer(idAsString: string): UseFoundOfferResult {
   const offerIdAsInt = parseInteger(idAsString);
   const allOffers = useAppSelector(getOffers);
+
+  const offersFetchStatus = useAppSelector((state) => state[DomainNamespace.BusinessData].offersFetchStatus);
+  const isOfferFetching = useAppSelector((state) => state[DomainNamespace.BusinessData].isOfferFetching);
   const [ isNotFound, setIsNotFound ] = useState<boolean>(isNaN(offerIdAsInt));
   const [ foundOffer, setFoundOffer ] = useState<Offer | null>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const offer = findFirstOffer(allOffers, offerIdAsInt);
@@ -26,19 +29,17 @@ export function useFoundOffer(idAsString: string): UseFoundOfferResult {
       return;
     }
 
-    const state = store.getState();
-    const { offersFetchStatus, isOfferFetching } = state[DomainNamespace.BusinessData];
     if (offersFetchStatus === FetchStatus.Pending || isOfferFetching) {
       return;
     }
 
     if (offersFetchStatus === FetchStatus.NotStarted || offersFetchStatus === FetchStatus.FetchedWithError) {
-      store.dispatch(fetchOfferAction(offerIdAsInt));
+      dispatch(fetchOfferAction(offerIdAsInt));
       return;
     }
 
     setIsNotFound(true);
-  }, [allOffers, offerIdAsInt]);
+  }, [allOffers, dispatch, isOfferFetching, offerIdAsInt, offersFetchStatus]);
 
   return {
     isNotFound,
