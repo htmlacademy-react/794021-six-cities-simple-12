@@ -7,6 +7,10 @@ export function getCityName(state: AppState): CityName {
   return state[DomainNamespace.BusinessData].cityName;
 }
 
+export function getNearbyOffers(state: AppState): Offers {
+  return state[DomainNamespace.BusinessData].nearbyOffers;
+}
+
 export function getOfferFetchStatus(state: AppState): FetchStatus {
   return state[DomainNamespace.BusinessData].offerFetchStatus;
 }

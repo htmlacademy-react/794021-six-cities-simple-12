@@ -6,12 +6,11 @@ import { fetchNearbyOffers, fetchOfferAction, fetchOffersAction } from '../api-a
 import { FetchStatus } from 'src/consts/api';
 
 const initialState = {
-  areReviewsFetching: false,
   cityName: INITIAL_CITY_NAME,
+  nearbyOffers: [] as Offers,
   offers: [] as Offers,
   offerFetchStatus: FetchStatus.NotStarted as FetchStatus,
   offersFetchStatus: FetchStatus.NotStarted as FetchStatus,
-  reviewsMap: {} as ReviewsMap,
 };
 
 export const data = createSlice({
@@ -24,6 +23,14 @@ export const data = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchNearbyOffers.fulfilled, (state, { payload }) => {
+        state.nearbyOffers = payload;
+      })
+
+      .addCase(fetchNearbyOffers.pending, (state) => {
+        state.nearbyOffers = [];
+      })
+
       .addCase(fetchOfferAction.fulfilled, (state, { payload }) => {
         const foundIndex = state.offers.findIndex(
           ({ id }) => id === payload.id
@@ -57,19 +64,6 @@ export const data = createSlice({
 
       .addCase(fetchOffersAction.rejected, (state) => {
         state.offersFetchStatus = FetchStatus.FetchedWithError;
-      })
-
-      .addCase(fetchReviewsAction.fulfilled, (state, { payload }) => {
-        state.reviewsMap = { ...state.reviewsMap, ...payload };
-        state.areReviewsFetching = false;
-      })
-
-      .addCase(fetchReviewsAction.pending, (state) => {
-        state.areReviewsFetching = true;
-      })
-
-      .addCase(fetchReviewsAction.rejected, (state) => {
-        state.areReviewsFetching = false;
       });
   }
 });

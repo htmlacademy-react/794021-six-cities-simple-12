@@ -17,6 +17,19 @@ export const checkIfUserAuthorizedAction = createAsyncThunk<UserData, void, {
   }
 );
 
+export const fetchNearbyOffers = createAsyncThunk<Offers, OfferId, {
+  dispatch: AppDispatch;
+  state: AppState;
+  extra: AxiosInstance;
+}>(
+  'data/fetchNearbyOffers',
+  async (offerId, { extra: api }) => {
+    const url = `${APIRoute.Offer}${offerId}${APIRoute.NearbyOffersForOffer}`;
+    const { data } = await api.get<Offers>(url);
+    return data;
+  },
+);
+
 export const fetchOfferAction = createAsyncThunk<Offer, OfferId, {
   dispatch: AppDispatch;
   state: AppState;

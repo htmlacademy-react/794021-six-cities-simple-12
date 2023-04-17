@@ -4,6 +4,7 @@ export const BACKEND_URL_DESCRIPTION = 'https://12.react.pages.academy/six-citie
 export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
+  NearbyOffersForOffer = '/nearby',
   Offer = '/hotels/',
   Offers = '/hotels',
   Reviews = '/comments/',
