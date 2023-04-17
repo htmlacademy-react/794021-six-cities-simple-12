@@ -1,10 +1,10 @@
 import { renderHook } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { configureMockStore } from '@jedmao/redux-mock-store';
+import { fetchOfferAction } from 'src/store/api-actions';
 import { useFoundOffer } from './use-found-offer';
 import { FetchStatus } from 'src/consts/api';
-import { Provider } from 'react-redux';
-import { fetchOfferAction } from 'src/store/api-actions';
 
 const middlewares = [ thunk ];
 const mockStore = configureMockStore(middlewares);
