@@ -5,9 +5,9 @@ import { fetchNearbyOffersAction } from '../api-actions';
 import { FetchStatus } from 'src/consts/api';
 
 const initialState = {
+  fetchStatus: FetchStatus.NotStarted as FetchStatus,
   items: [] as Offers,
   offerId: null as OfferId | null,
-  fetchStatus: FetchStatus.NotStarted as FetchStatus,
 };
 
 export const nearbyOffers = createSlice({
