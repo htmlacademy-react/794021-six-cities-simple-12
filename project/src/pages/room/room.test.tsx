@@ -70,6 +70,20 @@ describe('Component: <Room>', () => {
 
     expect(screen.getByRole('heading', { name: offer.title }))
       .toBeInTheDocument();
+
+    expect(screen.getByTestId(/room-gallery/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room-title/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room-detailed-description/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room-type/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room-rating/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room-bedroom-count/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room-max-adult-count/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room-price-per-night/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room-hardware-features/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room-host-description/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room-user-reviews/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room-geo-map/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room-nearby-offers/i)).toBeInTheDocument();
   });
 
 

@@ -3,8 +3,9 @@ import { getUniqueItems } from 'src/utils/utils';
 import { OfferHost } from 'src/types/types';
 
 type RoomHostDescriptionProps = {
-  host: OfferHost;
+  dataTestId?: string;
   description: string;
+  host: OfferHost;
 }
 
 function RoomHostDescription(props: RoomHostDescriptionProps): JSX.Element {
@@ -13,7 +14,7 @@ function RoomHostDescription(props: RoomHostDescriptionProps): JSX.Element {
   const uniqueTextLines = getUniqueItems(textLines);
 
   return (
-    <div className="property__host">
+    <div className="property__host" data-testid={props.dataTestId}>
       <h2 className="property__host-title">Meet the host</h2>
 
       <div className="property__host-user user">

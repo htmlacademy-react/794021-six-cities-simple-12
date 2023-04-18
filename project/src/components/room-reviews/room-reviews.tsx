@@ -5,23 +5,24 @@ import { makeHash } from 'src/utils/utils';
 import { RoomReview as RoomReviewConstant } from 'src/consts/consts';
 
 type RoomReviewProps = {
+  dataTestId?: string;
   isUserLoggedIn: boolean;
   offerId: OfferId;
   reviews: Reviews;
 }
 
-function RoomReviews({ isUserLoggedIn, offerId, reviews }: RoomReviewProps): JSX.Element {
+function RoomReviews(props: RoomReviewProps): JSX.Element {
   return (
-    <section className="property__reviews reviews">
+    <section className="property__reviews reviews" data-testid={props.dataTestId}>
       <h2 className="reviews__title">
-        Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
+        Reviews &middot; <span className="reviews__amount">{props.reviews.length}</span>
       </h2>
 
       { // TODO: sort: more recent items must be above (#1.1.2.1)
-        reviews.length ?
+        props.reviews.length ?
           <ul className="reviews__list">
             {
-              reviews.map((review, index) => {
+              props.reviews.map((review, index) => {
                 const key = makeHash(review);
 
                 return index < RoomReviewConstant.PerOfferMaxCount ?
@@ -40,7 +41,7 @@ function RoomReviews({ isUserLoggedIn, offerId, reviews }: RoomReviewProps): JSX
           null
       }
 
-      { isUserLoggedIn && <RoomReviewForm key={offerId} /> }
+      { props.isUserLoggedIn && <RoomReviewForm key={props.offerId} /> }
     </section>
   );
 }

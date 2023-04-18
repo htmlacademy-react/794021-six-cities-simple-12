@@ -35,7 +35,7 @@ function Room(): JSX.Element {
     <div className="page">
       <main className="page__main page__main--property">
         <section className="property">
-          <RoomGallery images={offer.images} />
+          <RoomGallery images={offer.images} dataTestId="room-gallery" />
 
           <div className="property__container container">
             <div className="property__wrapper">
@@ -43,12 +43,12 @@ function Room(): JSX.Element {
                 offer.isPremium &&
                   <div className="property__mark"><span>Premium</span></div>
               }
-              <div className="property__name-wrapper">
+              <div className="property__name-wrapper" data-testid="room-title">
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
               </div>
-              <div className="property__rating rating">
+              <div className="property__rating rating" data-testid="room-rating">
                 <div className="property__stars rating__stars">
                   <span style={{width: getPercentFromRating(offer.rating)}}></span>
                   <span className="visually-hidden">Rating</span>
@@ -57,19 +57,22 @@ function Room(): JSX.Element {
               </div>
               <RoomFeatures
                 bedrooms={offer.bedrooms}
+                dataTestId="room-type room-bedroom-count room-max-adult-count"
                 maxAdults={offer.maxAdults}
                 type={offer.type}
               />
-              <div className="property__price">
+              <div className="property__price" data-testid="room-price-per-night">
                 <b className="property__price-value">&euro;{offer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
-              <RoomHardwareFeatures goods={offer.goods}/>
+              <RoomHardwareFeatures goods={offer.goods} dataTestId="room-hardware-features" />
               <RoomHostDescription
-                host={offer.host}
+                dataTestId={'room-detailed-description room-host-description'}
                 description={offer.description}
+                host={offer.host}
               />
               <RoomReviews
+                dataTestId="room-user-reviews"
                 isUserLoggedIn={authorizationStatus === AuthorizationStatus.Authorized}
                 offerId={offer.id}
                 reviews={reviews}
@@ -78,11 +81,12 @@ function Room(): JSX.Element {
           </div>
           <GeoMap
             activeOffer={offer}
+            dataTestId="room-geo-map"
             className='property__map'
             offers={[offer, ...nearbyOffers]}
           />
         </section>
-        <div className="container">
+        <div className="container" data-testid="room-nearby-offers">
           <OfferCards
             className="near-places"
             header="Other places in the neighbourhood"

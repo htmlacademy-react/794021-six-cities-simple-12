@@ -8,6 +8,7 @@ import styles from './geo-map.module.css';
 type GeoMapProps = {
   activeOffer: Offer | null;
   className: string;
+  dataTestId?: string;
   offers: Offers;
 }
 
@@ -21,7 +22,7 @@ function GeoMap(props: GeoMapProps): JSX.Element {
   return (
     <section
       className={`${props.className} ${styles.map}`}
-      data-testid="geo-map-block"
+      data-testid={`geo-map-block ${props.dataTestId ?? ''}`}
       ref={nodeRef}
     >
     </section>

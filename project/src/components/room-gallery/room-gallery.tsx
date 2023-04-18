@@ -2,15 +2,16 @@ import { OFFER_PHOTO_LIMIT_COUNT } from 'src/consts/consts';
 import { Images } from 'src/types/types';
 
 type RoomGalleryProps = {
+  dataTestId?: string;
   images: Images;
 }
 
-function RoomGallery({ images }: RoomGalleryProps): JSX.Element {
+function RoomGallery(props: RoomGalleryProps): JSX.Element {
   return (
-    <div className="property__gallery-container container">
+    <div className="property__gallery-container container" data-testid={props.dataTestId}>
       <div className="property__gallery">
         {
-          images.map((image, index) => (
+          props.images.map((image, index) => (
             index < OFFER_PHOTO_LIMIT_COUNT ?
               <div className="property__image-wrapper"
                 key={image}
