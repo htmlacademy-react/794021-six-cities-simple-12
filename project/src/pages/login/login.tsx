@@ -14,25 +14,25 @@ type LoginProps = {
 
 function Login({ headerBlock }: LoginProps): JSX.Element {
   useRedirectingIfAuthorized(AppRoute.Root);
-  const userLoginInStore = useAppSelector(getUserLogin);
+  const userLogin = useAppSelector(getUserLogin);
   const currentCity = useAppSelector(getCityName);
   const dispatch = useAppDispatch();
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const handleCredentialsSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (!areCredentialsValid(userLoginInStore, passwordRef.current?.value)) {
+    if (!areCredentialsValid(userLogin, passwordRef.current?.value)) {
       return;
     }
 
     dispatch(logUserInAction({
-      email: userLoginInStore,
+      email: userLogin,
       password: passwordRef.current?.value ?? '',
     }));
   };
 
   const handleLoginChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setUserLoginAction(target.value));
+    dispatch(setUserLoginAction(target.value ?? ''));
   };
 
   return (
