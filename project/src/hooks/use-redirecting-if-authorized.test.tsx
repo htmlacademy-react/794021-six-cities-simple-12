@@ -24,7 +24,7 @@ describe('Hook: useRedirectingIfAuthorized()', () => {
 
     jest
       .spyOn(useAppSelector, 'useAppSelector')
-      .mockImplementation(() => 'AUTHORIZED');
+      .mockImplementation(() => 'AUTHORIZED'); // TODO can be replaced with jest.mock?
 
     renderHook(
       () => useRedirectingIfAuthorized(LINK),
