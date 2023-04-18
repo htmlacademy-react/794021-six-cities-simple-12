@@ -37,7 +37,7 @@ export function useFoundOffer(idAsString: string | undefined): UseFoundOfferResu
     }
 
     setIsNotFound(true);
-  }, [allOffers, dispatch, offerFetchStatus, offerIdAsInt]);
+  }, [ allOffers, dispatch, offerFetchStatus, offerIdAsInt ]);
 
   return {
     isNotFound,
