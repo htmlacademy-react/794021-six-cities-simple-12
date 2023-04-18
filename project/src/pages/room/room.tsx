@@ -10,10 +10,11 @@ import RoomHardwareFeatures from 'src/components/room-hardware-features/room-har
 import RoomReviews from 'src/components/room-reviews/room-reviews';
 import GeoMap from 'src/components/geo-map/geo-map';
 import { Spinner } from 'src/components/spinner/spinner';
-import { getPercentFromRating, capitalizeFirstLetter } from 'src/utils/utils';
+import RoomHostDescription from 'src/components/room-host-description/room-host-description';
+import RoomFeatures from 'src/components/room-features/room-features';
+import { getPercentFromRating } from 'src/utils/utils';
 import { AppRoute, NEARBY_OFFERS_LIMIT_COUNT } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
-import RoomHostDescription from 'src/components/room-host-description/room-host-description';
 
 type RoomProps = {
   headerBlock?: JSX.Element;
@@ -61,17 +62,11 @@ function Room({ headerBlock }: RoomProps): JSX.Element {
                 </div>
                 <span className="property__rating-value rating__value">{offer.rating}</span>
               </div>
-              <ul className="property__features">
-                <li className="property__feature property__feature--entire">
-                  {capitalizeFirstLetter(offer.type)}
-                </li>
-                <li className="property__feature property__feature--bedrooms">
-                  {offer.bedrooms} Bedrooms
-                </li>
-                <li className="property__feature property__feature--adults">
-                  Max {offer.maxAdults} adults
-                </li>
-              </ul>
+              <RoomFeatures
+                bedrooms={offer.bedrooms}
+                maxAdults={offer.maxAdults}
+                type={offer.type}
+              />
               <div className="property__price">
                 <b className="property__price-value">&euro;{offer.price}</b>
                 <span className="property__price-text">&nbsp;night</span>
