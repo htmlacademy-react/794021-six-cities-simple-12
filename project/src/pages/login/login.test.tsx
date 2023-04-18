@@ -2,34 +2,39 @@ import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
+import { address, lorem } from 'faker';
 import Login from './login';
-import { UserLogin } from 'src/types/types';
 import HistoryRouter from 'src/components/history-router/history-router';
-import { address } from 'faker';
+import { AuthorizationStatus } from 'src/consts/api';
+import { AppRoute } from 'src/consts/consts';
+
+const history = createMemoryHistory();
+const mockHeaderBlock = <div>{lorem.paragraphs()}</div>;
 
 const makeMockStore = configureMockStore();
 
-const mockStore = makeMockStore({
-  DATA: {
-    cityName: address.cityName(),
-  },
+const userAuthorizedState = {
+  DATA: { cityName: address.cityName() },
   USER: {
-    authorizationStatus: 'NOT_AUTHORIZED',
-    login: 'fake@fake.fake' as UserLogin,
+    authorizationStatus: AuthorizationStatus.NotAuthorized,
   }
-});
+};
 
-const history = createMemoryHistory();
-
+const userNotAuthorizedState = {
+  DATA: { cityName: address.cityName() },
+  USER: {
+    authorizationStatus: AuthorizationStatus.Authorized,
+  }
+};
 
 describe('Component: <Login>', () => {
-  it('should render correctly', () => {
+  it('renders correctly', () => {
+    const mockStore = makeMockStore(userAuthorizedState);
+
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Login
-            headerBlock={undefined}
-          />
+          <Login headerBlock={mockHeaderBlock} />
         </HistoryRouter>
       </Provider>
     );
@@ -43,8 +48,23 @@ describe('Component: <Login>', () => {
     expect(screen.getByLabelText(/Password/i))
       .toBeInTheDocument();
 
-    const { DATA: { cityName } } = mockStore.getState();
-    expect(screen.getByText(cityName as string))
+    expect(screen.getByText(userAuthorizedState.DATA.cityName))
       .toBeInTheDocument();
+  });
+
+
+  it('redirects to <Main> page if user is authorized', () => {
+    const mockStore = makeMockStore(userNotAuthorizedState);
+
+    render(
+      <Provider store={mockStore}>
+        <HistoryRouter history={history}>
+          <Login headerBlock={undefined} />
+        </HistoryRouter>
+      </Provider>
+    );
+
+    expect(history.location.pathname)
+      .toEqual(AppRoute.Root);
   });
 });
