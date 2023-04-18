@@ -5,12 +5,14 @@ import { makeMockOffer } from 'src/utils/mock-offer';
 import { FetchStatus } from 'src/consts/api';
 
 const { reducer } = data;
+const DEFAULT_STATE_CITY_NAME = 'Paris';
+
 
 describe('Reducer: data', () => {
   it('returns initial state if sent unknown action', () => {
     expect(reducer(undefined, { type: 'NON_EXISTENT_ACTION' }))
       .toEqual({
-        cityName: 'Paris',
+        cityName: DEFAULT_STATE_CITY_NAME,
         offerFetchStatus: FetchStatus.NotStarted as FetchStatus,
         offersFetchStatus: FetchStatus.NotStarted as FetchStatus,
         offers: [],
