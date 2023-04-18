@@ -14,6 +14,9 @@ describe('Component: <RoomReview>', () => {
     expect(screen.getByText(review.user?.name))
       .toBeInTheDocument();
 
+    expect(screen.getByTestId(/review-star-rating/i))
+      .toBeInTheDocument();
+
     expect(screen.getByText(review.comment, { exact: false }))
       .toBeInTheDocument();
   });

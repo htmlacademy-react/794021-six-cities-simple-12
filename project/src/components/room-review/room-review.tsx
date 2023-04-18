@@ -28,10 +28,10 @@ function RoomReview({ review }: RoomReviewProps): JSX.Element {
         </span>
       </div>
       <div className="reviews__info">
-        <div className="reviews__rating rating">
+        <div className="reviews__rating rating" data-testid="review-star-rating">
           <div className="reviews__stars rating__stars">
             <span style={{width: getPercentFromRating(review.rating)}}></span>
-            <span className="visually-hidden">Rating</span>
+            <p className="visually-hidden">{`Gave them ${review.rating}-star rating.`}</p>
           </div>
         </div>
         <p className="reviews__text">
