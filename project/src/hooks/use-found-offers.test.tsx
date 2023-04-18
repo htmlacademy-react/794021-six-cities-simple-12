@@ -6,16 +6,18 @@ import { useFoundOffers } from './use-found-offers';
 import { FetchStatus } from 'src/consts/api';
 import { Offers } from 'src/types/types';
 import { fetchOffersAction } from 'src/store/api-actions';
+import { address } from 'faker';
 
 const middlewares = [ thunk ];
 const mockStore = configureMockStore(middlewares);
 
-const cityName = 'Paris';
+const firstCityName = address.cityName();
+const secondCityName = address.cityName();
 
 const offers = [
-  { id: 1, city: { name: 'Paris' }},
-  { id: 2, city: { name: 'Paris' }},
-  { id: 3, city: { name: 'Amsterdam' }},
+  { id: 1, city: { name: firstCityName }},
+  { id: 2, city: { name: firstCityName }},
+  { id: 3, city: { name: secondCityName }},
 ];
 
 const fetchedWithNoErrorState = {
@@ -27,14 +29,14 @@ const fetchedWithNoErrorState = {
 
 const offersNotStartedFetching = {
   DATA: {
-    offers: [{ id: 1, city: { name: 'Paris' }}] as Offers,
+    offers: [{ id: 1, city: { name: firstCityName }}] as Offers,
     offersFetchStatus: FetchStatus.NotStarted,
   },
 };
 
 const offersFetchIsInPendingState = {
   DATA: {
-    offers: [{ id: 1, city: { name: 'Paris' }}] as Offers,
+    offers: [{ id: 1, city: { name: firstCityName }}] as Offers,
     offersFetchStatus: FetchStatus.Pending,
   },
 };
@@ -43,7 +45,7 @@ describe('Hook: <useFoundOffers>', () => {
   it('returns: offers for the curent city with fetch status', () => {
     const store = mockStore(fetchedWithNoErrorState);
 
-    const { result } = renderHook(() => useFoundOffers(cityName), {
+    const { result } = renderHook(() => useFoundOffers(firstCityName), {
       wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
     });
 
@@ -55,7 +57,7 @@ describe('Hook: <useFoundOffers>', () => {
   it('started fetching offers if fetchStatus is "NotStarted"', () => {
     const store = mockStore(offersNotStartedFetching);
 
-    const { result } = renderHook(() => useFoundOffers(cityName), {
+    const { result } = renderHook(() => useFoundOffers(firstCityName), {
       wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
     });
 
@@ -74,7 +76,7 @@ describe('Hook: <useFoundOffers>', () => {
   it('dispatches no action when fetchStatus is "Pending"', () => {
     const store = mockStore(offersFetchIsInPendingState);
 
-    renderHook(() => useFoundOffers(cityName), {
+    renderHook(() => useFoundOffers(firstCityName), {
       wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
     });
 

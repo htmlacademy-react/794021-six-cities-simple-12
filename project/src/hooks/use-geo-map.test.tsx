@@ -1,10 +1,13 @@
 import { renderHook } from '@testing-library/react';
 import { useGeoMap } from './use-geo-map';
+import { address } from 'faker';
 
-const City = {
-  Paris: {
-    name: 'Paris',
-    location: { latitude: 48.85661, longitude: 2.351499, zoom: 13 }
+const city = {
+  name: address.cityName(),
+  location: {
+    latitude: +address.latitude(),
+    longitude: +address.longitude(),
+    zoom: 9,
   },
 };
 
@@ -15,7 +18,7 @@ describe('Hook: useGeoMap', () => {
 
   it('renders a Geo map instance', () => {
     const { result } = renderHook(
-      () => useGeoMap(mockNodeRef, City.Paris)
+      () => useGeoMap(mockNodeRef, city)
     );
     const geoMapInstance = result.current;
 

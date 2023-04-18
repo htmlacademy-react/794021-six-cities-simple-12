@@ -8,13 +8,14 @@ import { AuthorizationStatus } from 'src/consts/api';
 import { Offers } from 'src/types/types';
 import HistoryRouter from '../history-router/history-router';
 import { makeMockOffer } from 'src/utils/mock-offer';
+import { address } from 'faker';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
 
 const store = mockStore({
   DATA: {
-    cityName: 'Paris',
+    cityName: address.cityName(),
     offers: [
       makeMockOffer(),
     ] as Offers,

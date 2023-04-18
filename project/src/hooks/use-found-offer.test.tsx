@@ -5,14 +5,18 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { fetchOfferAction } from 'src/store/api-actions';
 import { useFoundOffer } from './use-found-offer';
 import { FetchStatus } from 'src/consts/api';
+import { address } from 'faker';
 
 const middlewares = [ thunk ];
 const mockStore = configureMockStore(middlewares);
 
+const firstCity = address.cityName();
+const secondCity = address.cityName();
+
 const offers = [
-  { id: 1, city: { name: 'Paris' }},
-  { id: 2, city: { name: 'Paris' }},
-  { id: 3, city: { name: 'Amsterdam' }},
+  { id: 1, city: { name: firstCity }},
+  { id: 2, city: { name: firstCity }},
+  { id: 3, city: { name: secondCity }},
 ];
 
 const someOffersExist = {
