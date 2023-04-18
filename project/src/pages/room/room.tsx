@@ -87,11 +87,13 @@ function Room({ headerBlock }: RoomProps): JSX.Element {
             offers={nearbyOffers}
           />
         </section>
-        <OfferCards
-          className="near-places"
-          header="Other places in the neighbourhood"
-          offers={nearbyOffers}
-        />
+        <div className="container">
+          <OfferCards
+            className="near-places"
+            header="Other places in the neighbourhood"
+            offers={nearbyOffers}
+          />
+        </div>
       </main>
     </div>
   );
