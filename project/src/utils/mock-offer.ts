@@ -56,7 +56,7 @@ export const makeMockOffer = (attributes?: DeepPartial<Offer>): Offer => ({
   type: lorem.words(4),
 });
 
-export const makeMockOffers = (count: number, offerAttributes: DeepPartial<Offer>): Offers =>
+export const makeMockOffers = (count: number, offerAttributes?: DeepPartial<Offer>): Offers =>
   new Array(count)
     .fill({})
     .map((_item, index) => makeMockOffer(offerAttributes)) as Offers;
