@@ -46,14 +46,16 @@ function Login({ headerBlock }: LoginProps): JSX.Element {
               onSubmit={handleCredentialsSubmit}
             >
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">E-mail</label>
-                <input className="login__input form__input" type="email" name="email" placeholder="Email" required
+                <label className="visually-hidden" htmlFor="login">E-mail</label>
+                <input className="login__input form__input" id="login"
+                  type="email" name="email" placeholder="Email" required
                   onChange={handleLoginChange}
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password" required
+                <label className="visually-hidden" htmlFor="password">Password</label>
+                <input className="login__input form__input" id="password"
+                  type="password" name="password" placeholder="Password" required
                   ref={passwordRef}
                 />
               </div>
