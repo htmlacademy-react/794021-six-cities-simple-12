@@ -5,8 +5,8 @@ import { FetchStatus } from 'src/consts/api';
 import { ReviewsMap } from 'src/types/types';
 
 const initialState = {
-  fetchStatus: FetchStatus.NotStarted as FetchStatus,
   dataMap: {} as ReviewsMap,
+  fetchStatus: FetchStatus.NotStarted as FetchStatus,
 };
 
 export const reviews = createSlice({
