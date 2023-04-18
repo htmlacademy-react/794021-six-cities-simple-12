@@ -14,3 +14,7 @@ export function getOfferFetchStatus(state: AppState): FetchStatus {
 export function getOffers(state: AppState): Offers {
   return state[DomainNamespace.BusinessData].offers;
 }
+
+export function getOffersFetchStatus(state: AppState): FetchStatus {
+  return state[DomainNamespace.BusinessData].offersFetchStatus;
+}
