@@ -77,9 +77,9 @@ function Room(): JSX.Element {
             </div>
           </div>
           <GeoMap
-            activeOffer={null}
+            activeOffer={offer}
             className='property__map'
-            offers={nearbyOffers}
+            offers={[offer, ...nearbyOffers]}
           />
         </section>
         <div className="container">
