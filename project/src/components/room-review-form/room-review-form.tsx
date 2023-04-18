@@ -25,6 +25,7 @@ function RoomReviewForm(): JSX.Element {
 
   const handleSubmit = (evt: FormEvent): void => {
     evt.preventDefault();
+    // FIXME send to server!
   };
 
   useEffect(() => {
