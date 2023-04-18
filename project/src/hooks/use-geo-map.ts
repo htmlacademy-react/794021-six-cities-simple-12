@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { LatLngTuple, Map as LeafletGeoMap, TileLayer } from 'leaflet';
 import { City } from 'src/types/types';
-import { DEFAULT_GEOLOCATION } from 'src/consts/geo-map';
+import { DEFAULT_GEOLOCATION, GeoMapAttributes } from 'src/consts/geo-map';
 
 export function useGeoMap(
   nodeRef: RefObject<HTMLElement | null>,
@@ -16,11 +16,8 @@ export function useGeoMap(
     }
 
     const layer = new TileLayer(
-      'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-      {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-      }
+      GeoMapAttributes.TileType,
+      { attribution: GeoMapAttributes.Copyright }
     );
 
     const mapInstance = new LeafletGeoMap(nodeRef.current);

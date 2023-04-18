@@ -21,6 +21,7 @@ function GeoMap(props: GeoMapProps): JSX.Element {
   return (
     <section
       className={`${props.className} ${styles.map}`}
+      data-testid="geo-map-block"
       ref={nodeRef}
     >
     </section>

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from 'src/consts/api';
 import { DomainNamespace } from 'src/consts/domain';
 import { UserLogin } from 'src/types/types';
@@ -14,7 +14,11 @@ const initialState = {
 export const user = createSlice({
   name: DomainNamespace.User,
   initialState,
-  reducers: {},
+  reducers: {
+    setUserLoginAction: (state, { payload }: PayloadAction<UserLogin>) => {
+      state.login = payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(checkIfUserAuthorizedAction.fulfilled, (state, { payload }) => {
@@ -49,3 +53,5 @@ export const user = createSlice({
       });
   }
 });
+
+export const { setUserLoginAction } = user.actions;

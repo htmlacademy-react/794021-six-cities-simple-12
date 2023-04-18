@@ -5,7 +5,7 @@ import { RoomReview } from 'src/consts/consts';
 
 const REVIEW_TEST_ID = 'offer-review-item';
 const MOCK_OFFER_ID = 1;
-const reviews = makeMockReviews(RoomReview.PerOfferMaxCount + 1);
+const mockReviews = makeMockReviews(RoomReview.PerOfferMaxCount + 1, MOCK_OFFER_ID);
 
 describe('Component: <RoomReviews>', () => {
   it('renders component when user is authorized', () => {
@@ -15,7 +15,7 @@ describe('Component: <RoomReviews>', () => {
       <RoomReviews
         offerId={MOCK_OFFER_ID}
         isUserLoggedIn={isUserLoggedIn}
-        reviews={reviews}
+        reviews={mockReviews}
       />
     );
 
@@ -33,7 +33,7 @@ describe('Component: <RoomReviews>', () => {
       <RoomReviews
         offerId={MOCK_OFFER_ID}
         isUserLoggedIn={isUserLoggedIn}
-        reviews={reviews}
+        reviews={mockReviews}
       />
     );
 

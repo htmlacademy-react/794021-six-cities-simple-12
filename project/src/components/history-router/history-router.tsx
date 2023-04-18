@@ -3,31 +3,27 @@ import { Router } from 'react-router-dom';
 import type { BrowserHistory } from 'history';
 
 export interface HistoryRouterProps {
-  history: BrowserHistory;
   basename?: string;
   children?: React.ReactNode;
+  history: BrowserHistory;
 }
 
-function HistoryRouter({
-  basename,
-  children,
-  history,
-}: HistoryRouterProps) {
-  const [state, setState] = useState({
-    action: history.action,
-    location: history.location,
+function HistoryRouter(props: HistoryRouterProps) {
+  const [ state, setState ] = useState({
+    action: props.history.action,
+    location: props.history.location,
   });
 
-  useLayoutEffect(() => history.listen(setState), [history]);
+  useLayoutEffect(() => props.history.listen(setState), [ props.history ]);
 
   return (
     <Router
-      basename={basename}
+      basename={props.basename}
       location={state.location}
       navigationType={state.action}
-      navigator={history}
+      navigator={props.history}
     >
-      {children}
+      {props.children}
     </Router>
   );
 }

@@ -1,8 +1,7 @@
-import { ReactElement } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { internet } from 'faker';
 import { render, screen } from '@testing-library/react';
 import Header from './header';
+import { MockBrowserRouterWrapper } from 'src/utils/mock-common';
 
 describe('Component: <Header>', () => {
   const userAvatarUrl = internet.url();
@@ -10,14 +9,14 @@ describe('Component: <Header>', () => {
 
   it('shows header navigation block, where user is nor authorized, nor not-authorized', () => {
     render(
-      <BrowserRouterWrapper>
+      <MockBrowserRouterWrapper>
         <Header
           isAuthorized={false}
           isNotAuthorized={false}
           userAvatarUrl={userAvatarUrl}
           userLogin={userLogin}
         />
-      </BrowserRouterWrapper>
+      </MockBrowserRouterWrapper>
     );
 
     expect(screen.queryByText(userLogin)).not.toBeInTheDocument();
@@ -27,14 +26,14 @@ describe('Component: <Header>', () => {
 
   it('shows header navigation block, where user is authorized', () => {
     render(
-      <BrowserRouterWrapper>
+      <MockBrowserRouterWrapper>
         <Header
           isAuthorized
           isNotAuthorized={false}
           userAvatarUrl={userAvatarUrl}
           userLogin={userLogin}
         />
-      </BrowserRouterWrapper>
+      </MockBrowserRouterWrapper>
     );
 
     expect(screen.getByText(userLogin)).toBeInTheDocument();
@@ -44,14 +43,14 @@ describe('Component: <Header>', () => {
 
   it('shows header navigation block, where user is not authorized', () => {
     render(
-      <BrowserRouterWrapper>
+      <MockBrowserRouterWrapper>
         <Header
           isAuthorized={false}
           isNotAuthorized
           userAvatarUrl={userAvatarUrl}
           userLogin={userLogin}
         />
-      </BrowserRouterWrapper>
+      </MockBrowserRouterWrapper>
     );
 
     expect(screen.queryByText(userLogin)).not.toBeInTheDocument();
@@ -59,14 +58,3 @@ describe('Component: <Header>', () => {
     expect(screen.queryByText('Sign out')).not.toBeInTheDocument();
   });
 });
-
-function BrowserRouterWrapper({ children }: { children: ReactElement } ): JSX.Element {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='*' element={children} >
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
-}

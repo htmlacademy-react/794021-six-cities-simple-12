@@ -1,17 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DomainNamespace } from 'src/consts/domain';
 import { INITIAL_CITY_NAME } from 'src/consts/consts';
-import { Offers, ReviewsMap } from 'src/types/types';
-import { fetchOfferAction, fetchOffersAction, fetchReviewsAction } from '../api-actions';
+import { Offers } from 'src/types/types';
+import { fetchOfferAction, fetchOffersAction } from '../api-actions';
 import { FetchStatus } from 'src/consts/api';
 
 const initialState = {
   cityName: INITIAL_CITY_NAME,
-  offersFetchStatus: FetchStatus.NotStarted as FetchStatus,
-  isOfferFetching: false,
-  areReviewsFetching: false,
   offers: [] as Offers,
-  reviewsMap: {} as ReviewsMap,
+  offerFetchStatus: FetchStatus.NotStarted as FetchStatus,
+  offersFetchStatus: FetchStatus.NotStarted as FetchStatus,
 };
 
 export const data = createSlice({
@@ -35,15 +33,15 @@ export const data = createSlice({
           state.offers.push(payload);
         }
 
-        state.isOfferFetching = false;
+        state.offerFetchStatus = FetchStatus.FetchedWithNoError;
       })
 
       .addCase(fetchOfferAction.pending, (state) => {
-        state.isOfferFetching = true;
+        state.offerFetchStatus = FetchStatus.Pending;
       })
 
       .addCase(fetchOfferAction.rejected, (state) => {
-        state.isOfferFetching = false;
+        state.offerFetchStatus = FetchStatus.FetchedWithError;
       })
 
       .addCase(fetchOffersAction.fulfilled, (state, { payload }) => {
@@ -57,21 +55,8 @@ export const data = createSlice({
 
       .addCase(fetchOffersAction.rejected, (state) => {
         state.offersFetchStatus = FetchStatus.FetchedWithError;
-      })
-
-      .addCase(fetchReviewsAction.fulfilled, (state, { payload }) => {
-        state.reviewsMap = { ...state.reviewsMap, ...payload };
-        state.areReviewsFetching = false;
-      })
-
-      .addCase(fetchReviewsAction.pending, (state) => {
-        state.areReviewsFetching = true;
-      })
-
-      .addCase(fetchReviewsAction.rejected, (state) => {
-        state.areReviewsFetching = false;
       });
-  }
+  },
 });
 
 export const { setCityNameAction } = data.actions;

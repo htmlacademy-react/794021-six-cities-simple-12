@@ -38,7 +38,7 @@ export type Location = {
   longitude: number;
 }
 
-export type OfferLocation = { // TODO get from Location type!
+export type OfferLocation = {
   latitude: number;
   longitude: number;
   zoom: number;

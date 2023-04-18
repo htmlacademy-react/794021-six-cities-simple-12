@@ -32,13 +32,7 @@ function App(): JSX.Element {
       <Route path={AppRoute.Root}>
         <Route index element={<Main headerBlock={headerBlock} />}/>
         <Route path={AppRoute.Login} element={<Login headerBlock={headerBlock} />} />
-        <Route path={AppRoute.Offer} element={
-          <Room
-            headerBlock={headerBlock}
-            isUserLoggedIn={authorizationStatus === AuthorizationStatus.Authorized}
-          />
-        }
-        />
+        <Route path={AppRoute.Offer} element={<Room headerBlock={headerBlock} />} />
         <Route path='*' element={<NotFound />} />
       </Route>
     </Routes>

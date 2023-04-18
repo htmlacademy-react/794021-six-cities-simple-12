@@ -55,8 +55,10 @@ function Main(props: MainProps) {
         }
 
         {
-          fetchStatus === FetchStatus.FetchedWithNoError && offers.length > 0 ?
-            <div className="cities">
+          offers.length > 0 ?
+            <div className="cities"
+              data-testid="offer-cards-with-geo-map"
+            >
               <div className="cities__places-container container">
                 <OfferCards
                   className="cities__places"
@@ -81,6 +83,7 @@ function Main(props: MainProps) {
                 <div className="cities__right-section">
                   <GeoMap
                     activeOffer={hoveredOffer}
+                    data-testid="geo-map"
                     className={offers.length ? '' : 'cities__map'}
                     offers={offers}
                   />
@@ -88,7 +91,13 @@ function Main(props: MainProps) {
               </div>
             </div>
             :
-            <NoOfferBlock cityName={currentCityName} />
+            <div
+              data-testid="no-offers-container"
+            >
+              <NoOfferBlock
+                cityName={currentCityName}
+              />
+            </div>
         }
       </main>
     </div>

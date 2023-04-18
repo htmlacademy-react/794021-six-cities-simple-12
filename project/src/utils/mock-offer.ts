@@ -1,3 +1,4 @@
+import { DeepPartial } from '@reduxjs/toolkit';
 import { address, datatype, finance, lorem, name, internet } from 'faker';
 import { OFFER_PHOTO_LIMIT_COUNT } from 'src/consts/consts';
 import { Images, OfferHost, Offers } from 'src/types/types';
@@ -12,13 +13,13 @@ const makeMockLocation = (): OfferLocation => ({
   zoom: datatype.number(10) + 1,
 });
 
-const makeMockCity = (): City => ({
+const makeMockCity = (attributes?: DeepPartial<City>): City => ({
   location: {
     latitude: +address.latitude(),
     longitude: +address.longitude(),
     zoom: datatype.number(10) + 1,
   },
-  name: address.cityName(),
+  name: attributes?.name ?? address.cityName(),
 });
 
 export const makeMockHost = (attributes?: Partial<OfferHost>): OfferHost => ({
@@ -38,9 +39,9 @@ const makeMockImages = (): Images =>
     .fill('')
     .map((_item) => internet.url());
 
-export const makeMockOffer = (attributes?: Partial<Offer>): Offer => ({
+export const makeMockOffer = (attributes?: DeepPartial<Offer>): Offer => ({
   bedrooms: datatype.number(100) + 1,
-  city: makeMockCity(),
+  city: makeMockCity(attributes?.city),
   description: lorem.paragraphs(3, '\n'),
   goods: makeMockGoods(),
   host: makeMockHost(),
@@ -55,7 +56,7 @@ export const makeMockOffer = (attributes?: Partial<Offer>): Offer => ({
   type: lorem.words(4),
 });
 
-export const makeMockOffers = (count: number): Offers =>
+export const makeMockOffers = (count: number, offerAttributes?: DeepPartial<Offer>): Offers =>
   new Array(count)
     .fill({})
-    .map((_item, index) => makeMockOffer({ id: index })) as Offers;
+    .map((_item, index) => makeMockOffer(offerAttributes)) as Offers;
