@@ -2,14 +2,13 @@ import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
-import { address, lorem } from 'faker';
+import { address } from 'faker';
 import Login from './login';
 import HistoryRouter from 'src/components/history-router/history-router';
 import { AuthorizationStatus } from 'src/consts/api';
 import { AppRoute } from 'src/consts/consts';
 
 const history = createMemoryHistory();
-const mockHeaderBlock = <div>{lorem.paragraphs()}</div>;
 
 const makeMockStore = configureMockStore();
 

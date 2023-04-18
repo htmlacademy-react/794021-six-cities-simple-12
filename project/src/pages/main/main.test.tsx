@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 import { fetchOffersAction } from 'src/store/api-actions';
-import { address, lorem } from 'faker';
+import { address } from 'faker';
 import Main from './main';
 import NoOfferBlock from 'src/components/no-offer-block/no-offer-block';
 import { createAPI } from 'src/services/api';

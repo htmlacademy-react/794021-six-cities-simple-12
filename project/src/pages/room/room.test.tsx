@@ -5,7 +5,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Action } from '@reduxjs/toolkit';
-import { address, datatype, lorem } from 'faker';
+import { address, datatype } from 'faker';
 import { fetchOfferAction } from 'src/store/api-actions';
 import Room from './room';
 import { createAPI } from 'src/services/api';
