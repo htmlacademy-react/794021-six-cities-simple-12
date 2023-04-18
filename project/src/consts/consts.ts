@@ -32,12 +32,12 @@ export const MapPinSetting = {
     iconUrl: '/img/pin-active.svg',
     iconSize: [27, 39],
     iconAnchor: [13.336, 37.2],
-  } as IconOptions, // TODO can 'as' be avoided?
+  } as IconOptions,
   Default: {
     iconUrl: '/img/pin.svg',
     iconSize: [27, 39],
     iconAnchor: [13.336, 37.2],
-  } as IconOptions, // TODO can 'as' be avoided?
+  } as IconOptions,
 } as const;
 
 export enum OfferSortingOption {
