@@ -1,41 +1,38 @@
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { store } from 'src/store';
 import { getCityName } from 'src/store/data/data.selectors';
 import { logUserInAction } from 'src/store/api-actions';
-import { useAppSelector } from 'src/hooks';
+import { getUserLogin } from 'src/store/user/user.selectors';
+import { setUserLoginAction } from 'src/store/user/user.slice';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { useRedirectingIfAuthorized } from 'src/hooks/use-redirecting-if-authorized';
 import { AppRoute } from 'src/consts/consts';
-import { DomainNamespace } from 'src/consts/domain';
-import { UserLogin } from 'src/types/types';
-import { UserAuthorizationData } from 'src/types/api';
 
 type LoginProps = {
   headerBlock?: JSX.Element;
 }
 
 function Login({ headerBlock }: LoginProps): JSX.Element {
-  const { login: userLoginInStore } = store.getState()[DomainNamespace.User];
-  const [ email, setEmail ] = useState<UserLogin>(userLoginInStore);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const currentCity = useAppSelector(getCityName);
   useRedirectingIfAuthorized(AppRoute.Root);
+  const userLoginInStore = useAppSelector(getUserLogin);
+  const currentCity = useAppSelector(getCityName);
+  const dispatch = useAppDispatch();
+  const passwordRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleCredentialsSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (!areCredentialsValid(email, passwordRef.current?.value)) {
+    if (!areCredentialsValid(userLoginInStore, passwordRef.current?.value)) {
       return;
     }
-    const authData: UserAuthorizationData = {
-      email,
-      password: passwordRef.current?.value ?? '',
-    };
 
-    store.dispatch(logUserInAction(authData));
+    dispatch(logUserInAction({
+      email: userLoginInStore,
+      password: passwordRef.current?.value ?? '',
+    }));
   };
 
-  const handleInputChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    setEmail(target.value);
+  const handleLoginChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setUserLoginAction(target.value));
   };
 
   return (
@@ -46,12 +43,12 @@ function Login({ headerBlock }: LoginProps): JSX.Element {
           <section className="login">
             <h1 className="login__title">Sign in</h1>
             <form className="login__form form" action="#" method="post"
-              onSubmit={handleSubmit}
+              onSubmit={handleCredentialsSubmit}
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input className="login__input form__input" type="email" name="email" placeholder="Email" required
-                  onChange={handleInputChange}
+                  onChange={handleLoginChange}
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
