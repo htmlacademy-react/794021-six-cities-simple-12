@@ -26,22 +26,21 @@ const history = createMemoryHistory();
 const mockHeaderBlock = <div>{lorem.paragraphs()}</div>;
 
 describe('Component: <Main>', () => {
-  it('should render offers', () => {
-    const cityName = address.cityName();
+  it('renders offers', () => {
+    const mockCityName = address.cityName();
+    const mockOffers = makeMockOffers(10, { city: { name: mockCityName }});
 
     const mockStoreWithOffersInTheCurrentCity = makeMockStore({
       DATA: {
-        cityName: cityName,
-        offers: makeMockOffers(10, { city: { name: cityName }}),
+        cityName: mockCityName,
+        offers: mockOffers,
       },
     });
 
     render(
       <Provider store={mockStoreWithOffersInTheCurrentCity}>
         <HistoryRouter history={history}>
-          <Main
-            headerBlock={mockHeaderBlock}
-          />
+          <Main headerBlock={mockHeaderBlock} />
         </HistoryRouter>
       </Provider>
     );
@@ -49,9 +48,8 @@ describe('Component: <Main>', () => {
     expect(screen)
       .not.toContain(NoOfferBlock);
 
-    const stateSlice = mockStoreWithOffersInTheCurrentCity.getState().DATA;
-    const offerCount = stateSlice?.offers?.length?.toString() || '0';
-    const text = `${offerCount} places to stay in ${cityName}`;
+    const offerCount = mockOffers.length.toString();
+    const text = `${offerCount} places to stay in ${mockCityName}`;
     expect(screen.getByText(new RegExp(text, 'i')))
       .toBeInTheDocument();
 
@@ -61,22 +59,21 @@ describe('Component: <Main>', () => {
 
 
   it('renders spinner if fetch is pending', () => {
-    const cityName = address.cityName();
+    const mockCityName = address.cityName();
+    const mockOffers = makeMockOffers(10, { city: { name: mockCityName }});
 
     const mockStoreWithOffersInTheCurrentCity = makeMockStore({
       DATA: {
-        cityName,
+        cityName: mockCityName,
         offersFetchStatus: FetchStatus.Pending,
-        offers: makeMockOffers(10, { city: { name: cityName }}),
+        offers: mockOffers,
       },
     });
 
     render(
       <Provider store={mockStoreWithOffersInTheCurrentCity}>
         <HistoryRouter history={history}>
-          <Main
-            headerBlock={mockHeaderBlock}
-          />
+          <Main headerBlock={mockHeaderBlock} />
         </HistoryRouter>
       </Provider>
     );
@@ -104,9 +101,7 @@ describe('Component: <Main>', () => {
     render(
       <Provider store={mockStoreWithOffersInTheCurrentCity}>
         <HistoryRouter history={history}>
-          <Main
-            headerBlock={mockHeaderBlock}
-          />
+          <Main headerBlock={mockHeaderBlock} />
         </HistoryRouter>
       </Provider>
     );
@@ -123,22 +118,21 @@ describe('Component: <Main>', () => {
   });
 
 
-  it('renders empty block if no offers in the current city', () => {
+  it('renders empty container block if no offers of the current city', () => {
+    const firstCity = address.cityName();
+    const secondCity = address.cityName();
+
     const mockStoreWithOffersInOtherCity = makeMockStore({
       DATA: {
-        cityName: address.cityName(),
-        offersFetchStatus: FetchStatus.FetchedWithError,
-        offers: makeMockOffers(10, { city: { name: address.cityName() }}),
+        cityName: firstCity,
+        offersFetchStatus: FetchStatus.FetchedWithNoError,
+        offers: makeMockOffers(10, { city: { name: secondCity }}),
       },
     });
 
     render(
       <Provider store={mockStoreWithOffersInOtherCity}>
-        <HistoryRouter history={history}>
-          <Main
-            headerBlock={mockHeaderBlock}
-          />
-        </HistoryRouter>
+        <Main headerBlock={mockHeaderBlock} />
       </Provider>
     );
 
