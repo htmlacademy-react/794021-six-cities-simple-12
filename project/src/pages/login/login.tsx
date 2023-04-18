@@ -8,11 +8,7 @@ import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { useRedirectingIfAuthorized } from 'src/hooks/use-redirecting-if-authorized';
 import { AppRoute } from 'src/consts/consts';
 
-type LoginProps = {
-  headerBlock?: JSX.Element;
-}
-
-function Login({ headerBlock }: LoginProps): JSX.Element {
+function Login(): JSX.Element {
   useRedirectingIfAuthorized(AppRoute.Root);
   const userLogin = useAppSelector(getUserLogin);
   const currentCity = useAppSelector(getCityName);
@@ -37,7 +33,6 @@ function Login({ headerBlock }: LoginProps): JSX.Element {
 
   return (
     <div className="page page--gray page--login">
-      {headerBlock}
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">

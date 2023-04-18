@@ -23,7 +23,6 @@ const makeMockStore = configureMockStore<
 >(middlewares);
 
 const history = createMemoryHistory();
-const mockHeaderBlock = <div>{lorem.paragraphs()}</div>;
 
 describe('Component: <Main>', () => {
   it('renders offers', () => {
@@ -40,7 +39,7 @@ describe('Component: <Main>', () => {
     render(
       <Provider store={mockStoreWithOffersInTheCurrentCity}>
         <HistoryRouter history={history}>
-          <Main headerBlock={mockHeaderBlock} />
+          <Main />
         </HistoryRouter>
       </Provider>
     );
@@ -73,7 +72,7 @@ describe('Component: <Main>', () => {
     render(
       <Provider store={mockStoreWithOffersInTheCurrentCity}>
         <HistoryRouter history={history}>
-          <Main headerBlock={mockHeaderBlock} />
+          <Main />
         </HistoryRouter>
       </Provider>
     );
@@ -101,7 +100,7 @@ describe('Component: <Main>', () => {
     render(
       <Provider store={mockStoreWithOffersInTheCurrentCity}>
         <HistoryRouter history={history}>
-          <Main headerBlock={mockHeaderBlock} />
+          <Main />
         </HistoryRouter>
       </Provider>
     );
@@ -132,7 +131,7 @@ describe('Component: <Main>', () => {
 
     render(
       <Provider store={mockStoreWithOffersInOtherCity}>
-        <Main headerBlock={mockHeaderBlock} />
+        <Main />
       </Provider>
     );
 

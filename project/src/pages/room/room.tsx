@@ -16,11 +16,7 @@ import { getPercentFromRating } from 'src/utils/utils';
 import { AppRoute, NEARBY_OFFERS_LIMIT_COUNT } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
 
-type RoomProps = {
-  headerBlock?: JSX.Element;
-}
-
-function Room({ headerBlock }: RoomProps): JSX.Element {
+function Room(): JSX.Element {
   const { id: offerId } = useParams();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const { isNotFound, offer } = useFoundOffer(offerId);
@@ -37,7 +33,6 @@ function Room({ headerBlock }: RoomProps): JSX.Element {
 
   return (
     <div className="page">
-      {headerBlock}
       <main className="page__main page__main--property">
         <section className="property">
           <RoomGallery images={offer.images} />

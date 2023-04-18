@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import App from './components/app/app';
 import { store } from 'src/store/index';
 import HistoryRouter from './components/history-router/history-router';
+import NavHeader from './components/nav-header/nav-header';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -19,6 +20,7 @@ root.render(
     <Provider store={store}>
       <HistoryRouter history={browserHistory}>
         <ToastContainer />
+        <NavHeader />
         <App />
       </HistoryRouter>
     </Provider>

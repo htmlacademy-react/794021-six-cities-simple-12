@@ -31,7 +31,6 @@ const offerId = datatype.number();
 const cityName = address.cityName();
 const offer = makeMockOffer({ id: offerId, city: { name: cityName }});
 
-const mockHeaderBlock = <div>{lorem.paragraphs()}</div>;
 
 describe('Component: <Room>', () => {
   it('renders offer details', () => {
@@ -60,7 +59,7 @@ describe('Component: <Room>', () => {
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
           <Routes>
-            <Route path={AppRoute.Offer} element={<Room headerBlock={mockHeaderBlock} />} />
+            <Route path={AppRoute.Offer} element={<Room />} />
           </Routes>
         </HistoryRouter>
       </Provider>
@@ -94,7 +93,7 @@ describe('Component: <Room>', () => {
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
           <Routes>
-            <Route path={AppRoute.Offer} element={<Room headerBlock={mockHeaderBlock} />} />
+            <Route path={AppRoute.Offer} element={<Room />} />
           </Routes>
         </HistoryRouter>
       </Provider>
@@ -132,7 +131,7 @@ describe('Component: <Room>', () => {
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
           <Routes>
-            <Route path={AppRoute.Offer} element={<Room headerBlock={mockHeaderBlock} />} />
+            <Route path={AppRoute.Offer} element={<Room />} />
           </Routes>
         </HistoryRouter>
       </Provider>
@@ -170,7 +169,7 @@ describe('Component: <Room>', () => {
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
           <Routes>
-            <Route path={AppRoute.Offer} element={<Room headerBlock={mockHeaderBlock} />} />
+            <Route path={AppRoute.Offer} element={<Room />} />
           </Routes>
         </HistoryRouter>
       </Provider>

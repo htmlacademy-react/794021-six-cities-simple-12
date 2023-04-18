@@ -34,7 +34,7 @@ describe('Component: <Login>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Login headerBlock={mockHeaderBlock} />
+          <Login />
         </HistoryRouter>
       </Provider>
     );
@@ -59,7 +59,7 @@ describe('Component: <Login>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Login headerBlock={undefined} />
+          <Login />
         </HistoryRouter>
       </Provider>
     );
