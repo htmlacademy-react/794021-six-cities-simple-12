@@ -41,7 +41,10 @@ function RoomReviews(props: RoomReviewProps): JSX.Element {
           null
       }
 
-      { props.isUserLoggedIn && <RoomReviewForm key={props.offerId} /> }
+      {
+        props.isUserLoggedIn &&
+        <RoomReviewForm key={props.offerId} dataTestId="room-review-post-form" />
+      }
     </section>
   );
 }

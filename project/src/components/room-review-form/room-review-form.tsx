@@ -10,7 +10,11 @@ const FormFieldName = {
   Review: 'review',
 } as const;
 
-function RoomReviewForm(): JSX.Element {
+type RoomReviewFormProps = {
+  dataTestId?: string;
+};
+
+function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
   const [ formData, setFormData ] = useState({
     [ FormFieldName.Rating ]: '0',
     [ FormFieldName.Review ]: '',
@@ -37,6 +41,7 @@ function RoomReviewForm(): JSX.Element {
     <form
       action="#"
       className="reviews__form form"
+      data-testid={props.dataTestId}
       method="post"
       onSubmit={handleSubmit}
     >

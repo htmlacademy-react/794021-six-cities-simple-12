@@ -19,6 +19,12 @@ describe('Component: <RoomReviews>', () => {
       />
     );
 
+    expect(screen.getByTestId('room-review-post-form'))
+      .toBeInTheDocument();
+
+    expect(screen.getByRole('heading', { name: /Reviews/i }))
+      .toHaveTextContent(new RegExp(mockReviews.length.toString(), 'i'));
+
     expect(screen.getAllByTestId(REVIEW_TEST_ID).length)
       .toBeLessThanOrEqual(RoomReview.PerOfferMaxCount);
 
@@ -37,10 +43,16 @@ describe('Component: <RoomReviews>', () => {
       />
     );
 
+    expect(screen.queryByTestId('room-review-post-form'))
+      .not.toBeInTheDocument();
+
+    expect(screen.getByRole('heading', { name: /Reviews/i }))
+      .toHaveTextContent(new RegExp(mockReviews.length.toString(), 'i'));
+
     expect(screen.getAllByTestId(REVIEW_TEST_ID).length)
       .toBeLessThanOrEqual(RoomReview.PerOfferMaxCount);
 
-    expect(screen.queryByRole('textbox'))
-      .not.toBeInTheDocument();
+    expect(screen.getByRole('textbox'))
+      .toHaveAccessibleName('Your review');
   });
 });
