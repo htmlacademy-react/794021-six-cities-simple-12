@@ -1,5 +1,5 @@
 import { FetchStatus } from 'src/consts/api';
-import { fetchReviewsAction } from '../api-actions';
+import { fetchReviewsAction } from 'src/store/api-reviews/api-reviews.actions';
 import { reviews } from './reviews.slice';
 import { makeMockReviews } from 'src/utils/mock-review';
 

@@ -2,12 +2,11 @@ import { Action } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import MockAdapter from 'axios-mock-adapter';
-import { checkIfUserAuthorizedAction, fetchOfferAction, fetchOffersAction, fetchReviewsAction, logUserInAction, logUserOutAction } from './api-actions';
+import { checkIfUserAuthorizedAction, fetchOfferAction, fetchOffersAction, logUserInAction, logUserOutAction } from './api-actions';
 import { createAPI } from 'src/services/api';
 import { AppState } from 'src/types/store';
 import { APIRoute } from 'src/consts/api';
 import { makeMockOffer, makeMockOffers } from 'src/utils/mock-offer';
-import { makeMockReviewsMap } from 'src/utils/mock-review';
 import { internet } from 'faker';
 
 const api = createAPI();
@@ -160,43 +159,6 @@ describe('Async API offer-related actions', () => {
       .reply(400);
 
     await store.dispatch(action());
-    const actions = store.getActions().map(({ type }) => type);
-
-    expect(actions).toEqual([
-      action.pending.type,
-      action.rejected.type
-    ]);
-  });
-});
-
-describe('Async API review-related actions', () => {
-  const action = fetchReviewsAction;
-
-  it('checks "pending and fulfilled" states when reviews fetched successfully', async () => {
-    const offer = makeMockOffer();
-    const reviewsMap = makeMockReviewsMap(offer.id, 30);
-    const store = mockStore();
-    mockAPI
-      .onGet(`${APIRoute.Reviews}${offer.id}`)
-      .reply(200, reviewsMap);
-
-    await store.dispatch(action(offer));
-    const actions = store.getActions().map(({ type }) => type);
-
-    expect(actions).toEqual([
-      action.pending.type,
-      action.fulfilled.type
-    ]);
-  });
-
-  it('checks "pending and rejected" states when reviews fetching failed', async () => {
-    const offer = makeMockOffer();
-    const store = mockStore();
-    mockAPI
-      .onGet(`${APIRoute.Reviews}${offer.id}`)
-      .reply(404);
-
-    await store.dispatch(action(offer));
     const actions = store.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([

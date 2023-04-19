@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Reviews } from 'src/types/types';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { Offer } from 'src/types/types';
-import { fetchReviewsAction } from 'src/store/api-actions';
+import { fetchReviewsAction } from 'src/store/api-reviews/api-reviews.actions';
 import { getReviewsFetchStatusp, getReviewsMap } from 'src/store/reviews/reviews.selectors';
 import { FetchStatus } from 'src/consts/api';
 

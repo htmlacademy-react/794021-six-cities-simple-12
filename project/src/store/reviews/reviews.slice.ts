@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchReviewsAction } from '../api-actions';
+import { fetchReviewsAction } from 'src/store/api-reviews/api-reviews.actions';
 import { DomainNamespace } from 'src/consts/domain';
 import { FetchStatus } from 'src/consts/api';
 import { ReviewsMap } from 'src/types/types';
@@ -30,4 +30,3 @@ export const reviews = createSlice({
       });
   },
 });
-
