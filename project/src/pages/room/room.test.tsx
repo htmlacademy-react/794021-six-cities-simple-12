@@ -34,6 +34,7 @@ const offer = makeMockOffer({ id: offerId, city: { name: cityName }});
 
 describe('Component: <Room>', () => {
   it('renders offer details', () => {
+    const mockReviews = makeMockReviews(20, offerId);
     const mockStore = makeMockStore({
       DATA: {
         offers: [ offer ],
@@ -44,7 +45,7 @@ describe('Component: <Room>', () => {
       },
       REVIEWS: {
         dataMap: {
-          [ offerId ]: makeMockReviews(20, offerId),
+          [ offerId ]: mockReviews,
         },
       },
       USER: {
@@ -84,8 +85,38 @@ describe('Component: <Room>', () => {
     expect(screen.getByTestId(/room-user-reviews/i)).toBeInTheDocument();
     expect(screen.getByTestId(/room-geo-map/i)).toBeInTheDocument();
     expect(screen.getByTestId(/room-nearby-offers/i)).toBeInTheDocument();
+
+    expect(screen.getByTestId('room-review-post-form'))
+      .toBeInTheDocument();
+
+    expect(screen.getByRole('heading', { name: /Reviews/i }))
+      .toHaveTextContent(new RegExp(mockReviews.length.toString(), 'i'));
   });
 
+
+  it('do not render user review form, if not authorized', () => {
+    const mockStore = makeMockStore({
+      DATA: { offers: [ offer ] },
+      NEARBY_OFFERS: {},
+      REVIEWS: { dataMap: {} },
+      USER: {
+        authorizationStatus: AuthorizationStatus.NotAuthorized,
+      },
+    });
+
+    render(
+      <Provider store={mockStore}>
+        <HistoryRouter history={history}>
+          <Routes>
+            <Route path={AppRoute.Offer} element={<Room />} />
+          </Routes>
+        </HistoryRouter>
+      </Provider>
+    );
+
+    expect(screen.queryByTestId('room-review-post-form'))
+      .not.toBeInTheDocument();
+  });
 
   it('renders spinner and dispatches offer fetch', () => {
     const mockStore = makeMockStore({

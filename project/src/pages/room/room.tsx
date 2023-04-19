@@ -15,6 +15,7 @@ import RoomFeatures from 'src/components/room-features/room-features';
 import { getPercentFromRating } from 'src/utils/utils';
 import { AppRoute, NEARBY_OFFERS_LIMIT_COUNT } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
+import RoomReviewForm from 'src/components/room-review-form/room-review-form';
 
 function Room(): JSX.Element {
   const { id: offerId } = useParams();
@@ -71,12 +72,17 @@ function Room(): JSX.Element {
                 description={offer.description}
                 host={offer.host}
               />
-              <RoomReviews
-                dataTestId="room-user-reviews"
-                isUserLoggedIn={authorizationStatus === AuthorizationStatus.Authorized}
-                offerId={offer.id}
-                reviews={reviews}
-              />
+              <section className="property__reviews reviews" data-testid="room-user-reviews">
+                <h2 className="reviews__title">
+                  Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
+                </h2>
+                <RoomReviews reviews={reviews} /> { /* TODO: sort: more recent items must be above (#1.1.2.1) */ }
+                {
+                  authorizationStatus === AuthorizationStatus.Authorized &&
+                  <RoomReviewForm key={offer.id} dataTestId="room-review-post-form" offerId={offer.id} />
+                }
+              </section>
+
             </div>
           </div>
           <GeoMap
