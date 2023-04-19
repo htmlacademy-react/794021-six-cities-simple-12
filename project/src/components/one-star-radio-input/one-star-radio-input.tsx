@@ -26,6 +26,7 @@ function OneStarRadioInput(props: OneStarRadioInputProps): JSX.Element {
         <svg className="form__star-image" width="37" height="33">
           <use xlinkHref="#icon-star"></use>
         </svg>
+        <span className="visually-hidden">{props.labelTitle}</span>
       </label>
     </>
   );

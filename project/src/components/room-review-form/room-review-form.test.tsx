@@ -16,7 +16,22 @@ describe('Component: <RoomReviewForm>', () => {
     expect(screen.getByRole('textbox'))
       .not.toHaveAttribute('disabled');
 
-    expect(screen.getAllByRole('radio').length)
-      .toEqual(RATING_STAR_COUNT);
+    expect(screen.getByRole('radio', { name: /perfect/i }))
+      .toBeInTheDocument();
+
+    expect(screen.getByRole('radio', { name: /good/i }))
+      .toBeInTheDocument();
+
+    expect(screen.getByRole('radio', { name: /not bad/i }))
+      .toBeInTheDocument();
+
+    expect(screen.getByRole('radio', { name: /badly/i }))
+      .toBeInTheDocument();
+
+    expect(screen.getByRole('radio', { name: /terribly/i }))
+      .toBeInTheDocument();
+
+    expect(screen.getByRole('button', { name: /Submit/i }))
+      .toBeInTheDocument();
   });
 });
