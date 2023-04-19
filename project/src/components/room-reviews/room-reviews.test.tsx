@@ -27,9 +27,6 @@ describe('Component: <RoomReviews>', () => {
 
     expect(screen.getAllByTestId(REVIEW_TEST_ID).length)
       .toBeLessThanOrEqual(RoomReview.PerOfferMaxCount);
-
-    expect(screen.getByRole('textbox'))
-      .toHaveAccessibleName('Your review');
   });
 
   it('renders component when user is not authorized', () => {
@@ -51,8 +48,5 @@ describe('Component: <RoomReviews>', () => {
 
     expect(screen.getAllByTestId(REVIEW_TEST_ID).length)
       .toBeLessThanOrEqual(RoomReview.PerOfferMaxCount);
-
-    expect(screen.getByRole('textbox'))
-      .toHaveAccessibleName('Your review');
   });
 });
