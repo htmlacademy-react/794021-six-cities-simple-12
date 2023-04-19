@@ -1,4 +1,5 @@
-import { datatype, lorem, name, internet } from 'faker';
+import { DeepPartial } from '@reduxjs/toolkit';
+import { datatype, lorem, name, internet, date } from 'faker';
 import { OfferId, Review, Reviewer, Reviews, ReviewsMap } from 'src/types/types';
 
 const makeMockReviewer = (): Reviewer => ({
@@ -8,10 +9,10 @@ const makeMockReviewer = (): Reviewer => ({
   name: name.firstName(),
 });
 
-export const makeMockReview = (id?: OfferId): Review => ({
+export const makeMockReview = (attributes: DeepPartial<Review>): Review => ({
   comment: lorem.paragraphs(2, ' '),
-  date: datatype.datetime().toDateString(),
-  id: id ?? datatype.number(1000),
+  date: attributes?.date ?? date.past().toISOString(),
+  id: attributes?.id ?? datatype.number(1000),
   rating: datatype.number(50) / 10,
   user: makeMockReviewer(),
 });
@@ -22,7 +23,7 @@ export const makeMockReviews = (
 ): Reviews => (
   new Array(count)
     .fill({})
-    .map(() => makeMockReview(id))
+    .map(() => makeMockReview({ id }))
 );
 
 export const makeMockReviewsMap = (
