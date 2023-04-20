@@ -59,9 +59,10 @@ export const reviews = createSlice({
         state.fetchStatus = FetchStatus.FetchedWithError;
       })
 
-      .addCase(sendReviewAction.fulfilled, (state, { payload, meta }) => {
-        const { id: offerId } = meta.arg;
-        state.dataMap[offerId] = payload;
+      .addCase(sendReviewAction.fulfilled, (state, { payload }) => {
+        if (state.userOfferId) {
+          state.dataMap[state.userOfferId] = payload;
+        }
         state.sendStatus = FetchStatus.FetchedWithNoError;
         state.userComment = '';
         state.userRating = NaN;

@@ -1,8 +1,8 @@
 import { FetchStatus } from 'src/consts/api';
 import { fetchReviewsAction, sendReviewAction } from 'src/store/api-reviews/api-reviews.actions';
 import { reviews } from './reviews.slice';
-import { makeMockReviews } from 'src/utils/mock-review';
-import { datatype } from 'faker';
+import { makeMockRating, makeMockReviews } from 'src/utils/mock-review';
+import { datatype, lorem } from 'faker';
 
 const { reducer } = reviews;
 const fetchAction = fetchReviewsAction;
@@ -21,9 +21,9 @@ describe('Reviews fetching', () => {
     };
 
     expect(reducer(initialState, {
-      type: fetchAction.fulfilled.type,
+      meta: { arg: { id: offerId }},
       payload: mockReviews,
-      meta: { arg: { id: offerId }}
+      type: fetchAction.fulfilled.type,
     }))
       .toEqual(stateToBe);
   });
@@ -55,20 +55,32 @@ describe('Reviews fetching', () => {
 
 
   it('checks fulfilled state of send action', () => {
-    const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
     const offerId = datatype.number({ min: 1 });
-    const mockReviews = makeMockReviews(20, offerId);
+    const mockReviews = makeMockReviews(2, offerId);
 
-    const stateToBe = {
+    const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
+
+    const stateBefore = {
       ...initialState,
-      dataMap: {[ offerId ]: mockReviews },
-      sendStatus: FetchStatus.FetchedWithNoError,
+      dataMap: {},
+      sendStatus: FetchStatus.NotStarted,
+      userComment: lorem.sentence(),
+      userOfferId: offerId,
+      userRating: makeMockRating(),
     };
 
-    expect(reducer(initialState, {
-      type: sendAction.fulfilled.type,
+    const stateToBe = {
+      ...stateBefore,
+      dataMap: {[ offerId ]: mockReviews },
+      sendStatus: FetchStatus.FetchedWithNoError,
+      userComment: '',
+      userOfferId: null,
+      userRating: NaN,
+    };
+
+    expect(reducer(stateBefore, {
       payload: mockReviews,
-      meta: { arg: { id: offerId }}
+      type: sendAction.fulfilled.type,
     }))
       .toEqual(stateToBe);
   });

@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { getReviewSendStatus, getUserComment, getUserRating } from 'src/store/reviews/reviews.selectors';
 import OneStarRadioInput from 'src/components/one-star-radio-input/one-star-radio-input';
 import { RoomReview } from 'src/consts/consts';
-import { UserReviewActionData } from 'src/types/api';
 import { OfferId } from 'src/types/types';
 import { setUserCommentAction, setUserRatingAction } from 'src/store/reviews/reviews.slice';
 
@@ -45,12 +44,8 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
     if (!isFormDataValid(userComment, +userRating)) {
       return;
     }
-    const review: UserReviewActionData = {
-      comment: userComment,
-      id: props.offerId,
-      rating: +userRating,
-    };
-    dispatch(sendReviewAction(review));
+
+    dispatch(sendReviewAction());
   };
 
   useEffect(() => {
