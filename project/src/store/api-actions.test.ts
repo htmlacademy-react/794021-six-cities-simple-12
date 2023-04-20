@@ -2,11 +2,12 @@ import { Action } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import MockAdapter from 'axios-mock-adapter';
-import { fetchOfferAction, fetchOffersAction } from './api-actions';
+import { fetchNearbyOffersAction, fetchOfferAction, fetchOffersAction } from './api-actions';
 import { createAPI } from 'src/services/api';
 import { AppState } from 'src/types/store';
 import { APIRoute } from 'src/consts/api';
 import { makeMockOffer, makeMockOffers } from 'src/utils/mock-offer';
+import { datatype } from 'faker';
 
 const api = createAPI();
 const mockAPI = new MockAdapter(api);
@@ -21,9 +22,9 @@ const makeMockStore = configureMockStore<
 
 describe('Async API offer-related actions', () => {
   it('fetches one offer with "pending and fulfilled" states', async () => {
+    const action = fetchOfferAction;
     const offerId = 1;
     const offer = makeMockOffer();
-    const action = fetchOfferAction;
     const store = makeMockStore();
 
     mockAPI
@@ -40,8 +41,8 @@ describe('Async API offer-related actions', () => {
   });
 
   it('fetches one offer with "pending and rejected" states', async () => {
-    const offerId = 1;
     const action = fetchOfferAction;
+    const offerId = 1;
     const store = makeMockStore();
 
     mockAPI
@@ -86,6 +87,45 @@ describe('Async API offer-related actions', () => {
     await store.dispatch(action());
     const actions = store.getActions().map(({ type }) => type);
 
+    expect(actions).toEqual([
+      action.pending.type,
+      action.rejected.type
+    ]);
+  });
+
+
+  it('fetches nearby offers with "pending and fulfilled" states', async () => {
+    const action = fetchNearbyOffersAction;
+    const mockOfferId = datatype.number({ min: 1 });
+    const mockOffers = makeMockOffers(5);
+    const mockStore = makeMockStore();
+
+    mockAPI
+      .onGet(`${APIRoute.Offer}${mockOfferId}${APIRoute.NearbyOffersForOffer}`)
+      .reply(200, mockOffers);
+
+    await mockStore.dispatch(action(mockOfferId));
+
+    const actions = mockStore.getActions().map(({ type }) => type);
+    expect(actions).toEqual([
+      action.pending.type,
+      action.fulfilled.type
+    ]);
+  });
+
+
+  it('fetches nearby offers with "pending and rejected" states', async () => {
+    const action = fetchNearbyOffersAction;
+    const mockOfferId = datatype.number({ min: 1 });
+    const mockStore = makeMockStore();
+
+    mockAPI
+      .onGet(`${APIRoute.Offer}${mockOfferId}${APIRoute.NearbyOffersForOffer}`)
+      .reply(404);
+
+    await mockStore.dispatch(action(mockOfferId));
+
+    const actions = mockStore.getActions().map(({ type }) => type);
     expect(actions).toEqual([
       action.pending.type,
       action.rejected.type
