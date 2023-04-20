@@ -29,6 +29,11 @@ export function getMultipleOfPlaceWord(count: number): string {
   return 'places';
 }
 
+export function getRandomIntegerFromZeroExclusive(max: number) {
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max));
+}
+
 export function findFirstOffer(offers: Offers, offerId: OfferId): Offer | null {
   return offers.find(({ id }) => id === offerId) ?? null;
 }

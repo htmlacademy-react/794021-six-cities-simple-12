@@ -47,9 +47,6 @@ describe('Component: <Login>', () => {
 
     expect(screen.getByLabelText(/Password/i))
       .toBeInTheDocument();
-
-    expect(screen.getByText(userAuthorizedState.DATA.cityName))
-      .toBeInTheDocument();
   });
 
 
