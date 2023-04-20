@@ -1,14 +1,14 @@
 import { ChangeEvent, useEffect, useState, FormEvent } from 'react';
 import { sendReviewAction } from 'src/store/api-reviews/api-reviews.actions';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { getReviewSendStatus, getUserComment, getUserRating } from 'src/store/reviews/reviews.selectors';
 import OneStarRadioInput from 'src/components/one-star-radio-input/one-star-radio-input';
 import { RoomReview } from 'src/consts/consts';
 import { UserReviewActionData } from 'src/types/api';
 import { OfferId } from 'src/types/types';
-import { getReviewSendStatus } from 'src/store/reviews/reviews.selectors';
+import { setUserCommentAction, setUserRatingAction } from 'src/store/reviews/reviews.slice';
 
 type InputElement = HTMLTextAreaElement | HTMLInputElement
-type RoomReviewFormData = { rating: string; review: string }
 
 const FormFieldName = {
   Rating: 'rating',
@@ -22,37 +22,41 @@ type RoomReviewFormProps = {
 
 function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const userComment = useAppSelector(getUserComment(props.offerId));
+  const userRating = useAppSelector(getUserRating(props.offerId));
   const sendReviewStatus = useAppSelector(getReviewSendStatus);
-
-  const [ formData, setFormData ] = useState({
-    [ FormFieldName.Rating ]: '0',
-    [ FormFieldName.Review ]: '',
-  } as RoomReviewFormData);
 
   const [ isSubmitEnabled, setIsSubmitEnabled ] = useState(false);
 
   const handleChange = (evt: ChangeEvent<InputElement>): void => {
     const { name, value } = evt.target;
-    setFormData({ ...formData, [name]: value });
+    switch (name) {
+      case FormFieldName.Review:
+        dispatch(setUserCommentAction({ offerId: props.offerId, value }));
+        break;
+      case FormFieldName.Rating:
+        dispatch(setUserRatingAction({ offerId: props.offerId, value: +value }));
+        break;
+    }
   };
 
   const handleSubmit = (evt: FormEvent): void => {
     evt.preventDefault();
-    if (!isFormDataValid(formData)) {
+    if (!isFormDataValid(userComment, +userRating)) {
       return;
     }
     const review: UserReviewActionData = {
-      comment: formData.review,
+      comment: userComment,
       id: props.offerId,
-      rating: parseInt(formData.rating, 10),
+      rating: +userRating,
     };
     dispatch(sendReviewAction(review));
   };
 
   useEffect(() => {
-    const isDataReadyToSend = isFormDataValid(formData);
+    const isDataReadyToSend = isFormDataValid(userComment, userRating) && sendReviewStatus !== 'pending';
     setIsSubmitEnabled(isDataReadyToSend);
-  }, [formData]);
+  }, [ sendReviewStatus, userComment, userRating ]);
 
   return (
     <form
@@ -66,18 +70,18 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        <OneStarRadioInput htmlId='5-stars' labelTitle='perfect' value='5' onChange={handleChange} htmlName={FormFieldName.Rating} />
-        <OneStarRadioInput htmlId='4-stars' labelTitle='good' value='4' onChange={handleChange} htmlName={FormFieldName.Rating} />
-        <OneStarRadioInput htmlId='3-stars' labelTitle='not bad' value='3' onChange={handleChange} htmlName={FormFieldName.Rating} />
-        <OneStarRadioInput htmlId='2-stars' labelTitle='badly' value='2' onChange={handleChange} htmlName={FormFieldName.Rating} />
-        <OneStarRadioInput htmlId='1-star' labelTitle='terribly' value='1' onChange={handleChange} htmlName={FormFieldName.Rating} />
+        <OneStarRadioInput htmlId='5-stars' labelTitle='perfect' value='5' isSelected={userRating === 5} onChange={handleChange} htmlName={FormFieldName.Rating} />
+        <OneStarRadioInput htmlId='4-stars' labelTitle='good' value='4' isSelected={userRating === 4} onChange={handleChange} htmlName={FormFieldName.Rating} />
+        <OneStarRadioInput htmlId='3-stars' labelTitle='not bad' value='3' isSelected={userRating === 3} onChange={handleChange} htmlName={FormFieldName.Rating} />
+        <OneStarRadioInput htmlId='2-stars' labelTitle='badly' value='2' isSelected={userRating === 2} onChange={handleChange} htmlName={FormFieldName.Rating} />
+        <OneStarRadioInput htmlId='1-star' labelTitle='terribly' value='1' isSelected={userRating === 1} onChange={handleChange} htmlName={FormFieldName.Rating} />
       </div>
       <textarea className="reviews__textarea form__textarea"
+        defaultValue={userComment}
         id="review" name="review"
         maxLength={RoomReview.TextCharacterMaxLimit}
         onChange={handleChange}
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={formData.review}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -91,7 +95,7 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
         </p>
         <button
           className="reviews__submit form__submit button"
-          disabled={!isSubmitEnabled || sendReviewStatus === 'pending'}
+          disabled={!isSubmitEnabled}
           type="submit"
         >
           Submit
@@ -112,12 +116,10 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
 // TODO Already made, make test for it
 // TODO 1.1.2.2. Пока пользователь не выбрал оценку и не ввёл текст допустимой длины, кнопка отправки отзыва не активна.
 
-function isFormDataValid(formData: RoomReviewFormData): boolean {
-  const rating = parseInt(formData.rating, 10);
-  const { length } = formData.review;
-
-  return length >= RoomReview.TextCharacterMinLimit &&
-    length <= RoomReview.TextCharacterMaxLimit &&
+function isFormDataValid(comment: string, rating: number): boolean {
+  return comment.length >= RoomReview.TextCharacterMinLimit &&
+    comment.length <= RoomReview.TextCharacterMaxLimit &&
+    !isNaN(rating) &&
     rating > 0;
 }
 
