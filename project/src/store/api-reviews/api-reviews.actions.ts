@@ -28,7 +28,7 @@ export const sendReviewAction = createAsyncThunk<Reviews, undefined, {
   'reviews/sendOne',
   async (_arg, { getState, extra: api }) => {
     const { userComment, userOfferId, userRating } = getState()[DomainNamespace.Reviews];
-    if (!userOfferId) {
+    if (userOfferId === null) {
       throw new Error('No offer-id provided for the comment');
     }
     const apiPath = `${APIRoute.Reviews}${userOfferId.toString()}`;

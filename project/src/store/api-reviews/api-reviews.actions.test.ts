@@ -63,6 +63,23 @@ describe('Async API review-related actions', () => {
   });
 
 
+  it('sends review, throws "rejected" status when offer-id is null in the Store', async () => {
+    const mockStore = makeMockStore({
+      [ DomainNamespace.Reviews ]: {
+        userOfferId: null,
+      }
+    });
+
+    mockStore.clearActions();
+    await mockStore.dispatch(sendAction());
+    const actions = mockStore.getActions().map(({ type }) => type);
+
+    expect(actions).toEqual([
+      sendAction.pending.type,
+      sendAction.rejected.type
+    ]);
+  });
+
   it('sends user review with response 200', async () => {
     const mockOfferId = datatype.number();
     const mockReview: UserReviewSendingData = {
