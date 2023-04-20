@@ -29,11 +29,11 @@ const makeMockStore = configureMockStore<
 
 const history = createMemoryHistory();
 
-const urlPath = AppRoute.Offer.replace(':id', offerId.toString());
 const offerId = datatype.number();
 const cityName = address.cityName();
 const offer = makeMockOffer({ id: offerId, city: { name: cityName }});
 const mockReviews = makeMockReviews(20, offerId);
+const urlPath = AppRoute.Offer.replace(':id', offerId.toString());
 
 const baseState = {
   [ DomainNamespace.BusinessData ]: {
