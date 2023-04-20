@@ -1,19 +1,48 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { fetchReviewsAction, sendReviewAction } from 'src/store/api-reviews/api-reviews.actions';
 import { DomainNamespace } from 'src/consts/domain';
 import { FetchStatus } from 'src/consts/api';
-import { ReviewsMap } from 'src/types/types';
+import { OfferId, ReviewsMap } from 'src/types/types';
+
+type CommentData = {
+  value: string;
+  offerId: OfferId;
+}
+
+type RatingData = {
+  value: number;
+  offerId: OfferId;
+}
 
 const initialState = {
   dataMap: {} as ReviewsMap,
   fetchStatus: FetchStatus.NotStarted as FetchStatus,
   sendStatus: FetchStatus.NotStarted as FetchStatus,
+  userOfferId: null as OfferId | null,
+  userComment: '' as string,
+  userRating: NaN,
 };
 
 export const reviews = createSlice({
   name: DomainNamespace.Reviews,
   initialState,
-  reducers: {},
+  reducers: {
+    setUserCommentAction: (state, { payload }: PayloadAction<CommentData>) => {
+      if (payload.offerId !== state.userOfferId) {
+        state.userOfferId = payload.offerId;
+        state.userRating = NaN;
+      }
+      state.userComment = payload.value;
+    },
+
+    setUserRatingAction: (state, { payload }: PayloadAction<RatingData>) => {
+      if (payload.offerId !== state.userOfferId) {
+        state.userOfferId = payload.offerId;
+        state.userComment = '';
+      }
+      state.userRating = payload.value;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchReviewsAction.fulfilled, (state, { payload, meta }) => {
@@ -34,6 +63,8 @@ export const reviews = createSlice({
         const { id: offerId } = meta.arg;
         state.dataMap[offerId] = payload;
         state.sendStatus = FetchStatus.FetchedWithNoError;
+        state.userComment = '';
+        state.userRating = NaN;
       })
 
       .addCase(sendReviewAction.pending, (state) => {
@@ -45,3 +76,5 @@ export const reviews = createSlice({
       });
   },
 });
+
+export const { setUserCommentAction, setUserRatingAction } = reviews.actions;
