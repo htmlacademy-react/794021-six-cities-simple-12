@@ -12,7 +12,7 @@ const api = createAPI();
 const mockAPI = new MockAdapter(api);
 const middlewares = [thunk.withExtraArgument(api)];
 
-const mockStore = configureMockStore<
+const makeMockStore = configureMockStore<
   AppState,
   Action<string>,
   ThunkDispatch<AppState, typeof api, Action>
@@ -20,28 +20,30 @@ const mockStore = configureMockStore<
 
 
 describe('Async API offer-related actions', () => {
-  it('checks "pending and fulfilled" states when one offer fetched successfully', async () => {
+  it('fetches one offer with "pending and fulfilled" states', async () => {
     const offerId = 1;
     const offer = makeMockOffer();
     const action = fetchOfferAction;
-    const store = mockStore();
+    const store = makeMockStore();
+
     mockAPI
       .onGet(`${APIRoute.Offer}${offerId}`)
       .reply(200, offer);
 
     await store.dispatch(action(offerId));
-    const actions = store.getActions().map(({ type }) => type);
 
+    const actions = store.getActions().map(({ type }) => type);
     expect(actions).toEqual([
       action.pending.type,
       action.fulfilled.type
     ]);
   });
 
-  it('checks "pending and rejected" states when one offer fetching failed', async () => {
+  it('fetches one offer with "pending and rejected" states', async () => {
     const offerId = 1;
     const action = fetchOfferAction;
-    const store = mockStore();
+    const store = makeMockStore();
+
     mockAPI
       .onGet(`${APIRoute.Offer}${offerId}`)
       .reply(404);
@@ -55,16 +57,17 @@ describe('Async API offer-related actions', () => {
     ]);
   });
 
-  it('checks "pending and fulfilled" states when offers fetched successfully', async () => {
-    const offers = makeMockOffers(30);
+  it('fetches all offers with "pending and fulfilled" states', async () => {
+    const mockOffers = makeMockOffers(30);
     const action = fetchOffersAction;
-    const store = mockStore();
+    const mockStore = makeMockStore();
+
     mockAPI
       .onGet(APIRoute.Offers)
-      .reply(200, offers);
+      .reply(200, mockOffers);
 
-    await store.dispatch(action());
-    const actions = store.getActions().map(({ type }) => type);
+    await mockStore.dispatch(action());
+    const actions = mockStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       action.pending.type,
@@ -72,9 +75,10 @@ describe('Async API offer-related actions', () => {
     ]);
   });
 
-  it('checks "pending and rejected" states when offers fetching failed', async () => {
+  it('fetches all offers with "pending and rejected" states', async () => {
     const action = fetchOffersAction;
-    const store = mockStore();
+    const store = makeMockStore();
+
     mockAPI
       .onGet(APIRoute.Offers)
       .reply(400);
