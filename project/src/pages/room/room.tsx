@@ -72,11 +72,11 @@ function Room(): JSX.Element {
                 description={offer.description}
                 host={offer.host}
               />
-              <section className="property__reviews reviews" data-testid="room-user-reviews">
+              <section className="property__reviews reviews">
                 <h2 className="reviews__title">
                   Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
                 </h2>
-                <RoomReviews reviews={reviews} />
+                <RoomReviews reviews={reviews} dataTestId="room__reviews-list" />
                 {
                   authorizationStatus === AuthorizationStatus.Authorized &&
                   <RoomReviewForm key={offer.id} dataTestId="room-review-post-form" offerId={offer.id} />
