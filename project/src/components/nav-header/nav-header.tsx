@@ -1,13 +1,13 @@
 import { MouseEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { store } from 'src/store';
+import { getAuthorizationStatus, getUserAvatarUrl, getUserLogin } from 'src/store/user/user.selectors';
 import cn from 'classnames';
+import { logUserOutAction } from 'src/store/api-user/api-user.actions';
 import { isCurrentPage } from 'src/utils/utils';
 import { AppRoute } from 'src/consts/consts';
-import { logUserOutAction } from 'src/store/api-actions';
-import { store } from 'src/store';
 import { AuthorizationStatus } from 'src/consts/api';
-import { useSelector } from 'react-redux';
-import { getAuthorizationStatus, getUserAvatarUrl, getUserLogin } from 'src/store/user/user.selectors';
 
 function NavHeader(): JSX.Element {
   const authorizationStatus = useSelector(getAuthorizationStatus) || AuthorizationStatus.Unknown;

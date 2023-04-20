@@ -1,5 +1,5 @@
 import { AuthorizationStatus } from 'src/consts/api';
-import { checkIfUserAuthorizedAction, logUserInAction, logUserOutAction } from '../api-actions';
+import { checkIfUserAuthorizedAction, logUserInAction, logUserOutAction } from 'src/store/api-user/api-user.actions';
 import { setUserLoginAction, user } from './user.slice';
 import { internet } from 'faker';
 

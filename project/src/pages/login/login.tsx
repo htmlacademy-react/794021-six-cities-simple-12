@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { getCityName } from 'src/store/data/data.selectors';
-import { logUserInAction } from 'src/store/api-actions';
+import { logUserInAction } from 'src/store/api-user/api-user.actions';
 import { getUserLogin } from 'src/store/user/user.selectors';
 import { setUserLoginAction } from 'src/store/user/user.slice';
 import { useAppDispatch, useAppSelector } from 'src/hooks';

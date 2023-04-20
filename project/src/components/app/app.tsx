@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { checkIfUserAuthorizedAction } from 'src/store/api-actions';
+import { checkIfUserAuthorizedAction } from 'src/store/api-user/api-user.actions';
 import { store } from 'src/store';
 import Main from 'src/pages/main/main';
 import Login from 'src/pages/login/login';
