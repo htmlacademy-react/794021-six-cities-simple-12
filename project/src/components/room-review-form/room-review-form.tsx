@@ -49,8 +49,8 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
   };
 
   useEffect(() => {
-    const isDataReadyToSend = isFormDataValid(userComment, userRating) && sendReviewStatus !== 'pending';
-    setIsSubmitEnabled(isDataReadyToSend);
+    const isDataReadyToSend = isFormDataValid(userComment, userRating);
+    setIsSubmitEnabled(isDataReadyToSend && sendReviewStatus !== 'pending');
   }, [ sendReviewStatus, userComment, userRating ]);
 
   return (
