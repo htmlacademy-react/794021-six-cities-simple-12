@@ -130,7 +130,9 @@ describe('Component: <Main>', () => {
 
     render(
       <Provider store={mockStore}>
-        <Main />
+        <HistoryRouter history={history}>
+          <Main />
+        </HistoryRouter>
       </Provider>
     );
 
