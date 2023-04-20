@@ -1,23 +1,20 @@
 import { ChangeEvent, FormEvent, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { getCityName } from 'src/store/data/data.selectors';
-import { logUserInAction } from 'src/store/api-actions';
+import { logUserInAction } from 'src/store/api-user/api-user.actions';
 import { getUserLogin } from 'src/store/user/user.selectors';
 import { setUserLoginAction } from 'src/store/user/user.slice';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { useRedirectingIfAuthorized } from 'src/hooks/use-redirecting-if-authorized';
-import { AppRoute } from 'src/consts/consts';
+import { AppRoute, CityNames } from 'src/consts/consts';
+import { getRandomIntegerFromZeroExclusive } from 'src/utils/utils';
+import { setCityNameAction } from 'src/store/data/data.slice';
 
-type LoginProps = {
-  headerBlock?: JSX.Element;
-}
-
-function Login({ headerBlock }: LoginProps): JSX.Element {
+function Login(): JSX.Element {
   useRedirectingIfAuthorized(AppRoute.Root);
   const userLogin = useAppSelector(getUserLogin);
-  const currentCity = useAppSelector(getCityName);
   const dispatch = useAppDispatch();
   const passwordRef = useRef<HTMLInputElement>(null);
+  const randomCityName = CityNames[getRandomIntegerFromZeroExclusive(CityNames.length)];
 
   const handleCredentialsSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -37,7 +34,6 @@ function Login({ headerBlock }: LoginProps): JSX.Element {
 
   return (
     <div className="page page--gray page--login">
-      {headerBlock}
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
@@ -64,8 +60,12 @@ function Login({ headerBlock }: LoginProps): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to={AppRoute.Root}>
-                <span>{currentCity}</span>
+              <Link
+                className="locations__item-link"
+                onClick={() => dispatch(setCityNameAction(randomCityName))}
+                to={AppRoute.Root}
+              >
+                <span>{randomCityName}</span>
               </Link>
             </div>
           </section>

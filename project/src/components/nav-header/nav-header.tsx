@@ -1,35 +1,34 @@
 import { MouseEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { store } from 'src/store';
+import { getAuthorizationStatus, getUserAvatarUrl, getUserLogin } from 'src/store/user/user.selectors';
 import cn from 'classnames';
+import { logUserOutAction } from 'src/store/api-user/api-user.actions';
 import { isCurrentPage } from 'src/utils/utils';
 import { AppRoute } from 'src/consts/consts';
-import { logUserOutAction } from 'src/store/api-actions';
-import { store } from 'src/store';
+import { AuthorizationStatus } from 'src/consts/api';
 
-type HeaderProps = {
-  isAuthorized: boolean;
-  isNotAuthorized: boolean;
-  userAvatarUrl: string;
-  userLogin: string;
-}
-
-function Header(props: HeaderProps): JSX.Element {
+function NavHeader(): JSX.Element {
+  const authorizationStatus = useSelector(getAuthorizationStatus) || AuthorizationStatus.Unknown;
+  const userAvatarUrl = useSelector(getUserAvatarUrl) || '';
+  const userLogin = useSelector(getUserLogin) || '';
   const { pathname: locationPathname } = useLocation();
-  const avatarCssStyle = { backgroundImage: `url(${props.userAvatarUrl})` };
+  const avatarCssStyle = { backgroundImage: `url(${userAvatarUrl})` };
 
   let signInOutLinkHref = '';
   let signInOutLinkText = '';
 
-  if (props.isAuthorized) {
+  if (authorizationStatus === AuthorizationStatus.Authorized) {
     signInOutLinkText = 'Sign out';
     signInOutLinkHref = '';
-  } else if (props.isNotAuthorized) {
+  } else if (authorizationStatus === AuthorizationStatus.NotAuthorized) {
     signInOutLinkText = 'Sign in';
     signInOutLinkHref = AppRoute.Login;
   }
 
   const handleSignInOutClick = (evt: MouseEvent) => {
-    if (!props.isAuthorized) {
+    if (authorizationStatus !== AuthorizationStatus.Authorized) {
       return;
     }
     evt.preventDefault();
@@ -58,11 +57,11 @@ function Header(props: HeaderProps): JSX.Element {
               <nav className="header__nav">
                 <ul className="header__nav-list">
                   {
-                    props.isAuthorized &&
+                    authorizationStatus === AuthorizationStatus.Authorized &&
                     <li className="header__nav-item user">
                       <div className="header__nav-profile">
                         <div className="header__avatar-wrapper user__avatar-wrapper" style={avatarCssStyle}></div>
-                        <span className="header__user-name user__name">{props.userLogin}</span>
+                        <span className="header__user-name user__name">{userLogin}</span>
                       </div>
                     </li>
                   }
@@ -70,14 +69,14 @@ function Header(props: HeaderProps): JSX.Element {
                   <li className="header__nav-item">
                     <Link className="header__nav-link" to={signInOutLinkHref} onClick={handleSignInOutClick}>
                       {
-                        props.isAuthorized ?
+                        authorizationStatus === AuthorizationStatus.Authorized ?
                           <div className="header__avatar-wrapper user__avatar-wrapper"></div> :
                           null
                       }
                       <span
                         className={cn({
-                          'header__signout': props.isAuthorized,
-                          'header__login': props.isNotAuthorized,
+                          'header__signout': authorizationStatus === AuthorizationStatus.Authorized,
+                          'header__login': authorizationStatus === AuthorizationStatus.NotAuthorized,
                         })}
                       >
                         {signInOutLinkText}
@@ -93,4 +92,4 @@ function Header(props: HeaderProps): JSX.Element {
   );
 }
 
-export default Header;
+export default NavHeader;

@@ -2,13 +2,14 @@ import { capitalizeFirstLetter } from 'src/utils/utils';
 
 type RoomFeaturesProps = {
   bedrooms: number;
+  dataTestId?: string;
   maxAdults: number;
   type: string;
 }
 
 function RoomFeatures(props: RoomFeaturesProps): JSX.Element {
   return (
-    <ul className="property__features">
+    <ul className="property__features" data-testid={props.dataTestId}>
       <li className="property__feature property__feature--entire">
         {capitalizeFirstLetter(props.type)}
       </li>

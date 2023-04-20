@@ -6,6 +6,7 @@ import { fetchOfferAction } from 'src/store/api-actions';
 import { useFoundOffer } from './use-found-offer';
 import { FetchStatus } from 'src/consts/api';
 import { address } from 'faker';
+import { DomainNamespace } from 'src/consts/domain';
 
 const middlewares = [ thunk ];
 const mockStore = configureMockStore(middlewares);
@@ -20,7 +21,7 @@ const offers = [
 ];
 
 const someOffersExist = {
-  DATA: {
+  [ DomainNamespace.BusinessData ]: {
     offers,
     offerFetchStatus: FetchStatus.NotStarted,
     offersFetchStatus: FetchStatus.FetchedWithError,
@@ -28,7 +29,7 @@ const someOffersExist = {
 };
 
 const offersExistFetchPending = {
-  DATA: {
+  [ DomainNamespace.BusinessData ]: {
     offers,
     offerFetchStatus: FetchStatus.Pending,
   },

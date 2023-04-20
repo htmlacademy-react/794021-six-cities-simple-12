@@ -26,10 +26,6 @@ export const createAPI = (): AxiosInstance => {
     (response: AxiosResponse<void, void>) => response,
 
     (error: AxiosError<{error: string}>) => {
-      if (error.response) {
-        // eslint-disable-next-line no-console
-        console.log(error.response.data.error);
-      }
       throw error;
     },
   );

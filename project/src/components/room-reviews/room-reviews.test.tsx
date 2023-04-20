@@ -1,46 +1,45 @@
 import { render, screen } from '@testing-library/react';
 import RoomReviews from './room-reviews';
-import { makeMockReviews } from 'src/utils/mock-review';
+import { makeMockReview } from 'src/utils/mock-review';
 import { RoomReview } from 'src/consts/consts';
+import { datatype } from 'faker';
 
-const REVIEW_TEST_ID = 'offer-review-item';
-const MOCK_OFFER_ID = 1;
-const mockReviews = makeMockReviews(RoomReview.PerOfferMaxCount + 1, MOCK_OFFER_ID);
+const mockOfferId = datatype.number();
+
+const mockReview1 = makeMockReview({ id: mockOfferId, date: '2019-01-01' });
+const mockReview2 = makeMockReview({ id: mockOfferId, date: '2021-01-01' });
+const mockReview3 = makeMockReview({ id: mockOfferId, date: '2020-01-01' });
+
+const mockReviewsInitial = [ mockReview1, mockReview2, mockReview3 ];
+const mockReviewSorted = [ mockReview2, mockReview3, mockReview1 ];
 
 describe('Component: <RoomReviews>', () => {
-  it('renders component when user is authorized', () => {
-    const isUserLoggedIn = true;
-
+  it('renders reviews, more recent above', () => {
     render(
       <RoomReviews
-        offerId={MOCK_OFFER_ID}
-        isUserLoggedIn={isUserLoggedIn}
-        reviews={mockReviews}
+        reviews={mockReviewsInitial}
       />
     );
 
-    expect(screen.getAllByTestId(REVIEW_TEST_ID).length)
+    const renderedReviews = screen.getAllByTestId(/offer-review-item/i);
+
+    expect(renderedReviews.length)
       .toBeLessThanOrEqual(RoomReview.PerOfferMaxCount);
 
-    expect(screen.getByRole('textbox'))
-      .toHaveAccessibleName('Your review');
+    renderedReviews.forEach((review, index) => {
+      expect(review)
+        .toHaveTextContent(mockReviewSorted[index].comment);
+    });
   });
 
-  it('renders component when user is not authorized', () => {
-    const isUserLoggedIn = false;
-
+  it('renders null, if reviews array is empty', () => {
     render(
       <RoomReviews
-        offerId={MOCK_OFFER_ID}
-        isUserLoggedIn={isUserLoggedIn}
-        reviews={mockReviews}
+        reviews={[]}
       />
     );
 
-    expect(screen.getAllByTestId(REVIEW_TEST_ID).length)
-      .toBeLessThanOrEqual(RoomReview.PerOfferMaxCount);
-
-    expect(screen.queryByRole('textbox'))
+    expect(screen.queryByTestId('offer-reviews-list'))
       .not.toBeInTheDocument();
   });
 });

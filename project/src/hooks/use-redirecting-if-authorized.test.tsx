@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { useRedirectingIfAuthorized } from './use-redirecting-if-authorized';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { AuthorizationStatus } from 'src/consts/api';
+import { DomainNamespace } from 'src/consts/domain';
 
 const makeMockStore = configureMockStore();
 
@@ -18,7 +19,7 @@ describe('Hook: useRedirectingIfAuthorized()', () => {
     const LINK = '/MOCK-REDIRECT-LINK';
 
     const mockStore = makeMockStore({
-      USER: {
+      [ DomainNamespace.User ]: {
         authorizationStatus: AuthorizationStatus.Authorized,
       },
     });
@@ -37,7 +38,7 @@ describe('Hook: useRedirectingIfAuthorized()', () => {
     const LINK = '/MOCK-LINK';
 
     const mockStore = makeMockStore({
-      USER: {
+      [ DomainNamespace.User ]: {
         authorizationStatus: AuthorizationStatus.NotAuthorized,
       },
     });
@@ -55,7 +56,7 @@ describe('Hook: useRedirectingIfAuthorized()', () => {
     const LINK = '';
 
     const mockStore = makeMockStore({
-      USER: {
+      [ DomainNamespace.User ]: {
         authorizationStatus: AuthorizationStatus.Authorized,
       },
     });

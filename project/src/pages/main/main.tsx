@@ -17,11 +17,7 @@ import { Offer } from 'src/types/types';
 
 type ActiveOffer = Offer | null;
 
-type MainProps = {
-  headerBlock?: JSX.Element;
-};
-
-function Main(props: MainProps) {
+function Main() {
   const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
   const [ sortingType, setSortingType ] = useState<OfferSortingOption>(DEFAULT_OFFER_SORTING_KEY_NAME);
   const currentCityName = useAppSelector(getCityName);
@@ -30,8 +26,6 @@ function Main(props: MainProps) {
 
   return (
     <div className="page page--gray page--main">
-      {props.headerBlock}
-
       <main className={cn(
         'page__main page__main--index',
         { 'page__main--index-empty': !offers.length }

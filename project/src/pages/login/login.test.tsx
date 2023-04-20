@@ -2,34 +2,39 @@ import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
-import Login from './login';
-import { UserLogin } from 'src/types/types';
-import HistoryRouter from 'src/components/history-router/history-router';
 import { address } from 'faker';
-
-const makeMockStore = configureMockStore();
-
-const mockStore = makeMockStore({
-  DATA: {
-    cityName: address.cityName(),
-  },
-  USER: {
-    authorizationStatus: 'NOT_AUTHORIZED',
-    login: 'fake@fake.fake' as UserLogin,
-  }
-});
+import Login from './login';
+import HistoryRouter from 'src/components/history-router/history-router';
+import { AuthorizationStatus } from 'src/consts/api';
+import { AppRoute } from 'src/consts/consts';
+import { DomainNamespace } from 'src/consts/domain';
 
 const history = createMemoryHistory();
 
+const makeMockStore = configureMockStore();
+
+const userAuthorizedState = {
+  [ DomainNamespace.BusinessData ]: { cityName: address.cityName() },
+  [ DomainNamespace.User ]: {
+    authorizationStatus: AuthorizationStatus.NotAuthorized,
+  }
+};
+
+const userNotAuthorizedState = {
+  [ DomainNamespace.BusinessData ]: { cityName: address.cityName() },
+  [ DomainNamespace.User ]: {
+    authorizationStatus: AuthorizationStatus.Authorized,
+  }
+};
 
 describe('Component: <Login>', () => {
-  it('should render correctly', () => {
+  it('renders correctly', () => {
+    const mockStore = makeMockStore(userAuthorizedState);
+
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Login
-            headerBlock={undefined}
-          />
+          <Login />
         </HistoryRouter>
       </Provider>
     );
@@ -42,9 +47,21 @@ describe('Component: <Login>', () => {
 
     expect(screen.getByLabelText(/Password/i))
       .toBeInTheDocument();
+  });
 
-    const { DATA: { cityName } } = mockStore.getState();
-    expect(screen.getByText(cityName as string))
-      .toBeInTheDocument();
+
+  it('redirects to <Main> page if user is authorized', () => {
+    const mockStore = makeMockStore(userNotAuthorizedState);
+
+    render(
+      <Provider store={mockStore}>
+        <HistoryRouter history={history}>
+          <Login />
+        </HistoryRouter>
+      </Provider>
+    );
+
+    expect(history.location.pathname)
+      .toEqual(AppRoute.Root);
   });
 });

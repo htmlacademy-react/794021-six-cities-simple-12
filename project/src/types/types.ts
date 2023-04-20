@@ -62,7 +62,7 @@ export type UserPassword = string
 export type Review = {
   comment: string;
   date: string;
-  id: number; // hotelId https://12.react.pages.academy/six-cities-simple/spec#get-/comments/-hotelId-:~:text=GET%20/comments/%7BhotelId%7D
+  id: number; // it is a 'hotelId', not 'review-id' (sort of error-by-design)
   rating: number;
   user: Reviewer;
 }

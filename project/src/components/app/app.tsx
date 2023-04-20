@@ -1,38 +1,21 @@
 import { Route, Routes } from 'react-router-dom';
-import { checkIfUserAuthorizedAction } from 'src/store/api-actions';
+import { checkIfUserAuthorizedAction } from 'src/store/api-user/api-user.actions';
 import { store } from 'src/store';
-import { getAuthorizationStatus, getUserAvatarUrl, getUserLogin } from 'src/store/user/user.selectors';
-import { useAppSelector } from 'src/hooks';
 import Main from 'src/pages/main/main';
 import Login from 'src/pages/login/login';
-import Header from 'src/components/header/header';
 import NotFound from 'src/components/not-found/not-found';
 import { AppRoute } from 'src/consts/consts';
-import { AuthorizationStatus } from 'src/consts/api';
 import Room from 'src/pages/room/room';
 
 store.dispatch(checkIfUserAuthorizedAction());
 
 function App(): JSX.Element {
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const userLogin = useAppSelector(getUserLogin);
-  const userAvatarUrl = useAppSelector(getUserAvatarUrl);
-
-  const headerBlock = (
-    <Header
-      isAuthorized={authorizationStatus === AuthorizationStatus.Authorized}
-      isNotAuthorized={authorizationStatus === AuthorizationStatus.NotAuthorized}
-      userLogin={userLogin}
-      userAvatarUrl={userAvatarUrl}
-    />
-  );
-
   return (
     <Routes>
       <Route path={AppRoute.Root}>
-        <Route index element={<Main headerBlock={headerBlock} />}/>
-        <Route path={AppRoute.Login} element={<Login headerBlock={headerBlock} />} />
-        <Route path={AppRoute.Offer} element={<Room headerBlock={headerBlock} />} />
+        <Route index element={<Main />}/>
+        <Route path={AppRoute.Login} element={<Login />} />
+        <Route path={AppRoute.Offer} element={<Room />} />
         <Route path='*' element={<NotFound />} />
       </Route>
     </Routes>

@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 import { fetchOffersAction } from 'src/store/api-actions';
-import { address, lorem } from 'faker';
+import { address } from 'faker';
 import Main from './main';
 import NoOfferBlock from 'src/components/no-offer-block/no-offer-block';
 import { createAPI } from 'src/services/api';
@@ -13,6 +13,7 @@ import { makeMockOffers } from 'src/utils/mock-offer';
 import { FetchStatus } from 'src/consts/api';
 import { AppState } from 'src/types/store';
 import HistoryRouter from 'src/components/history-router/history-router';
+import { DomainNamespace } from 'src/consts/domain';
 
 const api = createAPI();
 const middlewares = [ thunk ];
@@ -23,25 +24,49 @@ const makeMockStore = configureMockStore<
 >(middlewares);
 
 const history = createMemoryHistory();
-const mockHeaderBlock = <div>{lorem.paragraphs()}</div>;
+
+const mockCityName = address.cityName();
+const mockOffers = makeMockOffers(10, { city: { name: mockCityName }});
+
+const someOffersInTheCurrentCityState = {
+  [ DomainNamespace.BusinessData ]: {
+    cityName: mockCityName,
+    offers: mockOffers,
+  },
+};
+
+const offersArePendingState = {
+  [ DomainNamespace.BusinessData ]: {
+    cityName: mockCityName,
+    offersFetchStatus: FetchStatus.Pending,
+    offers: [],
+  },
+};
+
+const offersNotStartedFethingState = {
+  [ DomainNamespace.BusinessData ]: {
+    cityName: mockCityName,
+    offersFetchStatus: FetchStatus.NotStarted,
+    offers: [],
+  },
+};
+
+const offersForCurrentCityAbsentState = {
+  [ DomainNamespace.BusinessData ]: {
+    cityName: mockCityName,
+    offersFetchStatus: FetchStatus.FetchedWithNoError,
+    offers: makeMockOffers(10, { city: { name: address.cityName() }}),
+  },
+};
 
 describe('Component: <Main>', () => {
-  it('should render offers', () => {
-    const cityName = address.cityName();
-
-    const mockStoreWithOffersInTheCurrentCity = makeMockStore({
-      DATA: {
-        cityName: cityName,
-        offers: makeMockOffers(10, { city: { name: cityName }}),
-      },
-    });
+  it('renders offers', () => {
+    const mockStore = makeMockStore(someOffersInTheCurrentCityState);
 
     render(
-      <Provider store={mockStoreWithOffersInTheCurrentCity}>
+      <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Main
-            headerBlock={mockHeaderBlock}
-          />
+          <Main />
         </HistoryRouter>
       </Provider>
     );
@@ -49,9 +74,8 @@ describe('Component: <Main>', () => {
     expect(screen)
       .not.toContain(NoOfferBlock);
 
-    const stateSlice = mockStoreWithOffersInTheCurrentCity.getState().DATA;
-    const offerCount = stateSlice?.offers?.length?.toString() || '0';
-    const text = `${offerCount} places to stay in ${cityName}`;
+    const offerCount = mockOffers.length.toString();
+    const text = `${offerCount} places to stay in ${mockCityName}`;
     expect(screen.getByText(new RegExp(text, 'i')))
       .toBeInTheDocument();
 
@@ -61,22 +85,12 @@ describe('Component: <Main>', () => {
 
 
   it('renders spinner if fetch is pending', () => {
-    const cityName = address.cityName();
-
-    const mockStoreWithOffersInTheCurrentCity = makeMockStore({
-      DATA: {
-        cityName,
-        offersFetchStatus: FetchStatus.Pending,
-        offers: makeMockOffers(10, { city: { name: cityName }}),
-      },
-    });
+    const mockStore = makeMockStore(offersArePendingState);
 
     render(
-      <Provider store={mockStoreWithOffersInTheCurrentCity}>
+      <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Main
-            headerBlock={mockHeaderBlock}
-          />
+          <Main />
         </HistoryRouter>
       </Provider>
     );
@@ -84,29 +98,19 @@ describe('Component: <Main>', () => {
     expect(screen.getByText('Offers are loading ...'))
       .toBeInTheDocument();
 
-    const actionNames = mockStoreWithOffersInTheCurrentCity.getActions().map(({ type }) => type);
+    const actionNames = mockStore.getActions().map(({ type }) => type);
     expect(actionNames)
       .toHaveLength(0);
   });
 
 
   it('renders spinner and dispatches fetching if fetching has not started yet', () => {
-    const cityName = address.cityName();
-
-    const mockStoreWithOffersInTheCurrentCity = makeMockStore({
-      DATA: {
-        cityName,
-        offersFetchStatus: FetchStatus.NotStarted,
-        offers: makeMockOffers(10, { city: { name: cityName }}),
-      },
-    });
+    const mockStore = makeMockStore(offersNotStartedFethingState);
 
     render(
-      <Provider store={mockStoreWithOffersInTheCurrentCity}>
+      <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Main
-            headerBlock={mockHeaderBlock}
-          />
+          <Main />
         </HistoryRouter>
       </Provider>
     );
@@ -114,30 +118,20 @@ describe('Component: <Main>', () => {
     expect(screen.getByText('Offers are loading ...'))
       .toBeInTheDocument();
 
-    const actionNames = mockStoreWithOffersInTheCurrentCity.getActions().map(({ type }) => type);
-    expect(actionNames)
-      .toHaveLength(1);
+    const actionNames = mockStore.getActions().map(({ type }) => type);
 
     expect(actionNames)
       .toEqual([ fetchOffersAction.pending.type ]);
   });
 
 
-  it('renders empty block if no offers in the current city', () => {
-    const mockStoreWithOffersInOtherCity = makeMockStore({
-      DATA: {
-        cityName: address.cityName(),
-        offersFetchStatus: FetchStatus.FetchedWithError,
-        offers: makeMockOffers(10, { city: { name: address.cityName() }}),
-      },
-    });
+  it('renders empty container block if no offers of the current city', () => {
+    const mockStore = makeMockStore(offersForCurrentCityAbsentState);
 
     render(
-      <Provider store={mockStoreWithOffersInOtherCity}>
+      <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Main
-            headerBlock={mockHeaderBlock}
-          />
+          <Main />
         </HistoryRouter>
       </Provider>
     );
@@ -148,7 +142,7 @@ describe('Component: <Main>', () => {
     expect(screen.queryByText('Offers are loading ...'))
       .not.toBeInTheDocument();
 
-    const actionNames = mockStoreWithOffersInOtherCity.getActions().map(({ type }) => type);
+    const actionNames = mockStore.getActions().map(({ type }) => type);
     expect(actionNames)
       .toHaveLength(0);
   });

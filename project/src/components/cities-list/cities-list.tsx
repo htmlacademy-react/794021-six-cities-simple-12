@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { Link } from 'react-router-dom';
 import { CityNames, CityName } from 'src/types/types';
 
 type CitiesListProps = {
@@ -15,18 +16,16 @@ function CitiesList(props: CitiesListProps): JSX.Element {
           <li className="locations__item"
             key={cityName}
           >
-            { /* TODO: remove eslint rule eventually, or not? */ }
-            { /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
-            <a
+            <Link
               className={cn(
                 'locations__item-link tabs__item',
                 { 'tabs__item--active': cityName === props.currentCityName }
               )}
-              href={cityName === props.currentCityName ? undefined : '#'}
+              to='/#'
               onClick={() => props.onChangeCityName(cityName)}
             >
               <span>{cityName}</span>
-            </a>
+            </Link>
           </li>
         ))
       }

@@ -1,36 +1,37 @@
 import { AuthorizationStatus } from 'src/consts/api';
-import { checkIfUserAuthorizedAction, logUserInAction, logUserOutAction } from '../api-actions';
-import { user } from './user.slice';
-const { reducer } = user;
+import { checkIfUserAuthorizedAction, logUserInAction, logUserOutAction } from 'src/store/api-user/api-user.actions';
+import { setUserLoginAction, user } from './user.slice';
+import { internet } from 'faker';
 
-const AUTH_STATUS_AUTHORIZED = 'AUTHORIZED' as AuthorizationStatus;
-const AUTH_STATUS_NOT_AUTHORIZED = 'NOT_AUTHORIZED' as const;
-const AUTH_STATUS_UNKNONW = 'UNKNOWN' as const;
-const EMAIL_FROM_BACKEND = 'fake@fake.fake' as const;
-const USER_AVATAR_URL_FROM_BACKEND = 'http://fake.fake/fake.jpeg' as const;
+const { reducer } = user;
+const mockEmail = internet.email();
+const mockUserAvatarUrl = internet.url();
 
 describe('Reducer: user', () => {
   it('returns initial state if sent unknown action', () => {
-    expect(reducer(undefined, { type: 'FAKE_ACTION' }))
+    const initialState = reducer(undefined, { type: 'FAKE_ACTION' });
+
+    expect(initialState)
       .toEqual({
-        authorizationStatus: AUTH_STATUS_UNKNONW,
+        authorizationStatus: AuthorizationStatus.Unknown,
         avatarUrl: '',
         login: '',
       });
   });
+
 
   it('sets user authorization status if authorizition is successful', () => {
     const initialState = reducer(undefined, { type: 'FAKE_ACTION' });
 
     const stateToBe = {
       ...initialState,
-      authorizationStatus: AUTH_STATUS_AUTHORIZED,
-      avatarUrl: USER_AVATAR_URL_FROM_BACKEND,
-      login: EMAIL_FROM_BACKEND,
+      authorizationStatus: AuthorizationStatus.Authorized,
+      avatarUrl: mockUserAvatarUrl,
+      login: mockEmail,
     };
 
     const action = {
-      payload: { avatarUrl: USER_AVATAR_URL_FROM_BACKEND, email: EMAIL_FROM_BACKEND },
+      payload: { avatarUrl: mockUserAvatarUrl, email: mockEmail },
       type: checkIfUserAuthorizedAction.fulfilled.type,
     };
 
@@ -46,7 +47,7 @@ describe('Reducer: user', () => {
 
     const stateToBe = {
       ...initialState,
-      authorizationStatus: AUTH_STATUS_NOT_AUTHORIZED,
+      authorizationStatus: AuthorizationStatus.NotAuthorized,
     };
 
     const action = {
@@ -59,17 +60,18 @@ describe('Reducer: user', () => {
       .toEqual(stateToBe);
   });
 
+
   it('sets user data when logging-in is successful', () => {
     const initialState = reducer(undefined, { type: 'FAKE_ACTION' });
 
     const stateToBe = {
       ...initialState,
-      authorizationStatus: AUTH_STATUS_AUTHORIZED,
-      avatarUrl: USER_AVATAR_URL_FROM_BACKEND,
-      login: EMAIL_FROM_BACKEND,
+      authorizationStatus: AuthorizationStatus.Authorized,
+      avatarUrl: mockUserAvatarUrl,
+      login: mockEmail,
     };
     const action = {
-      payload: { avatarUrl: USER_AVATAR_URL_FROM_BACKEND, email: EMAIL_FROM_BACKEND },
+      payload: { avatarUrl: mockUserAvatarUrl, email: mockEmail },
       type: logUserInAction.fulfilled.type,
     };
     const afterState = user.reducer(initialState, action);
@@ -83,41 +85,40 @@ describe('Reducer: user', () => {
 
     const stateToBe = {
       ...initialState,
-      login: EMAIL_FROM_BACKEND,
+      login: mockEmail,
     };
     const action = {
-      meta: { arg: { email: EMAIL_FROM_BACKEND }},
+      meta: { arg: { email: mockEmail }},
       type: logUserInAction.pending.type,
     };
-    const afterState = user.reducer(initialState, action);
 
-    expect(afterState)
+    expect(user.reducer(initialState, action))
       .toEqual(stateToBe);
   });
+
 
   it('sets user data when logging-in is rejected', () => {
     const initialState = reducer(undefined, { type: 'FAKE_ACTION' });
 
     const stateToBe = {
       ...initialState,
-      authorizationStatus: AUTH_STATUS_NOT_AUTHORIZED,
+      authorizationStatus: AuthorizationStatus.NotAuthorized,
     };
 
     const action = {
       type: logUserInAction.rejected.type,
     };
 
-    const afterState = user.reducer(initialState, action);
-
-    expect(afterState)
+    expect(user.reducer(initialState, action))
       .toEqual(stateToBe);
   });
+
 
   it('sets user data when logging-out is pending', () => {
     const initialState = {
       ...reducer(undefined, { type: 'FAKE_ACTION' }),
-      authorizationStatus: AUTH_STATUS_AUTHORIZED,
-      login: EMAIL_FROM_BACKEND,
+      authorizationStatus: AuthorizationStatus.Authorized,
+      login: mockEmail,
     };
 
     const action = {
@@ -127,12 +128,31 @@ describe('Reducer: user', () => {
     const stateToBe = {
       ...initialState,
       login: '',
-      authorizationStatus: AUTH_STATUS_NOT_AUTHORIZED,
+      authorizationStatus: AuthorizationStatus.NotAuthorized,
     };
 
-    const afterState = user.reducer(initialState, action);
+    expect(user.reducer(initialState, action))
+      .toEqual(stateToBe);
+  });
 
-    expect(afterState)
+
+  it('sets user login', () => {
+    const initialState = {
+      ...reducer(undefined, { type: 'FAKE_ACTION' }),
+      login: '',
+    };
+
+    const stateToBe = {
+      ...initialState,
+      login: mockEmail,
+    };
+
+    const action = {
+      payload: mockEmail,
+      type: setUserLoginAction.type,
+    };
+
+    expect(user.reducer(initialState, action))
       .toEqual(stateToBe);
   });
 });

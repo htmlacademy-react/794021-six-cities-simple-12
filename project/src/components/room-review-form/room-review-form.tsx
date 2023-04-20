@@ -1,41 +1,67 @@
 import { ChangeEvent, useEffect, useState, FormEvent } from 'react';
+import { sendReviewAction } from 'src/store/api-reviews/api-reviews.actions';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { getReviewSendStatus, getUserComment, getUserOfferId, getUserRating } from 'src/store/reviews/reviews.selectors';
 import OneStarRadioInput from 'src/components/one-star-radio-input/one-star-radio-input';
 import { RoomReview } from 'src/consts/consts';
+import { OfferId } from 'src/types/types';
+import { resetUserReviewAction, setUserCommentAction, setUserRatingAction } from 'src/store/reviews/reviews.slice';
 
 type InputElement = HTMLTextAreaElement | HTMLInputElement
-type RoomReviewFormData = { rating: string; review: string }
 
 const FormFieldName = {
   Rating: 'rating',
   Review: 'review',
 } as const;
 
-function RoomReviewForm(): JSX.Element {
-  const [ formData, setFormData ] = useState({
-    [ FormFieldName.Rating ]: '0',
-    [ FormFieldName.Review ]: '',
-  } as RoomReviewFormData);
+type RoomReviewFormProps = {
+  dataTestId?: string;
+  offerId: OfferId;
+};
 
+function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const userOfferId = useAppSelector(getUserOfferId);
+  const userComment = useAppSelector(getUserComment);
+  const userRating = useAppSelector(getUserRating);
+  const sendReviewStatus = useAppSelector(getReviewSendStatus);
   const [ isSubmitEnabled, setIsSubmitEnabled ] = useState(false);
+
+  if (userOfferId !== props.offerId) {
+    dispatch(resetUserReviewAction());
+  }
 
   const handleChange = (evt: ChangeEvent<InputElement>): void => {
     const { name, value } = evt.target;
-    setFormData({ ...formData, [name]: value });
+    switch (name) {
+      case FormFieldName.Review:
+        dispatch(setUserCommentAction({ offerId: props.offerId, value }));
+        break;
+      case FormFieldName.Rating:
+        dispatch(setUserRatingAction({ offerId: props.offerId, value: +value }));
+        break;
+    }
   };
 
   const handleSubmit = (evt: FormEvent): void => {
     evt.preventDefault();
+    if (!isFormDataValid(userComment, +userRating)) {
+      return;
+    }
+
+    dispatch(sendReviewAction());
   };
 
   useEffect(() => {
-    const isDataReadyToSend = isFormDataValid(formData);
-    setIsSubmitEnabled(isDataReadyToSend);
-  }, [formData]);
+    const isDataReadyToSend = isFormDataValid(userComment, userRating);
+    setIsSubmitEnabled(isDataReadyToSend && sendReviewStatus !== 'pending');
+  }, [ sendReviewStatus, userComment, userRating ]);
 
   return (
     <form
       action="#"
       className="reviews__form form"
+      data-testid={props.dataTestId}
       method="post"
       onSubmit={handleSubmit}
     >
@@ -43,18 +69,18 @@ function RoomReviewForm(): JSX.Element {
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        <OneStarRadioInput htmlId='5-stars' labelTitle='perfect' value='5' onChange={handleChange} htmlName={FormFieldName.Rating} />
-        <OneStarRadioInput htmlId='4-stars' labelTitle='good' value='4' onChange={handleChange} htmlName={FormFieldName.Rating} />
-        <OneStarRadioInput htmlId='3-stars' labelTitle='not bad' value='3' onChange={handleChange} htmlName={FormFieldName.Rating} />
-        <OneStarRadioInput htmlId='2-stars' labelTitle='badly' value='2' onChange={handleChange} htmlName={FormFieldName.Rating} />
-        <OneStarRadioInput htmlId='1-star' labelTitle='terribly' value='1' onChange={handleChange} htmlName={FormFieldName.Rating} />
+        <OneStarRadioInput htmlId='5-stars' labelTitle='perfect' value='5' isSelected={userRating === 5} onChange={handleChange} htmlName={FormFieldName.Rating} />
+        <OneStarRadioInput htmlId='4-stars' labelTitle='good' value='4' isSelected={userRating === 4} onChange={handleChange} htmlName={FormFieldName.Rating} />
+        <OneStarRadioInput htmlId='3-stars' labelTitle='not bad' value='3' isSelected={userRating === 3} onChange={handleChange} htmlName={FormFieldName.Rating} />
+        <OneStarRadioInput htmlId='2-stars' labelTitle='badly' value='2' isSelected={userRating === 2} onChange={handleChange} htmlName={FormFieldName.Rating} />
+        <OneStarRadioInput htmlId='1-star' labelTitle='terribly' value='1' isSelected={userRating === 1} onChange={handleChange} htmlName={FormFieldName.Rating} />
       </div>
       <textarea className="reviews__textarea form__textarea"
         id="review" name="review"
         maxLength={RoomReview.TextCharacterMaxLimit}
         onChange={handleChange}
         placeholder="Tell how was your stay, what you like and what can be improved"
-        value={formData.review}
+        value={userComment}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -78,12 +104,11 @@ function RoomReviewForm(): JSX.Element {
   );
 }
 
-function isFormDataValid(formData: RoomReviewFormData): boolean {
-  const rating = parseInt(formData.rating, 10);
-  const { length } = formData.review;
 
-  return length >= RoomReview.TextCharacterMinLimit &&
-    length <= RoomReview.TextCharacterMaxLimit &&
+function isFormDataValid(comment: string, rating: number): boolean {
+  return comment.length >= RoomReview.TextCharacterMinLimit &&
+    comment.length <= RoomReview.TextCharacterMaxLimit &&
+    !isNaN(rating) &&
     rating > 0;
 }
 
