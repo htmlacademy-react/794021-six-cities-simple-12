@@ -7,6 +7,10 @@ export function getReviewsFetchStatusp(state: AppState): FetchStatus {
   return state[DomainNamespace.Reviews].fetchStatus;
 }
 
+export function getReviewSendStatus(state: AppState): FetchStatus {
+  return state[DomainNamespace.Reviews].sendStatus;
+}
+
 export function getReviewsMap(state: AppState): ReviewsMap {
   return state[DomainNamespace.Reviews].dataMap;
 }
