@@ -1,6 +1,6 @@
 import { AuthorizationStatus } from 'src/consts/api';
 import { checkIfUserAuthorizedAction, logUserInAction, logUserOutAction } from '../api-actions';
-import { user } from './user.slice';
+import { setUserLoginAction, user } from './user.slice';
 import { internet } from 'faker';
 
 const { reducer } = user;
@@ -18,6 +18,7 @@ describe('Reducer: user', () => {
         login: '',
       });
   });
+
 
   it('sets user authorization status if authorizition is successful', () => {
     const initialState = reducer(undefined, { type: 'FAKE_ACTION' });
@@ -59,6 +60,7 @@ describe('Reducer: user', () => {
       .toEqual(stateToBe);
   });
 
+
   it('sets user data when logging-in is successful', () => {
     const initialState = reducer(undefined, { type: 'FAKE_ACTION' });
 
@@ -89,11 +91,11 @@ describe('Reducer: user', () => {
       meta: { arg: { email: mockEmail }},
       type: logUserInAction.pending.type,
     };
-    const afterState = user.reducer(initialState, action);
 
-    expect(afterState)
+    expect(user.reducer(initialState, action))
       .toEqual(stateToBe);
   });
+
 
   it('sets user data when logging-in is rejected', () => {
     const initialState = reducer(undefined, { type: 'FAKE_ACTION' });
@@ -107,11 +109,10 @@ describe('Reducer: user', () => {
       type: logUserInAction.rejected.type,
     };
 
-    const afterState = user.reducer(initialState, action);
-
-    expect(afterState)
+    expect(user.reducer(initialState, action))
       .toEqual(stateToBe);
   });
+
 
   it('sets user data when logging-out is pending', () => {
     const initialState = {
@@ -130,9 +131,28 @@ describe('Reducer: user', () => {
       authorizationStatus: AuthorizationStatus.NotAuthorized,
     };
 
-    const afterState = user.reducer(initialState, action);
+    expect(user.reducer(initialState, action))
+      .toEqual(stateToBe);
+  });
 
-    expect(afterState)
+
+  it('sets user login', () => {
+    const initialState = {
+      ...reducer(undefined, { type: 'FAKE_ACTION' }),
+      login: '',
+    };
+
+    const stateToBe = {
+      ...initialState,
+      login: mockEmail,
+    };
+
+    const action = {
+      payload: mockEmail,
+      type: setUserLoginAction.type,
+    };
+
+    expect(user.reducer(initialState, action))
       .toEqual(stateToBe);
   });
 });
