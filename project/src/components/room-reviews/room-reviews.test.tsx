@@ -1,21 +1,35 @@
 import { render, screen } from '@testing-library/react';
 import RoomReviews from './room-reviews';
-import { makeMockReviews } from 'src/utils/mock-review';
+import { makeMockReview } from 'src/utils/mock-review';
 import { RoomReview } from 'src/consts/consts';
+import { datatype } from 'faker';
 
-const MOCK_OFFER_ID = 1;
-const mockReviews = makeMockReviews(RoomReview.PerOfferMaxCount + 1, MOCK_OFFER_ID);
+const mockOfferId = datatype.number();
+
+const mockReview1 = makeMockReview({ id: mockOfferId, date: '2019-01-01' });
+const mockReview2 = makeMockReview({ id: mockOfferId, date: '2021-01-01' });
+const mockReview3 = makeMockReview({ id: mockOfferId, date: '2020-01-01' });
+
+const mockReviewsInitial = [ mockReview1, mockReview2, mockReview3 ];
+const mockReviewSorted = [ mockReview2, mockReview3, mockReview1 ];
 
 describe('Component: <RoomReviews>', () => {
-  it('renders reviews', () => {
+  it('renders reviews, more recent above', () => {
     render(
       <RoomReviews
-        reviews={mockReviews}
+        reviews={mockReviewsInitial}
       />
     );
 
-    expect(screen.getAllByTestId('offer-review-item').length)
+    const renderedReviews = screen.getAllByTestId(/offer-review-item/i);
+
+    expect(renderedReviews.length)
       .toBeLessThanOrEqual(RoomReview.PerOfferMaxCount);
+
+    renderedReviews.forEach((review, index) => {
+      expect(review)
+        .toHaveTextContent(mockReviewSorted[index].comment);
+    });
   });
 
   it('renders null, if reviews array is empty', () => {

@@ -76,7 +76,7 @@ function Room(): JSX.Element {
                 <h2 className="reviews__title">
                   Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
                 </h2>
-                <RoomReviews reviews={reviews} /> { /* TODO: sort: more recent items must be above (#1.1.2.1) */ }
+                <RoomReviews reviews={reviews} />
                 {
                   authorizationStatus === AuthorizationStatus.Authorized &&
                   <RoomReviewForm key={offer.id} dataTestId="room-review-post-form" offerId={offer.id} />

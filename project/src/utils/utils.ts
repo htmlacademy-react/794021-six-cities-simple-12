@@ -1,5 +1,5 @@
 import { OfferSortingOption, RATING_TO_PERCENT_STEP } from 'src/consts/consts';
-import { Offer, OfferId, Offers } from 'src/types/types';
+import { Offer, OfferId, Offers, Reviews } from 'src/types/types';
 
 export function getPercentFromRating(rating: number): string {
   const roundedPercent = Math.round(rating) * RATING_TO_PERCENT_STEP;
@@ -97,6 +97,12 @@ export function sortOffers(offers: Offers, sortingType: OfferSortingOption): Off
       throwErrorAtImpossibleCase(sortingType);
   }
   return newOffers;
+}
+
+export function sortReviews(reviews: Reviews): Reviews {
+  const newReviews = [...reviews];
+  newReviews.sort((review1, review2) => review1.date > review2.date ? -1 : 1);
+  return newReviews;
 }
 
 export function makeHash(obj: object): string {
