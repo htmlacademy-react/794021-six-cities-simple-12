@@ -15,10 +15,18 @@ const mockStore = configureMockStore(middlewares);
 const firstCityName = address.cityName();
 const secondCityName = address.cityName();
 
-const offers = [
+const firstCityOffers = [
   { id: 1, city: { name: firstCityName }},
   { id: 2, city: { name: firstCityName }},
+];
+
+const secondCityOffers = [
   { id: 3, city: { name: secondCityName }},
+];
+
+const offers = [
+  ...firstCityOffers,
+  ...secondCityOffers,
 ];
 
 const fetchedWithNoErrorState = {
@@ -43,15 +51,18 @@ const offersFetchIsInPendingState = {
 };
 
 describe('Hook: <useFoundOffers>', () => {
-  it('returns: offers for the curent city with fetch status', () => {
+  it('returns: offers for the curent city with "no error" fetch status', () => {
     const store = mockStore(fetchedWithNoErrorState);
 
     const { result } = renderHook(() => useFoundOffers(firstCityName), {
       wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
     });
 
-    expect(result.current.offers).toHaveLength(2);
-    expect(result.current.fetchStatus).toBe(FetchStatus.FetchedWithNoError);
+    expect(result.current.offers)
+      .toHaveLength(firstCityOffers.length);
+
+    expect(result.current.fetchStatus)
+      .toBe(FetchStatus.FetchedWithNoError);
   });
 
 
