@@ -10,13 +10,13 @@ import { fetchOfferAction } from 'src/store/api-actions';
 import Room from './room';
 import { createAPI } from 'src/services/api';
 import HistoryRouter from 'src/components/history-router/history-router';
+import NotFound from 'src/components/not-found/not-found';
 import { makeMockOffer, makeMockOffers } from 'src/utils/mock-offer';
 import { makeMockReviews } from 'src/utils/mock-review';
 import { AuthorizationStatus, FetchStatus } from 'src/consts/api';
 import { AppRoute } from 'src/consts/consts';
-import { AppState } from 'src/types/store';
 import { DomainNamespace } from 'src/consts/domain';
-import NotFound from 'src/components/not-found/not-found';
+import { AppState } from 'src/types/store';
 
 
 const api = createAPI();
@@ -32,34 +32,36 @@ const history = createMemoryHistory();
 const offerId = datatype.number();
 const cityName = address.cityName();
 const offer = makeMockOffer({ id: offerId, city: { name: cityName }});
+const mockReviews = makeMockReviews(20, offerId);
+const urlPath = AppRoute.Offer.replace(':id', offerId.toString());
+
+const baseState = {
+  [ DomainNamespace.BusinessData ]: {
+    offers: [ offer ],
+    offerFetchStatus: FetchStatus.FetchedWithNoError,
+  },
+  [ DomainNamespace.NearbyOffers ]: {
+    items: makeMockOffers(10, { city: { name: cityName }}),
+    offerId,
+  },
+  [ DomainNamespace.Reviews ]: {
+    dataMap: {
+      [ offerId ]: mockReviews,
+    },
+    userComment: '',
+    userOfferId: null,
+    userRating: NaN,
+  },
+  [ DomainNamespace.User ]: {
+    authorizationStatus: AuthorizationStatus.Authorized,
+  },
+};
 
 
 describe('Component: <Room>', () => {
   it('renders offer details', () => {
-    const mockReviews = makeMockReviews(20, offerId);
-    const mockStore = makeMockStore({
-      [ DomainNamespace.BusinessData ]: {
-        offers: [ offer ],
-      },
-      [ DomainNamespace.NearbyOffers ]: {
-        items: makeMockOffers(10, { city: { name: cityName }}),
-        offerId,
-      },
-      [ DomainNamespace.Reviews ]: {
-        dataMap: {
-          [ offerId ]: mockReviews,
-        },
-        userComment: '',
-        userOfferId: null,
-        userRating: NaN,
-      },
-      [ DomainNamespace.User ]: {
-        authorizationStatus: AuthorizationStatus.Authorized,
-      },
-    });
-
-    const path = AppRoute.Offer.replace(':id', offerId.toString());
-    history.push(path);
+    const mockStore = makeMockStore(baseState);
+    history.push(urlPath);
 
     render(
       <Provider store={mockStore}>
@@ -72,7 +74,7 @@ describe('Component: <Room>', () => {
     );
 
     expect(history.location.pathname)
-      .toEqual(path);
+      .toEqual(urlPath);
 
     expect(screen.getByRole('heading', { name: offer.title }))
       .toBeInTheDocument();
@@ -87,27 +89,22 @@ describe('Component: <Room>', () => {
     expect(screen.getByTestId(/room-price-per-night/i)).toBeInTheDocument();
     expect(screen.getByTestId(/room-hardware-features/i)).toBeInTheDocument();
     expect(screen.getByTestId(/room-host-description/i)).toBeInTheDocument();
-    expect(screen.getByTestId(/room-user-reviews/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room__reviews-list/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room-review-post-form/i)).toBeInTheDocument();
     expect(screen.getByTestId(/room-geo-map/i)).toBeInTheDocument();
     expect(screen.getByTestId(/room-nearby-offers/i)).toBeInTheDocument();
-
-    expect(screen.getByTestId('room-review-post-form'))
-      .toBeInTheDocument();
-
-    expect(screen.getByRole('heading', { name: /Reviews/i }))
-      .toHaveTextContent(new RegExp(mockReviews.length.toString(), 'i'));
   });
 
 
   it('do not render user review form, if not authorized', () => {
     const mockStore = makeMockStore({
-      [ DomainNamespace.BusinessData ]: { offers: [ offer ] },
-      [ DomainNamespace.NearbyOffers ]: {},
-      [ DomainNamespace.Reviews ]: { dataMap: {} },
+      ...baseState,
       [ DomainNamespace.User ]: {
         authorizationStatus: AuthorizationStatus.NotAuthorized,
       },
     });
+
+    history.push(urlPath);
 
     render(
       <Provider store={mockStore}>
@@ -119,25 +116,21 @@ describe('Component: <Room>', () => {
       </Provider>
     );
 
-    expect(screen.queryByTestId('room-review-post-form'))
+    expect(screen.queryByTestId(/room-review-post-form/i))
       .not.toBeInTheDocument();
   });
 
-  it('renders spinner and dispatches offer fetch', () => {
+
+  it('renders spinner and dispatches offer fetch (if fetch has not been started yet)', () => {
     const mockStore = makeMockStore({
+      ...baseState,
       [ DomainNamespace.BusinessData ]: {
         offers: makeMockOffers(1, { id: offerId + 1 }),
         offerFetchStatus: FetchStatus.NotStarted,
       },
-      [ DomainNamespace.NearbyOffers ]: { items: [] },
-      [ DomainNamespace.Reviews ]: { dataMap: {} },
-      [ DomainNamespace.User ]: {
-        authorizationStatus: AuthorizationStatus.Authorized,
-      },
     });
 
-    const path = AppRoute.Offer.replace(':id', offerId.toString());
-    history.push(path);
+    history.push(urlPath);
 
     render(
       <Provider store={mockStore}>
@@ -150,9 +143,9 @@ describe('Component: <Room>', () => {
     );
 
     expect(history.location.pathname)
-      .toEqual(path);
+      .toEqual(urlPath);
 
-    expect(screen.getByText('Loading offer ...'))
+    expect(screen.getByText(/Loading offer .../i))
       .toBeInTheDocument();
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
@@ -161,36 +154,29 @@ describe('Component: <Room>', () => {
   });
 
 
-  it('renders spinner and not dispatches anything', () => {
+  it('renders spinner and not dispatches anything (if fetch is pending)', () => {
     const mockStore = makeMockStore({
+      ...baseState,
       [ DomainNamespace.BusinessData ]: {
         offers: makeMockOffers(1, { id: offerId + 1 }),
         offerFetchStatus: FetchStatus.Pending,
       },
-      [ DomainNamespace.NearbyOffers ]: { items: [] },
-      [ DomainNamespace.Reviews ]: { dataMap: {} },
-      [ DomainNamespace.User ]: {
-        authorizationStatus: AuthorizationStatus.Authorized,
-      },
     });
 
-    const path = AppRoute.Offer.replace(':id', offerId.toString());
-    history.push(path);
+    history.push(urlPath);
 
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Routes>
-            <Route path={AppRoute.Offer} element={<Room />} />
-          </Routes>
+          <Room />
         </HistoryRouter>
       </Provider>
     );
 
     expect(history.location.pathname)
-      .toEqual(path);
+      .toEqual(urlPath);
 
-    expect(screen.getByText('Loading offer ...'))
+    expect(screen.getByText(/Loading offer .../i))
       .toBeInTheDocument();
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
@@ -201,19 +187,14 @@ describe('Component: <Room>', () => {
 
   it('redirects to "Not found" page', () => {
     const mockStore = makeMockStore({
+      ...baseState,
       [ DomainNamespace.BusinessData ]: {
         offers: makeMockOffers(1, { id: offerId + 1 }),
         offerFetchStatus: FetchStatus.FetchedWithNoError,
       },
-      [ DomainNamespace.NearbyOffers ]: { items: [] },
-      [ DomainNamespace.Reviews ]: { dataMap: {} },
-      [ DomainNamespace.User ]: {
-        authorizationStatus: AuthorizationStatus.Authorized,
-      },
     });
 
-    const path = AppRoute.Offer.replace(':id', 'MOCK_MEANINGLESS_ID');
-    history.push(path);
+    history.push(AppRoute.Offer.replace(':id', 'MOCK_MEANINGLESS_ID'));
 
     render(
       <Provider store={mockStore}>

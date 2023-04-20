@@ -49,7 +49,7 @@ function Main() {
         }
 
         {
-          offers.length > 0 ?
+          offers.length > 0 || fetchStatus === FetchStatus.Pending || fetchStatus === FetchStatus.NotStarted ?
             <div className="cities"
               data-testid="offer-cards-with-geo-map"
             >

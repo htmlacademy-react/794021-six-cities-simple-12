@@ -4,6 +4,7 @@ import { makeHash, sortReviews } from 'src/utils/utils';
 import { RoomReview as RoomReviewConstant } from 'src/consts/consts';
 
 type RoomReviewProps = {
+  dataTestId?: string;
   reviews: Reviews;
 }
 
@@ -14,7 +15,7 @@ function RoomReviews(props: RoomReviewProps): JSX.Element | null {
 
   return (
     <ul className="reviews__list"
-      data-testid="offer-reviews-list"
+      data-testid={`offer-reviews-list ${props.dataTestId ?? ''}`}
     >
       {
         sortReviews(props.reviews).map((review, index) => {
