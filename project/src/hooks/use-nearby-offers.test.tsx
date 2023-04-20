@@ -9,6 +9,7 @@ import { createAPI } from 'src/services/api';
 import { makeMockOffer, makeMockOffers } from 'src/utils/mock-offer';
 import { FetchStatus } from 'src/consts/api';
 import { AppState } from 'src/types/store';
+import { DomainNamespace } from 'src/consts/domain';
 
 const api = createAPI();
 const middlewares = [ thunk ];
@@ -25,7 +26,7 @@ const mockOfferWithId1 = makeMockOffer({ id: 1 });
 const mockOfferWithId2 = makeMockOffer({ id: 2 });
 
 const mockState = {
-  NEARBY_OFFERS: {
+  [ DomainNamespace.NearbyOffers ]: {
     fetchStatus: FetchStatus.NotStarted,
     items: makeMockOffers(10),
     offerId: mockOfferWithId1.id,
@@ -59,7 +60,7 @@ describe('Hook: useNearbyOffers()', () => {
     const nearbyOffers = result.current;
 
     expect(nearbyOffers.length)
-      .toBe(mockState.NEARBY_OFFERS.items.length);
+      .toBe(mockState[ DomainNamespace.NearbyOffers ].items.length);
 
     expect(mockStore.getActions().length)
       .toBe(0);
@@ -78,7 +79,7 @@ describe('Hook: useNearbyOffers()', () => {
     const nearbyOffers = result.current;
 
     expect(nearbyOffers.length)
-      .toBe(Math.min(mockState.NEARBY_OFFERS.items.length, limitCount));
+      .toBe(Math.min(mockState[ DomainNamespace.NearbyOffers ].items.length, limitCount));
 
     expect(mockStore.getActions().length)
       .toBe(0);

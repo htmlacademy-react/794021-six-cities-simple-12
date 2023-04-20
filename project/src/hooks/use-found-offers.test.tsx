@@ -7,6 +7,7 @@ import { FetchStatus } from 'src/consts/api';
 import { Offers } from 'src/types/types';
 import { fetchOffersAction } from 'src/store/api-actions';
 import { address } from 'faker';
+import { DomainNamespace } from 'src/consts/domain';
 
 const middlewares = [ thunk ];
 const mockStore = configureMockStore(middlewares);
@@ -21,21 +22,21 @@ const offers = [
 ];
 
 const fetchedWithNoErrorState = {
-  DATA: {
+  [ DomainNamespace.BusinessData ]: {
     offers,
     offersFetchStatus: FetchStatus.FetchedWithNoError,
   },
 };
 
 const offersNotStartedFetching = {
-  DATA: {
+  [ DomainNamespace.BusinessData ]: {
     offers: [{ id: 1, city: { name: firstCityName }}] as Offers,
     offersFetchStatus: FetchStatus.NotStarted,
   },
 };
 
 const offersFetchIsInPendingState = {
-  DATA: {
+  [ DomainNamespace.BusinessData ]: {
     offers: [{ id: 1, city: { name: firstCityName }}] as Offers,
     offersFetchStatus: FetchStatus.Pending,
   },

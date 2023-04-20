@@ -13,6 +13,7 @@ import { makeMockOffers } from 'src/utils/mock-offer';
 import { FetchStatus } from 'src/consts/api';
 import { AppState } from 'src/types/store';
 import HistoryRouter from 'src/components/history-router/history-router';
+import { DomainNamespace } from 'src/consts/domain';
 
 const api = createAPI();
 const middlewares = [ thunk ];
@@ -28,14 +29,14 @@ const mockCityName = address.cityName();
 const mockOffers = makeMockOffers(10, { city: { name: mockCityName }});
 
 const someOffersInTheCurrentCityState = {
-  DATA: {
+  [ DomainNamespace.BusinessData ]: {
     cityName: mockCityName,
     offers: mockOffers,
   },
 };
 
 const offersArePendingState = {
-  DATA: {
+  [ DomainNamespace.BusinessData ]: {
     cityName: mockCityName,
     offersFetchStatus: FetchStatus.Pending,
     offers: [],
@@ -43,7 +44,7 @@ const offersArePendingState = {
 };
 
 const offersNotStartedFethingState = {
-  DATA: {
+  [ DomainNamespace.BusinessData ]: {
     cityName: mockCityName,
     offersFetchStatus: FetchStatus.NotStarted,
     offers: [],
@@ -51,7 +52,7 @@ const offersNotStartedFethingState = {
 };
 
 const offersForCurrentCityAbsentState = {
-  DATA: {
+  [ DomainNamespace.BusinessData ]: {
     cityName: mockCityName,
     offersFetchStatus: FetchStatus.FetchedWithNoError,
     offers: makeMockOffers(10, { city: { name: address.cityName() }}),

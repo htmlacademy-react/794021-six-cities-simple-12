@@ -9,6 +9,7 @@ import { MockBrowserRouterWrapper } from 'src/utils/mock-common';
 import { AppState } from 'src/types/store';
 import { Provider } from 'react-redux';
 import { AuthorizationStatus } from 'src/consts/api';
+import { DomainNamespace } from 'src/consts/domain';
 
 const api = createAPI();
 const middlewares = [ thunk ];
@@ -21,7 +22,7 @@ const makeMockStore = configureMockStore<
 const mockLogin = internet.email();
 
 const userAuthrizedState = {
-  USER: {
+  [ DomainNamespace.User ]: {
     authorizationStatus: AuthorizationStatus.Authorized,
     avatarUrl: internet.url(),
     login: mockLogin,
@@ -29,14 +30,14 @@ const userAuthrizedState = {
 };
 
 const userNotAuthrizedState = {
-  USER: {
+  [ DomainNamespace.User ]: {
     authorizationStatus: AuthorizationStatus.NotAuthorized,
     login: mockLogin,
   }
 };
 
 const userAuthorizationStateUnknown = {
-  USER: {
+  [ DomainNamespace.User ]: {
     authorizationStatus: AuthorizationStatus.Unknown,
     login: mockLogin,
   },

@@ -7,21 +7,22 @@ import Login from './login';
 import HistoryRouter from 'src/components/history-router/history-router';
 import { AuthorizationStatus } from 'src/consts/api';
 import { AppRoute } from 'src/consts/consts';
+import { DomainNamespace } from 'src/consts/domain';
 
 const history = createMemoryHistory();
 
 const makeMockStore = configureMockStore();
 
 const userAuthorizedState = {
-  DATA: { cityName: address.cityName() },
-  USER: {
+  [ DomainNamespace.BusinessData ]: { cityName: address.cityName() },
+  [ DomainNamespace.User ]: {
     authorizationStatus: AuthorizationStatus.NotAuthorized,
   }
 };
 
 const userNotAuthorizedState = {
-  DATA: { cityName: address.cityName() },
-  USER: {
+  [ DomainNamespace.BusinessData ]: { cityName: address.cityName() },
+  [ DomainNamespace.User ]: {
     authorizationStatus: AuthorizationStatus.Authorized,
   }
 };

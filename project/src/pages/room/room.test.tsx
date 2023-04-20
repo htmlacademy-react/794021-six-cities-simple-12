@@ -15,6 +15,7 @@ import { makeMockReviews } from 'src/utils/mock-review';
 import { AuthorizationStatus, FetchStatus } from 'src/consts/api';
 import { AppRoute } from 'src/consts/consts';
 import { AppState } from 'src/types/store';
+import { DomainNamespace } from 'src/consts/domain';
 
 
 const api = createAPI();
@@ -36,19 +37,19 @@ describe('Component: <Room>', () => {
   it('renders offer details', () => {
     const mockReviews = makeMockReviews(20, offerId);
     const mockStore = makeMockStore({
-      DATA: {
+      [ DomainNamespace.BusinessData ]: {
         offers: [ offer ],
       },
-      NEARBY_OFFERS: {
+      [ DomainNamespace.NearbyOffers ]: {
         items: makeMockOffers(10, { city: { name: cityName }}),
         offerId,
       },
-      REVIEWS: {
+      [ DomainNamespace.Reviews ]: {
         dataMap: {
           [ offerId ]: mockReviews,
         },
       },
-      USER: {
+      [ DomainNamespace.User ]: {
         authorizationStatus: AuthorizationStatus.Authorized,
       },
     });
@@ -96,10 +97,10 @@ describe('Component: <Room>', () => {
 
   it('do not render user review form, if not authorized', () => {
     const mockStore = makeMockStore({
-      DATA: { offers: [ offer ] },
-      NEARBY_OFFERS: {},
-      REVIEWS: { dataMap: {} },
-      USER: {
+      [ DomainNamespace.BusinessData ]: { offers: [ offer ] },
+      [ DomainNamespace.NearbyOffers ]: {},
+      [ DomainNamespace.Reviews ]: { dataMap: {} },
+      [ DomainNamespace.User ]: {
         authorizationStatus: AuthorizationStatus.NotAuthorized,
       },
     });
@@ -120,13 +121,13 @@ describe('Component: <Room>', () => {
 
   it('renders spinner and dispatches offer fetch', () => {
     const mockStore = makeMockStore({
-      DATA: {
+      [ DomainNamespace.BusinessData ]: {
         offers: makeMockOffers(1, { id: offerId + 1 }),
         offerFetchStatus: FetchStatus.NotStarted,
       },
-      NEARBY_OFFERS: { items: [] },
-      REVIEWS: { dataMap: {} },
-      USER: {
+      [ DomainNamespace.NearbyOffers ]: { items: [] },
+      [ DomainNamespace.Reviews ]: { dataMap: {} },
+      [ DomainNamespace.User ]: {
         authorizationStatus: AuthorizationStatus.Authorized,
       },
     });
@@ -158,13 +159,13 @@ describe('Component: <Room>', () => {
 
   it('renders spinner and not dispatches anything', () => {
     const mockStore = makeMockStore({
-      DATA: {
+      [ DomainNamespace.BusinessData ]: {
         offers: makeMockOffers(1, { id: offerId + 1 }),
         offerFetchStatus: FetchStatus.Pending,
       },
-      NEARBY_OFFERS: { items: [] },
-      REVIEWS: { dataMap: {} },
-      USER: {
+      [ DomainNamespace.NearbyOffers ]: { items: [] },
+      [ DomainNamespace.Reviews ]: { dataMap: {} },
+      [ DomainNamespace.User ]: {
         authorizationStatus: AuthorizationStatus.Authorized,
       },
     });
@@ -196,13 +197,13 @@ describe('Component: <Room>', () => {
 
   it('redirects to "Not found" page', () => {
     const mockStore = makeMockStore({
-      DATA: {
+      [ DomainNamespace.BusinessData ]: {
         offers: makeMockOffers(1, { id: offerId + 1 }),
         offerFetchStatus: FetchStatus.FetchedWithNoError,
       },
-      NEARBY_OFFERS: { items: [] },
-      REVIEWS: { dataMap: {} },
-      USER: {
+      [ DomainNamespace.NearbyOffers ]: { items: [] },
+      [ DomainNamespace.Reviews ]: { dataMap: {} },
+      [ DomainNamespace.User ]: {
         authorizationStatus: AuthorizationStatus.Authorized,
       },
     });

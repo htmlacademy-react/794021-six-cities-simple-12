@@ -9,19 +9,20 @@ import { Offers } from 'src/types/types';
 import HistoryRouter from '../history-router/history-router';
 import { makeMockOffer } from 'src/utils/mock-offer';
 import { address } from 'faker';
+import { DomainNamespace } from 'src/consts/domain';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
 
 const store = mockStore({
-  DATA: {
+  [ DomainNamespace.BusinessData ]: {
     cityName: address.cityName(),
     offers: [
       makeMockOffer(),
     ] as Offers,
   },
 
-  USER: {
+  [ DomainNamespace.User ]: {
     authorizationStatus: AuthorizationStatus.NotAuthorized as AuthorizationStatus,
   },
 });
