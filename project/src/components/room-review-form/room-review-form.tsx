@@ -77,11 +77,11 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
         <OneStarRadioInput htmlId='1-star' labelTitle='terribly' value='1' isSelected={userRating === 1} onChange={handleChange} htmlName={FormFieldName.Rating} />
       </div>
       <textarea className="reviews__textarea form__textarea"
-        defaultValue={userComment}
         id="review" name="review"
         maxLength={RoomReview.TextCharacterMaxLimit}
         onChange={handleChange}
         placeholder="Tell how was your stay, what you like and what can be improved"
+        value={userComment}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -104,8 +104,6 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
     </form>
   );
 }
-
-// FIXME 1.1.2.2. В случае успешной отправки отзыва форма очищается.
 
 // FIXME 1.1.2.2. В случае возникновения ошибки следует уведомить пользователя. Способ отображения ошибки остаётся на усмотрение разработчика.
 

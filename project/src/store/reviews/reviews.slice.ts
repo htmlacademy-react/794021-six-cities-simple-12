@@ -65,6 +65,7 @@ export const reviews = createSlice({
         state.sendStatus = FetchStatus.FetchedWithNoError;
         state.userComment = '';
         state.userRating = NaN;
+        state.userOfferId = null;
       })
 
       .addCase(sendReviewAction.pending, (state) => {
