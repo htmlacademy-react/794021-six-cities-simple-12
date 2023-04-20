@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { fetchReviewsAction, sendReviewAction } from 'src/store/api-reviews/api-reviews.actions';
+import { toast } from 'react-toastify';
 import { DomainNamespace } from 'src/consts/domain';
 import { FetchStatus } from 'src/consts/api';
 import { OfferId, ReviewsMap } from 'src/types/types';
@@ -73,8 +74,9 @@ export const reviews = createSlice({
         state.sendStatus = FetchStatus.Pending;
       })
 
-      .addCase(sendReviewAction.rejected, (state) => {
+      .addCase(sendReviewAction.rejected, (state, { error }) => {
         state.sendStatus = FetchStatus.FetchedWithError;
+        error?.message && toast.warn(error?.message);
       });
   },
 });
