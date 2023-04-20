@@ -16,6 +16,7 @@ import { AuthorizationStatus, FetchStatus } from 'src/consts/api';
 import { AppRoute } from 'src/consts/consts';
 import { AppState } from 'src/types/store';
 import { DomainNamespace } from 'src/consts/domain';
+import NotFound from 'src/components/not-found/not-found';
 
 
 const api = createAPI();
@@ -216,6 +217,7 @@ describe('Component: <Room>', () => {
         <HistoryRouter history={history}>
           <Routes>
             <Route path={AppRoute.Offer} element={<Room />} />
+            <Route path={AppRoute.NotFound} element={<NotFound />} />
           </Routes>
         </HistoryRouter>
       </Provider>
