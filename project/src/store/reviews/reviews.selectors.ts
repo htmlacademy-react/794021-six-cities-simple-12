@@ -15,20 +15,14 @@ export function getReviewsMap(state: AppState): ReviewsMap {
   return state[DomainNamespace.Reviews].dataMap;
 }
 
-export function getUserComment(id: OfferId) {
-  return function (state: AppState): string {
-    if (state[DomainNamespace.Reviews].userOfferId !== id) {
-      return '';
-    }
-    return state[DomainNamespace.Reviews].userComment;
-  };
+export function getUserComment(state: AppState): string {
+  return state[DomainNamespace.Reviews].userComment;
 }
 
-export function getUserRating(id: OfferId) {
-  return function (state: AppState): number {
-    if (state[DomainNamespace.Reviews].userOfferId !== id) {
-      return NaN;
-    }
-    return state[DomainNamespace.Reviews].userRating;
-  };
+export function getUserOfferId(state: AppState): OfferId | null {
+  return state[DomainNamespace.Reviews].userOfferId;
+}
+
+export function getUserRating(state: AppState): number {
+  return state[DomainNamespace.Reviews].userRating;
 }

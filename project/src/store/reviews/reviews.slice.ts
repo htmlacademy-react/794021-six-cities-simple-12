@@ -28,6 +28,12 @@ export const reviews = createSlice({
   name: DomainNamespace.Reviews,
   initialState,
   reducers: {
+    resetUserReviewAction: (state) => {
+      state.userComment = '';
+      state.userOfferId = null;
+      state.userRating = NaN;
+    },
+
     setUserCommentAction: (state, { payload }: PayloadAction<CommentData>) => {
       if (payload.offerId !== state.userOfferId) {
         state.userOfferId = payload.offerId;
@@ -61,7 +67,7 @@ export const reviews = createSlice({
       })
 
       .addCase(sendReviewAction.fulfilled, (state, { payload }) => {
-        if (state.userOfferId) {
+        if (state.userOfferId !== null) {
           state.dataMap[state.userOfferId] = payload;
         }
         state.sendStatus = FetchStatus.FetchedWithNoError;
@@ -81,4 +87,4 @@ export const reviews = createSlice({
   },
 });
 
-export const { setUserCommentAction, setUserRatingAction } = reviews.actions;
+export const { resetUserReviewAction, setUserCommentAction, setUserRatingAction } = reviews.actions;

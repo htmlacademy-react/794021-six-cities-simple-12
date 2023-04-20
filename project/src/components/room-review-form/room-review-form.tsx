@@ -1,11 +1,11 @@
 import { ChangeEvent, useEffect, useState, FormEvent } from 'react';
 import { sendReviewAction } from 'src/store/api-reviews/api-reviews.actions';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
-import { getReviewSendStatus, getUserComment, getUserRating } from 'src/store/reviews/reviews.selectors';
+import { getReviewSendStatus, getUserComment, getUserOfferId, getUserRating } from 'src/store/reviews/reviews.selectors';
 import OneStarRadioInput from 'src/components/one-star-radio-input/one-star-radio-input';
 import { RoomReview } from 'src/consts/consts';
 import { OfferId } from 'src/types/types';
-import { setUserCommentAction, setUserRatingAction } from 'src/store/reviews/reviews.slice';
+import { resetUserReviewAction, setUserCommentAction, setUserRatingAction } from 'src/store/reviews/reviews.slice';
 
 type InputElement = HTMLTextAreaElement | HTMLInputElement
 
@@ -21,11 +21,15 @@ type RoomReviewFormProps = {
 
 function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const userComment = useAppSelector(getUserComment(props.offerId));
-  const userRating = useAppSelector(getUserRating(props.offerId));
+  const userOfferId = useAppSelector(getUserOfferId);
+  const userComment = useAppSelector(getUserComment);
+  const userRating = useAppSelector(getUserRating);
   const sendReviewStatus = useAppSelector(getReviewSendStatus);
-
   const [ isSubmitEnabled, setIsSubmitEnabled ] = useState(false);
+
+  if (userOfferId !== props.offerId) {
+    dispatch(resetUserReviewAction());
+  }
 
   const handleChange = (evt: ChangeEvent<InputElement>): void => {
     const { name, value } = evt.target;

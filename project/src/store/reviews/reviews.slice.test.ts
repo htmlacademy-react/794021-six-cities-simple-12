@@ -1,12 +1,32 @@
 import { FetchStatus } from 'src/consts/api';
 import { fetchReviewsAction, sendReviewAction } from 'src/store/api-reviews/api-reviews.actions';
-import { reviews, setUserCommentAction, setUserRatingAction } from './reviews.slice';
+import { resetUserReviewAction, reviews, setUserCommentAction, setUserRatingAction } from './reviews.slice';
 import { makeMockRating, makeMockReviews } from 'src/utils/mock-review';
 import { datatype, lorem } from 'faker';
+import { Reviews } from 'src/types/types';
 
 const { reducer } = reviews;
 
 describe('Reviews fetching', () => {
+  it('clears user review data', () => {
+    const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
+
+    const stateBefore = {
+      ...initialState,
+      userComment: lorem.sentence(),
+      userOfferId: datatype.number({ min: 1 }),
+      userRating: makeMockRating(),
+    };
+
+    const action = {
+      type: resetUserReviewAction.type,
+    };
+
+    expect(reducer(stateBefore, action))
+      .toEqual(initialState);
+  });
+
+
   it('checks fetch fulfilled status', () => {
     const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
     const offerId = datatype.number({ min: 1 });
@@ -52,7 +72,7 @@ describe('Reviews fetching', () => {
   });
 
 
-  it('checks fulfilled state of send action', () => {
+  it('sends review with "fulfilled" status', () => {
     const offerId = datatype.number({ min: 1 });
     const mockReviews = makeMockReviews(2, offerId);
 
@@ -84,6 +104,38 @@ describe('Reviews fetching', () => {
   });
 
 
+  it('sends review with "fulfilled" status if no offer-id in the store (strange, but satisfies possible nullish-offer-id)', () => {
+    const offerId = null;
+    const mockReviews = [] as Reviews;
+
+    const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
+
+    const stateBefore = {
+      ...initialState,
+      dataMap: {},
+      sendStatus: FetchStatus.NotStarted,
+      userComment: lorem.sentence(),
+      userOfferId: offerId,
+      userRating: makeMockRating(),
+    };
+
+    const stateToBe = {
+      ...stateBefore,
+      dataMap: {},
+      sendStatus: FetchStatus.FetchedWithNoError,
+      userComment: '',
+      userOfferId: null,
+      userRating: NaN,
+    };
+
+    expect(reducer(stateBefore, {
+      payload: mockReviews,
+      type: sendReviewAction.fulfilled.type,
+    }))
+      .toEqual(stateToBe);
+  });
+
+
   it('checks pending state of send action', () => {
     const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
 
@@ -101,7 +153,7 @@ describe('Reviews fetching', () => {
   });
 
 
-  it('checks rejected state of send action', () => {
+  it('sends review with "Reject" state and error.message', () => {
     const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
 
     const stateToBe = {
@@ -110,7 +162,31 @@ describe('Reviews fetching', () => {
     };
 
     expect(reducer(initialState, {
+      error: { message: 'something happend during sending review' },
       type: sendReviewAction.rejected.type,
+    }))
+      .toEqual(stateToBe);
+  });
+
+  it('sends review with "Reject" state with no error.message', () => {
+    const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
+
+    const stateBefore = {
+      ...initialState,
+      sendStatus: FetchStatus.Pending,
+      userComment: lorem.sentence(),
+      userRating: makeMockRating(),
+      userOfferIf: datatype.number({ min: 1 }),
+    };
+
+    const stateToBe = {
+      ...stateBefore,
+      sendStatus: FetchStatus.FetchedWithError,
+    };
+
+    expect(reducer(stateBefore, {
+      type: sendReviewAction.rejected.type,
+      error: {},
     }))
       .toEqual(stateToBe);
   });

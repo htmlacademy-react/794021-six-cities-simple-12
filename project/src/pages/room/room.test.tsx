@@ -49,6 +49,9 @@ describe('Component: <Room>', () => {
         dataMap: {
           [ offerId ]: mockReviews,
         },
+        userComment: '',
+        userOfferId: null,
+        userRating: NaN,
       },
       [ DomainNamespace.User ]: {
         authorizationStatus: AuthorizationStatus.Authorized,
