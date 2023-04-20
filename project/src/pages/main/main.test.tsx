@@ -79,7 +79,7 @@ describe('Component: <Main>', () => {
     expect(screen.getByText(new RegExp(text, 'i')))
       .toBeInTheDocument();
 
-    expect(screen.getByTestId('offer-cards-with-geo-map'))
+    expect(screen.getByTestId(/offer-cards-with-geo-map/i))
       .toBeInTheDocument();
   });
 
@@ -95,8 +95,11 @@ describe('Component: <Main>', () => {
       </Provider>
     );
 
-    expect(screen.getByText('Offers are loading ...'))
+    expect(screen.getByText(/Offers are loading .../i))
       .toBeInTheDocument();
+
+    expect(screen.queryByTestId(/no-offers-container/i))
+      .not.toBeInTheDocument();
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
     expect(actionNames)
@@ -115,8 +118,11 @@ describe('Component: <Main>', () => {
       </Provider>
     );
 
-    expect(screen.getByText('Offers are loading ...'))
+    expect(screen.getByText(/Offers are loading .../i))
       .toBeInTheDocument();
+
+    expect(screen.queryByTestId(/no-offers-container/i))
+      .not.toBeInTheDocument();
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
 
@@ -136,10 +142,10 @@ describe('Component: <Main>', () => {
       </Provider>
     );
 
-    expect(screen.getByTestId('no-offers-container'))
+    expect(screen.getByTestId(/no-offers-container/i))
       .toBeInTheDocument();
 
-    expect(screen.queryByText('Offers are loading ...'))
+    expect(screen.queryByText(/Offers are loading .../i))
       .not.toBeInTheDocument();
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
