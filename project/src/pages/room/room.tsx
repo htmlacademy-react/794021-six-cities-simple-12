@@ -1,4 +1,5 @@
 import { Navigate, useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useAppSelector } from 'src/hooks';
 import { useNearbyOffers } from 'src/hooks/use-nearby-offers';
 import { useOfferReviews } from 'src/hooks/use-offer-reviews';
@@ -12,10 +13,10 @@ import GeoMap from 'src/components/geo-map/geo-map';
 import { Spinner } from 'src/components/spinner/spinner';
 import RoomHostDescription from 'src/components/room-host-description/room-host-description';
 import RoomFeatures from 'src/components/room-features/room-features';
+import RoomReviewForm from 'src/components/room-review-form/room-review-form';
 import { getPercentFromRating } from 'src/utils/utils';
 import { AppRoute, NEARBY_OFFERS_LIMIT_COUNT } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
-import RoomReviewForm from 'src/components/room-review-form/room-review-form';
 
 function Room(): JSX.Element {
   const { id: offerId } = useParams();
@@ -33,74 +34,79 @@ function Room(): JSX.Element {
   }
 
   return (
-    <div className="page">
-      <main className="page__main page__main--property">
-        <section className="property">
-          <RoomGallery images={offer.images} dataTestId="room-gallery" />
+    <>
+      <Helmet>
+        <title>Six cities: {offer.title}</title>
+      </Helmet>
+      <div className="page">
+        <main className="page__main page__main--property">
+          <section className="property">
+            <RoomGallery images={offer.images} dataTestId="room-gallery" />
 
-          <div className="property__container container">
-            <div className="property__wrapper">
-              {
-                offer.isPremium &&
-                  <div className="property__mark"><span>Premium</span></div>
-              }
-              <div className="property__name-wrapper" data-testid="room-title">
-                <h1 className="property__name">
-                  {offer.title}
-                </h1>
-              </div>
-              <div className="property__rating rating" data-testid="room-rating">
-                <div className="property__stars rating__stars">
-                  <span style={{width: getPercentFromRating(offer.rating)}}></span>
-                  <span className="visually-hidden">Rating</span>
-                </div>
-                <span className="property__rating-value rating__value">{offer.rating}</span>
-              </div>
-              <RoomFeatures
-                bedrooms={offer.bedrooms}
-                dataTestId="room-type room-bedroom-count room-max-adult-count"
-                maxAdults={offer.maxAdults}
-                type={offer.type}
-              />
-              <div className="property__price" data-testid="room-price-per-night">
-                <b className="property__price-value">&euro;{offer.price}</b>
-                <span className="property__price-text">&nbsp;night</span>
-              </div>
-              <RoomHardwareFeatures goods={offer.goods} dataTestId="room-hardware-features" />
-              <RoomHostDescription
-                dataTestId={'room-detailed-description room-host-description'}
-                description={offer.description}
-                host={offer.host}
-              />
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">
-                  Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
-                </h2>
-                <RoomReviews reviews={reviews} dataTestId="room__reviews-list" />
+            <div className="property__container container">
+              <div className="property__wrapper">
                 {
-                  authorizationStatus === AuthorizationStatus.Authorized &&
-                  <RoomReviewForm key={offer.id} dataTestId="room-review-post-form" offerId={offer.id} />
+                  offer.isPremium &&
+                    <div className="property__mark"><span>Premium</span></div>
                 }
-              </section>
+                <div className="property__name-wrapper" data-testid="room-title">
+                  <h1 className="property__name">
+                    {offer.title}
+                  </h1>
+                </div>
+                <div className="property__rating rating" data-testid="room-rating">
+                  <div className="property__stars rating__stars">
+                    <span style={{width: getPercentFromRating(offer.rating)}}></span>
+                    <span className="visually-hidden">Rating</span>
+                  </div>
+                  <span className="property__rating-value rating__value">{offer.rating}</span>
+                </div>
+                <RoomFeatures
+                  bedrooms={offer.bedrooms}
+                  dataTestId="room-type room-bedroom-count room-max-adult-count"
+                  maxAdults={offer.maxAdults}
+                  type={offer.type}
+                />
+                <div className="property__price" data-testid="room-price-per-night">
+                  <b className="property__price-value">&euro;{offer.price}</b>
+                  <span className="property__price-text">&nbsp;night</span>
+                </div>
+                <RoomHardwareFeatures goods={offer.goods} dataTestId="room-hardware-features" />
+                <RoomHostDescription
+                  dataTestId={'room-detailed-description room-host-description'}
+                  description={offer.description}
+                  host={offer.host}
+                />
+                <section className="property__reviews reviews">
+                  <h2 className="reviews__title">
+                    Reviews &middot; <span className="reviews__amount">{reviews.length}</span>
+                  </h2>
+                  <RoomReviews reviews={reviews} dataTestId="room__reviews-list" />
+                  {
+                    authorizationStatus === AuthorizationStatus.Authorized &&
+                    <RoomReviewForm key={offer.id} dataTestId="room-review-post-form" offerId={offer.id} />
+                  }
+                </section>
 
+              </div>
             </div>
+            <GeoMap
+              activeOffer={offer}
+              dataTestId="room-geo-map"
+              className='property__map'
+              offers={[offer, ...nearbyOffers]}
+            />
+          </section>
+          <div className="container" data-testid="room-nearby-offers">
+            <OfferCards
+              className="near-places"
+              header="Other places in the neighbourhood"
+              offers={nearbyOffers}
+            />
           </div>
-          <GeoMap
-            activeOffer={offer}
-            dataTestId="room-geo-map"
-            className='property__map'
-            offers={[offer, ...nearbyOffers]}
-          />
-        </section>
-        <div className="container" data-testid="room-nearby-offers">
-          <OfferCards
-            className="near-places"
-            header="Other places in the neighbourhood"
-            offers={nearbyOffers}
-          />
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </>
   );
 }
 

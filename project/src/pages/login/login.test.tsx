@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { HelmetProvider } from 'react-helmet-async';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 import { address } from 'faker';
@@ -34,7 +35,9 @@ describe('Component: <Login>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Login />
+          <HelmetProvider>
+            <Login />
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
@@ -56,7 +59,9 @@ describe('Component: <Login>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Login />
+          <HelmetProvider>
+            <Login />
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );

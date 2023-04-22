@@ -1,6 +1,7 @@
 import { Action } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
+import { HelmetProvider } from 'react-helmet-async';
 import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
@@ -8,12 +9,12 @@ import { fetchOffersAction } from 'src/store/api-actions';
 import { address } from 'faker';
 import Main from './main';
 import NoOfferBlock from 'src/components/no-offer-block/no-offer-block';
+import HistoryRouter from 'src/components/history-router/history-router';
 import { createAPI } from 'src/services/api';
 import { makeMockOffers } from 'src/utils/mock-offer';
 import { FetchStatus } from 'src/consts/api';
-import { AppState } from 'src/types/store';
-import HistoryRouter from 'src/components/history-router/history-router';
 import { DomainNamespace } from 'src/consts/domain';
+import { AppState } from 'src/types/store';
 
 const api = createAPI();
 const middlewares = [ thunk ];
@@ -66,7 +67,9 @@ describe('Component: <Main>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Main />
+          <HelmetProvider>
+            <Main />
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
@@ -90,7 +93,9 @@ describe('Component: <Main>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Main />
+          <HelmetProvider>
+            <Main />
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
@@ -113,7 +118,9 @@ describe('Component: <Main>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Main />
+          <HelmetProvider>
+            <Main />
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
@@ -137,7 +144,9 @@ describe('Component: <Main>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Main />
+          <HelmetProvider>
+            <Main />
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );

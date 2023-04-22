@@ -5,6 +5,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Action } from '@reduxjs/toolkit';
+import { HelmetProvider } from 'react-helmet-async';
 import { address, datatype } from 'faker';
 import { fetchOfferAction } from 'src/store/api-actions';
 import Room from './room';
@@ -66,9 +67,11 @@ describe('Component: <Room>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Routes>
-            <Route path={AppRoute.Offer} element={<Room />} />
-          </Routes>
+          <HelmetProvider>
+            <Routes>
+              <Route path={AppRoute.Offer} element={<Room />} />
+            </Routes>
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
@@ -109,9 +112,11 @@ describe('Component: <Room>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Routes>
-            <Route path={AppRoute.Offer} element={<Room />} />
-          </Routes>
+          <HelmetProvider>
+            <Routes>
+              <Route path={AppRoute.Offer} element={<Room />} />
+            </Routes>
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
@@ -135,9 +140,11 @@ describe('Component: <Room>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Routes>
-            <Route path={AppRoute.Offer} element={<Room />} />
-          </Routes>
+          <HelmetProvider>
+            <Routes>
+              <Route path={AppRoute.Offer} element={<Room />} />
+            </Routes>
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
@@ -168,7 +175,9 @@ describe('Component: <Room>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Room />
+          <HelmetProvider>
+            <Room />
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
@@ -199,10 +208,12 @@ describe('Component: <Room>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Routes>
-            <Route path={AppRoute.Offer} element={<Room />} />
-            <Route path={AppRoute.NotFound} element={<NotFound />} />
-          </Routes>
+          <HelmetProvider>
+            <Routes>
+              <Route path={AppRoute.Offer} element={<Room />} />
+              <Route path={AppRoute.NotFound} element={<NotFound />} />
+            </Routes>
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
