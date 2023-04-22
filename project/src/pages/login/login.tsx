@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { logUserInAction } from 'src/store/api-user/api-user.actions';
 import { getUserLogin } from 'src/store/user/user.selectors';
 import { setUserLoginAction } from 'src/store/user/user.slice';
@@ -18,10 +19,10 @@ function Login(): JSX.Element {
 
   const handleCredentialsSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (!areCredentialsValid(userLogin, passwordRef.current?.value)) {
+    if (!isPasswordValid(passwordRef.current?.value)) {
+      toast.error('Password must contain at least one character and at least one number');
       return;
     }
-
     dispatch(logUserInAction({
       email: userLogin,
       password: passwordRef.current?.value ?? '',
@@ -56,7 +57,9 @@ function Login(): JSX.Element {
                   ref={passwordRef}
                 />
               </div>
-              <button className="login__submit form__submit button" type="submit">Sign in</button>
+              <button className="login__submit form__submit button" type="submit">
+                Sign in
+              </button>
             </form>
           </section>
           <section className="locations locations--login locations--current">
@@ -76,10 +79,9 @@ function Login(): JSX.Element {
   );
 }
 
-function areCredentialsValid(email: string, password: string | undefined) {
+function isPasswordValid(password: string | undefined) {
   if (
     !password ||
-    email.length <= 4 ||
     password.length < 2 ||
     !/\d/.test(password) ||
     !/\D/i.test(password) ||
