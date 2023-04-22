@@ -1,9 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from 'src/consts/api';
+import { toast } from 'react-toastify';
 import { DomainNamespace } from 'src/consts/domain';
-import { UserLogin } from 'src/types/types';
 import { checkIfUserAuthorizedAction, logUserInAction, logUserOutAction } from 'src/store/api-user/api-user.actions';
 import { dropToken, setToken } from 'src/services/token';
+import { UserLogin } from 'src/types/types';
 
 const initialState = {
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -42,8 +43,9 @@ export const user = createSlice({
         state.login = meta.arg?.email;
       })
 
-      .addCase(logUserInAction.rejected, (state) => {
+      .addCase(logUserInAction.rejected, (state, { error }) => {
         state.authorizationStatus = AuthorizationStatus.NotAuthorized;
+        toast.warn(error?.message ?? 'Error logging in');
       })
 
       .addCase(logUserOutAction.pending, (state) => {
