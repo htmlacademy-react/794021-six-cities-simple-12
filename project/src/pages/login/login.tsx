@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useRef } from 'react';
+import { ChangeEvent, FormEvent, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { logUserInAction } from 'src/store/api-user/api-user.actions';
 import { getUserLogin } from 'src/store/user/user.selectors';
@@ -14,7 +14,7 @@ function Login(): JSX.Element {
   const userLogin = useAppSelector(getUserLogin);
   const dispatch = useAppDispatch();
   const passwordRef = useRef<HTMLInputElement>(null);
-  const randomCityName = CityNames[getRandomIntegerFromZeroExclusive(CityNames.length)];
+  const randomCityName = useMemo(() => CityNames[getRandomIntegerFromZeroExclusive(CityNames.length)], []);
 
   const handleCredentialsSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -45,6 +45,7 @@ function Login(): JSX.Element {
                 <label className="visually-hidden" htmlFor="login">E-mail</label>
                 <input className="login__input form__input" id="login"
                   type="email" name="email" placeholder="Email" required
+                  defaultValue={userLogin}
                   onChange={handleLoginChange}
                 />
               </div>
