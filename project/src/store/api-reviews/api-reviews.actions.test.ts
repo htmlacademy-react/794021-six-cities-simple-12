@@ -26,15 +26,15 @@ describe('Async API review-related actions', () => {
   const fetchAction = fetchReviewsAction;
   const sendAction = sendReviewAction;
 
-  it('checks "pending and fulfilled" states when reviews fetched successfully', async () => {
+  it('fetches reviews, checks "pending and fulfilled" states', async () => {
     const mockStore = makeMockStore();
     const offer = makeMockOffer();
     const reviewsMap = makeMockReviewsMap(offer.id, 30);
+
     mockAPI
       .onGet(`${APIRoute.Reviews}${offer.id}`)
       .reply(200, reviewsMap);
 
-    mockStore.clearActions();
     await mockStore.dispatch(fetchAction(offer));
     const actions = mockStore.getActions().map(({ type }) => type);
 
@@ -45,14 +45,14 @@ describe('Async API review-related actions', () => {
   });
 
 
-  it('checks "pending and rejected" states when reviews fetching failed', async () => {
+  it('fetches reviews, checks "pending and rejected" states', async () => {
     const mockStore = makeMockStore();
     const offer = makeMockOffer();
+
     mockAPI
       .onGet(`${APIRoute.Reviews}${offer.id}`)
       .reply(404);
 
-    mockStore.clearActions();
     await mockStore.dispatch(fetchAction(offer));
     const actions = mockStore.getActions().map(({ type }) => type);
 
@@ -63,15 +63,26 @@ describe('Async API review-related actions', () => {
   });
 
 
-  it('sends review, throws "rejected" status when offer-id is null in the Store', async () => {
+  it('sends review, checks "pending and rejected" state if offer-id is null in the Store', async () => {
+    const mockOfferId = datatype.number();
+    const mockReview: UserReviewSendingData = {
+      comment: lorem.sentences(),
+      rating: makeMockRating(),
+    };
     const mockStore = makeMockStore({
       [ DomainNamespace.Reviews ]: {
+        userComment: mockReview.comment,
         userOfferId: null,
-      }
+        userRating: mockReview.rating,
+      },
     });
 
-    mockStore.clearActions();
+    mockAPI
+      .onPost(`${APIRoute.Reviews}${mockOfferId}`, mockReview)
+      .reply(404);
+
     await mockStore.dispatch(sendAction());
+
     const actions = mockStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
@@ -80,7 +91,8 @@ describe('Async API review-related actions', () => {
     ]);
   });
 
-  it('sends user review with response 200', async () => {
+
+  it('sends review, checks "pengind and fulfilled" states', async () => {
     const mockOfferId = datatype.number();
     const mockReview: UserReviewSendingData = {
       comment: lorem.sentences(),
@@ -98,8 +110,8 @@ describe('Async API review-related actions', () => {
       .onPost(`${APIRoute.Reviews}${mockOfferId}`, mockReview)
       .reply(200);
 
-    mockStore.clearActions();
     await mockStore.dispatch(sendAction());
+
     const actions = mockStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
@@ -109,7 +121,7 @@ describe('Async API review-related actions', () => {
   });
 
 
-  it('sends user review with response 401 (400)', async () => {
+  it('sends review, checks "pending and rejected" states', async () => {
     const mockOfferId = datatype.number();
     const mockReview: UserReviewSendingData = {
       comment: lorem.sentences(),
@@ -127,10 +139,10 @@ describe('Async API review-related actions', () => {
       .onPost(`${APIRoute.Reviews}${mockOfferId}`, mockReview )
       .reply(401);
 
-    mockStore.clearActions();
     await mockStore.dispatch(sendAction());
 
     const actions = mockStore.getActions().map(({ type }) => type);
+
     expect(actions).toEqual([
       sendAction.pending.type,
       sendAction.rejected.type
