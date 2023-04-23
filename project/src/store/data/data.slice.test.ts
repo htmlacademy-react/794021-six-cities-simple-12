@@ -8,7 +8,7 @@ const { reducer } = data;
 const DEFAULT_STATE_CITY_NAME = 'Paris';
 
 
-describe('Reducer: data', () => {
+describe('Reducer: data. State management', () => {
   it('returns initial state if sent unknown action', () => {
     expect(reducer(undefined, { type: 'NON_EXISTENT_ACTION' }))
       .toEqual({
@@ -32,7 +32,8 @@ describe('Reducer: data', () => {
       .toEqual(stateToBe);
   });
 
-  describe('One offer fetching', () => {
+
+  describe('Reducer: data. Fetching of one offer', () => {
     const action = fetchOfferAction;
 
     it('checks fulfilled status', () => {
@@ -85,7 +86,7 @@ describe('Reducer: data', () => {
   });
 
 
-  describe('All offers fetching', () => {
+  describe('Reducer: data. Fetching of all offers at once', () => {
     const action = fetchOffersAction;
     it('checks fulfilled status', () => {
       const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
