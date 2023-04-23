@@ -59,4 +59,15 @@ export const makeMockOffer = (attributes?: DeepPartial<Offer>): Offer => ({
 export const makeMockOffers = (count: number, offerAttributes?: DeepPartial<Offer>): Offers =>
   new Array(count)
     .fill({})
-    .map((_item, index) => makeMockOffer(offerAttributes)) as Offers;
+    .map((_item, index) => {
+      let attributes = offerAttributes;
+
+      if (offerAttributes && !('id' in offerAttributes)) {
+        attributes = {
+          ...offerAttributes,
+          id: index + 1
+        };
+      }
+
+      return makeMockOffer(attributes);
+    }) as Offers;
