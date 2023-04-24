@@ -83,7 +83,7 @@ function Main() {
                     <GeoMap
                       activeOffer={hoveredOffer}
                       data-testid="geo-map"
-                      className={offers.length ? '' : 'cities__map'}
+                      className="cities__map"
                       offers={offers}
                     />
                   </div>
