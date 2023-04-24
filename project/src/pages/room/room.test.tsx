@@ -18,6 +18,7 @@ import { AuthorizationStatus, FetchStatus } from 'src/consts/api';
 import { AppRoute } from 'src/consts/consts';
 import { DomainNamespace } from 'src/consts/domain';
 import { AppState } from 'src/types/store';
+import { resetUserReviewAction } from 'src/store/reviews/reviews.slice';
 
 
 const api = createAPI();
@@ -156,8 +157,12 @@ describe('Component: <Room>', () => {
       .toBeInTheDocument();
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
+
     expect(actionNames)
-      .toEqual([ fetchOfferAction.pending.type ]);
+      .toEqual([
+        fetchOfferAction.pending.type,
+        resetUserReviewAction.type,
+      ]);
   });
 
 
@@ -190,7 +195,12 @@ describe('Component: <Room>', () => {
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
     expect(actionNames.length)
-      .toEqual(0);
+      .toEqual(1);
+
+    expect(actionNames)
+      .toEqual([
+        resetUserReviewAction.type,
+      ]);
   });
 
 
@@ -203,7 +213,8 @@ describe('Component: <Room>', () => {
       },
     });
 
-    history.push(AppRoute.Offer.replace(':id', 'MOCK_MEANINGLESS_ID'));
+    const url = AppRoute.Offer.replace(':id', 'MOCK_MEANINGLESS_ID');
+    history.push(url);
 
     render(
       <Provider store={mockStore}>
@@ -219,10 +230,16 @@ describe('Component: <Room>', () => {
     );
 
     expect(history.location.pathname)
-      .toEqual(AppRoute.NotFound);
+      .toEqual(url);
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
+
     expect(actionNames.length)
-      .toEqual(0);
+      .toEqual(1);
+
+    expect(actionNames)
+      .toEqual([
+        resetUserReviewAction.type,
+      ]);
   });
 });

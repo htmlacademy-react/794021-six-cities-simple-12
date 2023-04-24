@@ -1,10 +1,12 @@
-import { Navigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { useAppSelector } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { useNearbyOffers } from 'src/hooks/use-nearby-offers';
 import { useOfferReviews } from 'src/hooks/use-offer-reviews';
 import { useFoundOffer } from 'src/hooks/use-found-offer';
 import { getAuthorizationStatus } from 'src/store/user/user.selectors';
+import { resetUserReviewAction } from 'src/store/reviews/reviews.slice';
 import OfferCards from 'src/components/offer-сards/offer-cards';
 import RoomGallery from 'src/components/room-gallery/room-gallery';
 import RoomHardwareFeatures from 'src/components/room-hardware-features/room-hardware-features';
@@ -14,19 +16,25 @@ import { Spinner } from 'src/components/spinner/spinner';
 import RoomHostDescription from 'src/components/room-host-description/room-host-description';
 import RoomFeatures from 'src/components/room-features/room-features';
 import RoomReviewForm from 'src/components/room-review-form/room-review-form';
+import NotFound from 'src/components/not-found/not-found';
 import { getPercentFromRating } from 'src/utils/utils';
-import { AppRoute, NEARBY_OFFERS_LIMIT_COUNT } from 'src/consts/consts';
+import { NEARBY_OFFERS_LIMIT_COUNT } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
 
 function Room(): JSX.Element {
   const { id: offerId } = useParams();
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const { isNotFound, offer } = useFoundOffer(offerId);
+  const dispatch = useAppDispatch();
   const nearbyOffers = useNearbyOffers(offer, NEARBY_OFFERS_LIMIT_COUNT);
   const reviews = useOfferReviews(offer);
 
+  useEffect(() => {
+    dispatch(resetUserReviewAction());
+  }, [ dispatch, offerId ]);
+
   if (isNotFound) {
-    return <Navigate to={AppRoute.NotFound} />;
+    return <NotFound />;
   }
 
   if (!offer) {
