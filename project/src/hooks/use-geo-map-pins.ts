@@ -1,12 +1,12 @@
-import { useEffect, useMemo } from 'react';
-import { icon as getIcon, marker, Map as LeafletGeoMap } from 'leaflet';
-import { Offer, Offers } from 'src/types/types';
+import { useEffect, useMemo, useRef } from 'react';
+import { icon as getIcon, marker as makeMarker, Map as LeafletGeoMap, Marker } from 'leaflet';
+import { OfferLocation, OfferLocations } from 'src/types/types';
 import { MapPinSetting } from 'src/consts/consts';
 
 export function useGeoMapPins(
   geoMap: LeafletGeoMap | null,
-  offers: Offers,
-  activeOffer: Offer | null,
+  locations: OfferLocations,
+  activeLocation?: OfferLocation | undefined,
 ): void {
   const icon = useMemo(() => {
     const activeIcon = getIcon(MapPinSetting.Active);
@@ -14,22 +14,28 @@ export function useGeoMapPins(
     return { active: activeIcon, default: defaultIcon };
   }, []);
 
+  const markers = useRef<Marker[]>([]);
+
   useEffect(() => {
     if (!geoMap) {
       return;
     }
 
-    for(const offer of offers) {
-      const { latitude, longitude } = offer.location;
-      const currentIcon = offer === activeOffer ?
+    markers.current.forEach((marker) => geoMap.removeLayer(marker));
+
+    for(const location of locations) {
+      const { latitude, longitude } = location;
+      const currentIcon = location === activeLocation ?
         icon.active :
         icon.default;
 
-      marker(
+      const currentMarker = makeMarker(
         [ latitude, longitude ],
         { icon: currentIcon },
       )
         .addTo(geoMap);
+
+      markers.current.push(currentMarker);
     }
-  }, [activeOffer, geoMap, icon, offers]);
+  }, [ activeLocation, geoMap, icon, locations ]);
 }
