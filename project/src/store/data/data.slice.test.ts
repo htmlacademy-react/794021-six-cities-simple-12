@@ -33,7 +33,7 @@ describe('Reducer: data. State management', () => {
   });
 
 
-  describe('Reducer: data. Fetching of one offer', () => {
+  describe('Reducer: data. Fetching one offer', () => {
     const action = fetchOfferAction;
 
     it('checks fulfilled status', () => {
@@ -42,7 +42,7 @@ describe('Reducer: data. State management', () => {
 
       const stateToBe = {
         ...initialState,
-        offerFetchStatus: FetchStatus.FetchedWithNoError,
+        offerFetchStatus: FetchStatus.NotStarted,
         offers: [ offer ],
       };
 
@@ -86,7 +86,7 @@ describe('Reducer: data. State management', () => {
   });
 
 
-  describe('Reducer: data. Fetching of all offers at once', () => {
+  describe('Reducer: data. Fetching all offers at once', () => {
     const action = fetchOffersAction;
     it('checks fulfilled status', () => {
       const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
