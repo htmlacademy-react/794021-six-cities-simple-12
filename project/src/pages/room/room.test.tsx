@@ -5,6 +5,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { Action } from '@reduxjs/toolkit';
+import { HelmetProvider } from 'react-helmet-async';
 import { address, datatype } from 'faker';
 import { fetchOfferAction } from 'src/store/api-actions';
 import Room from './room';
@@ -17,6 +18,7 @@ import { AuthorizationStatus, FetchStatus } from 'src/consts/api';
 import { AppRoute } from 'src/consts/consts';
 import { DomainNamespace } from 'src/consts/domain';
 import { AppState } from 'src/types/store';
+import { resetUserReviewAction } from 'src/store/reviews/reviews.slice';
 
 
 const api = createAPI();
@@ -66,9 +68,11 @@ describe('Component: <Room>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Routes>
-            <Route path={AppRoute.Offer} element={<Room />} />
-          </Routes>
+          <HelmetProvider>
+            <Routes>
+              <Route path={AppRoute.Offer} element={<Room />} />
+            </Routes>
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
@@ -109,9 +113,11 @@ describe('Component: <Room>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Routes>
-            <Route path={AppRoute.Offer} element={<Room />} />
-          </Routes>
+          <HelmetProvider>
+            <Routes>
+              <Route path={AppRoute.Offer} element={<Room />} />
+            </Routes>
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
@@ -135,9 +141,11 @@ describe('Component: <Room>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Routes>
-            <Route path={AppRoute.Offer} element={<Room />} />
-          </Routes>
+          <HelmetProvider>
+            <Routes>
+              <Route path={AppRoute.Offer} element={<Room />} />
+            </Routes>
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
@@ -149,8 +157,12 @@ describe('Component: <Room>', () => {
       .toBeInTheDocument();
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
+
     expect(actionNames)
-      .toEqual([ fetchOfferAction.pending.type ]);
+      .toEqual([
+        fetchOfferAction.pending.type,
+        resetUserReviewAction.type,
+      ]);
   });
 
 
@@ -168,7 +180,9 @@ describe('Component: <Room>', () => {
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Room />
+          <HelmetProvider>
+            <Room />
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
@@ -181,7 +195,12 @@ describe('Component: <Room>', () => {
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
     expect(actionNames.length)
-      .toEqual(0);
+      .toEqual(1);
+
+    expect(actionNames)
+      .toEqual([
+        resetUserReviewAction.type,
+      ]);
   });
 
 
@@ -194,24 +213,33 @@ describe('Component: <Room>', () => {
       },
     });
 
-    history.push(AppRoute.Offer.replace(':id', 'MOCK_MEANINGLESS_ID'));
+    const url = AppRoute.Offer.replace(':id', 'MOCK_MEANINGLESS_ID');
+    history.push(url);
 
     render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
-          <Routes>
-            <Route path={AppRoute.Offer} element={<Room />} />
-            <Route path={AppRoute.NotFound} element={<NotFound />} />
-          </Routes>
+          <HelmetProvider>
+            <Routes>
+              <Route path={AppRoute.Offer} element={<Room />} />
+              <Route path={AppRoute.NotFound} element={<NotFound />} />
+            </Routes>
+          </HelmetProvider>
         </HistoryRouter>
       </Provider>
     );
 
     expect(history.location.pathname)
-      .toEqual(AppRoute.NotFound);
+      .toEqual(url);
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
+
     expect(actionNames.length)
-      .toEqual(0);
+      .toEqual(1);
+
+    expect(actionNames)
+      .toEqual([
+        resetUserReviewAction.type,
+      ]);
   });
 });

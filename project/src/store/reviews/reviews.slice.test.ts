@@ -7,26 +7,7 @@ import { Reviews } from 'src/types/types';
 
 const { reducer } = reviews;
 
-describe('Reviews fetching', () => {
-  it('clears user review data', () => {
-    const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
-
-    const stateBefore = {
-      ...initialState,
-      userComment: lorem.sentence(),
-      userOfferId: datatype.number({ min: 1 }),
-      userRating: makeMockRating(),
-    };
-
-    const action = {
-      type: resetUserReviewAction.type,
-    };
-
-    expect(reducer(stateBefore, action))
-      .toEqual(initialState);
-  });
-
-
+describe('Reducer: reviews. Fetch actions', () => {
   it('checks fetch fulfilled status', () => {
     const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
     const offerId = datatype.number({ min: 1 });
@@ -45,6 +26,7 @@ describe('Reviews fetching', () => {
     }))
       .toEqual(stateToBe);
   });
+
 
   it('checks fetch pending status', () => {
     const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
@@ -70,8 +52,10 @@ describe('Reviews fetching', () => {
     expect(reducer(initialState, { type: fetchReviewsAction.rejected.type }))
       .toEqual(stateToBe);
   });
+});
 
 
+describe('Reducer: reviews. Send actions', () => {
   it('sends review with "fulfilled" status', () => {
     const offerId = datatype.number({ min: 1 });
     const mockReviews = makeMockReviews(2, offerId);
@@ -190,6 +174,27 @@ describe('Reviews fetching', () => {
     }))
       .toEqual(stateToBe);
   });
+});
+
+
+describe('Reducer: reviews. State actions', () => {
+  it('clears user review data', () => {
+    const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
+
+    const stateBefore = {
+      ...initialState,
+      userComment: lorem.sentence(),
+      userOfferId: datatype.number({ min: 1 }),
+      userRating: makeMockRating(),
+    };
+
+    const action = {
+      type: resetUserReviewAction.type,
+    };
+
+    expect(reducer(stateBefore, action))
+      .toEqual(initialState);
+  });
 
 
   it('sets user comment of the same offer', () => {
@@ -272,6 +277,7 @@ describe('Reviews fetching', () => {
     expect(reducer(stateBefore, action))
       .toEqual(stateToBe);
   });
+
 
   it('sets user rating of another offer', () => {
     const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });

@@ -1,14 +1,14 @@
 import { renderHook } from '@testing-library/react';
 import { useGeoMapPins } from './use-geo-map-pins';
-import { Offers } from 'src/types/types';
+import { OfferLocations } from 'src/types/types';
 
 describe('Hook: useGeoMapPins()', () => {
   it('returns null if passed Geo-map is null', () => {
     const geoMap = null;
-    const offers = [] as Offers;
-    const activeOffer = null;
+    const locations = [] as OfferLocations;
+    const activeLocation = undefined;
 
-    renderHook(() => useGeoMapPins(geoMap, offers, activeOffer));
+    renderHook(() => useGeoMapPins(geoMap, locations, activeLocation));
 
     expect(geoMap).toBeNull();
   });

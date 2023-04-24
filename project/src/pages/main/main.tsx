@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import cn from 'classnames';
+import { Helmet } from 'react-helmet-async';
 import { setCityNameAction } from 'src/store/data/data.slice';
 import { getCityName } from 'src/store/data/data.selectors';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
@@ -25,76 +26,81 @@ function Main() {
   const { fetchStatus, offers } = useFoundOffers(currentCityName);
 
   return (
-    <div className="page page--gray page--main">
-      <main className={cn(
-        'page__main page__main--index',
-        { 'page__main--index-empty': !offers.length }
-      )}
-      >
-        <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <CitiesList
-              cityNames={CityNames}
-              currentCityName={currentCityName}
-              onChangeCityName={(cityName) => dispatch(setCityNameAction(cityName))}
-            />
-          </section>
-        </div>
+    <>
+      <Helmet>
+        <title>Six cities: Offers in {currentCityName}</title>
+      </Helmet>
+      <div className="page page--gray page--main">
+        <main className={cn(
+          'page__main page__main--index',
+          { 'page__main--index-empty': !offers.length }
+        )}
+        >
+          <h1 className="visually-hidden">Cities</h1>
+          <div className="tabs">
+            <section className="locations container">
+              <CitiesList
+                cityNames={CityNames}
+                currentCityName={currentCityName}
+                onChangeCityName={(cityName) => dispatch(setCityNameAction(cityName))}
+              />
+            </section>
+          </div>
 
-        {
-          fetchStatus === FetchStatus.Pending || fetchStatus === FetchStatus.NotStarted ?
-            <Spinner text={'Offers are loading ...'} /> :
-            null
-        }
+          {
+            fetchStatus === FetchStatus.Pending || fetchStatus === FetchStatus.NotStarted ?
+              <Spinner text={'Offers are loading ...'} /> :
+              null
+          }
 
-        {
-          offers.length > 0 || fetchStatus === FetchStatus.Pending || fetchStatus === FetchStatus.NotStarted ?
-            <div className="cities"
-              data-testid="offer-cards-with-geo-map"
-            >
-              <div className="cities__places-container container">
-                <OfferCards
-                  className="cities__places"
-                  header="Places"
-                  offers={sortOffers(offers, sortingType)}
-                  onActive={(item) => setHoveredOffer(item)}
-                  onBlur={() => setHoveredOffer(null)}
-                >
-                  <>
-                    <b className="places__found">
-                      {offers.length}{' '}
-                      {getMultipleOfPlaceWord(offers.length)}{' '}
-                      to stay in {currentCityName}
-                    </b>
-                    <OfferSortingForm
-                      sortingType={sortingType}
-                      onChangeSortingType={(selectedType) => setSortingType(selectedType)}
+          {
+            offers.length > 0 || fetchStatus === FetchStatus.Pending || fetchStatus === FetchStatus.NotStarted ?
+              <div className="cities"
+                data-testid="offer-cards-with-geo-map"
+              >
+                <div className="cities__places-container container">
+                  <OfferCards
+                    className="cities__places"
+                    header="Places"
+                    offers={sortOffers(offers, sortingType)}
+                    onActive={(item) => setHoveredOffer(item)}
+                    onBlur={() => setHoveredOffer(null)}
+                  >
+                    <>
+                      <b className="places__found">
+                        {offers.length}{' '}
+                        {getMultipleOfPlaceWord(offers.length)}{' '}
+                        to stay in {currentCityName}
+                      </b>
+                      <OfferSortingForm
+                        sortingType={sortingType}
+                        onChangeSortingType={(selectedType) => setSortingType(selectedType)}
+                      />
+                    </>
+                  </OfferCards>
+
+                  <div className="cities__right-section">
+                    <GeoMap
+                      activeOffer={hoveredOffer}
+                      data-testid="geo-map"
+                      className="cities__map"
+                      offers={offers}
                     />
-                  </>
-                </OfferCards>
-
-                <div className="cities__right-section">
-                  <GeoMap
-                    activeOffer={hoveredOffer}
-                    data-testid="geo-map"
-                    className={offers.length ? '' : 'cities__map'}
-                    offers={offers}
-                  />
+                  </div>
                 </div>
               </div>
-            </div>
-            :
-            <div
-              data-testid="no-offers-container"
-            >
-              <NoOfferBlock
-                cityName={currentCityName}
-              />
-            </div>
-        }
-      </main>
-    </div>
+              :
+              <div
+                data-testid="no-offers-container"
+              >
+                <NoOfferBlock
+                  cityName={currentCityName}
+                />
+              </div>
+          }
+        </main>
+      </div>
+    </>
   );
 }
 

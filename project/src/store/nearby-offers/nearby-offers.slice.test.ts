@@ -17,7 +17,7 @@ describe('Reducer: nearbyOffers', () => {
   });
 
 
-  it('sets data if fetching was fulfilled', () => {
+  it('fetch data, checks saving if fetching was fulfilled', () => {
     const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
     const offerId = 1;
     const offers = makeMockOffers(10);
@@ -34,7 +34,7 @@ describe('Reducer: nearbyOffers', () => {
   });
 
 
-  it('checks if fetch is pending', () => {
+  it('fetch data, checks "pending" state', () => {
     const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
     const offerId = 1;
 
@@ -50,7 +50,7 @@ describe('Reducer: nearbyOffers', () => {
   });
 
 
-  it('checks if fetching was rejected', () => {
+  it('fetch data, checks "rejected" state', () => {
     const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
     const offerId = 1;
 

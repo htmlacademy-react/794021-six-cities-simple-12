@@ -12,24 +12,27 @@ const api = createAPI();
 const mockAPI = new MockAdapter(api);
 const middlewares = [thunk.withExtraArgument(api)];
 
-const mockStore = configureMockStore<
+const makeMockStore = configureMockStore<
   AppState,
   Action<string>,
   ThunkDispatch<AppState, typeof api, Action>
 >(middlewares);
 
+const mockStore = makeMockStore();
+
 describe('Async API user-related actions', () => {
+  beforeEach(() => mockStore.clearActions());
+
   it('checks authorization by token with "pending and fulfilled" states', async () => {
-    const store = mockStore();
     mockAPI
       .onGet(APIRoute.Login)
       .reply(200, []);
 
-    expect(store.getActions()).toEqual([]);
+    expect(mockStore.getActions()).toEqual([]);
 
-    await store.dispatch(checkIfUserAuthorizedAction());
+    await mockStore.dispatch(checkIfUserAuthorizedAction());
 
-    const actions = store.getActions().map(({ type }) => type);
+    const actions = mockStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       checkIfUserAuthorizedAction.pending.type,
@@ -39,16 +42,15 @@ describe('Async API user-related actions', () => {
 
   it('checks authorization by token with "pending and rejected" states', async () => {
     const action = checkIfUserAuthorizedAction;
-    const store = mockStore();
     mockAPI
       .onGet(APIRoute.Login)
       .reply(401, []);
 
-    expect(store.getActions()).toEqual([]);
+    expect(mockStore.getActions()).toEqual([]);
 
-    await store.dispatch(action());
+    await mockStore.dispatch(action());
 
-    const actions = store.getActions().map(({ type }) => type);
+    const actions = mockStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       action.pending.type,
@@ -59,16 +61,15 @@ describe('Async API user-related actions', () => {
   it('logs in with "pending and fulfilled" states', async () => {
     const action = logUserInAction;
     const userAuthorizationData = { email: internet.email(), password: internet.password() };
-    const store = mockStore();
     mockAPI
       .onPost(APIRoute.Login)
       .reply(200);
 
-    expect(store.getActions()).toEqual([]);
+    expect(mockStore.getActions()).toEqual([]);
 
-    await store.dispatch(action(userAuthorizationData));
+    await mockStore.dispatch(action(userAuthorizationData));
 
-    const actions = store.getActions().map(({ type }) => type);
+    const actions = mockStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       action.pending.type,
@@ -78,16 +79,15 @@ describe('Async API user-related actions', () => {
 
   it('logs out with "pending and fulfilled" states', async () => {
     const action = logUserOutAction;
-    const store = mockStore();
     mockAPI
       .onDelete(APIRoute.Logout)
       .reply(204);
 
-    expect(store.getActions()).toEqual([]);
+    expect(mockStore.getActions()).toEqual([]);
 
-    await store.dispatch(action());
+    await mockStore.dispatch(action());
 
-    const actions = store.getActions().map(({ type }) => type);
+    const actions = mockStore.getActions().map(({ type }) => type);
 
     expect(actions).toEqual([
       action.pending.type,

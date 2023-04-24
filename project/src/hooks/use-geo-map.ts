@@ -1,17 +1,22 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
-import { LatLngTuple, Map as LeafletGeoMap, TileLayer } from 'leaflet';
-import { City } from 'src/types/types';
+import { useEffect, useRef, useState } from 'react';
+import { Map as LeafletGeoMap, TileLayer } from 'leaflet';
 import { DEFAULT_GEOLOCATION, GeoMapAttributes } from 'src/consts/geo-map';
+import { OfferLocation } from 'src/types/types';
 
-export function useGeoMap(
-  nodeRef: RefObject<HTMLElement | null>,
-  city: City | null,
-) {
+
+export function useGeoMap (
+  node: HTMLElement | null,
+  centerLocation: OfferLocation | null,
+): LeafletGeoMap | null {
+  const mapRef = useRef<LeafletGeoMap | null>(null);
   const [ geoMap, setGeoMap ] = useState<LeafletGeoMap | null>(null);
-  const isRenderedRef = useRef<boolean>(false);
 
   useEffect(() => {
-    if (!nodeRef.current || isRenderedRef.current) {
+    if (node === null) {
+      return;
+    }
+
+    if (mapRef.current !== null) {
       return;
     }
 
@@ -20,25 +25,24 @@ export function useGeoMap(
       { attribution: GeoMapAttributes.Copyright }
     );
 
-    const mapInstance = new LeafletGeoMap(nodeRef.current);
-    mapInstance.addLayer(layer);
-    setGeoMap(mapInstance);
-    isRenderedRef.current = true;
-  }, [city, geoMap, nodeRef]);
+    mapRef.current = new LeafletGeoMap(node);
+    mapRef.current.addLayer(layer);
+
+    setGeoMap(mapRef.current);
+  }, [ node, centerLocation ]);
+
 
   useEffect(() => {
-    if (!isRenderedRef) {
+    if (geoMap === null || mapRef.current === null) {
       return;
     }
 
-    const centerLocation = city?.location ?? DEFAULT_GEOLOCATION;
-    const center: LatLngTuple = [
-      centerLocation.latitude,
-      centerLocation.longitude,
-    ];
-    geoMap?.setView(center, centerLocation.zoom);
-  }, [city, geoMap, isRenderedRef]);
+    const center = centerLocation ?? DEFAULT_GEOLOCATION;
 
+    mapRef.current
+      .setView([ center.latitude, center.longitude ], center.zoom);
+
+  }, [ centerLocation, geoMap ]);
 
   return geoMap;
 }

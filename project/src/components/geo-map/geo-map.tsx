@@ -1,9 +1,9 @@
 import { useRef } from 'react';
-import { Offer, Offers } from 'src/types/types';
 import { useGeoMap } from 'src/hooks/use-geo-map';
 import { useGeoMapPins } from 'src/hooks/use-geo-map-pins';
 import 'leaflet/dist/leaflet.css';
 import styles from './geo-map.module.css';
+import { Offer, Offers } from 'src/types/types';
 
 type GeoMapProps = {
   activeOffer: Offer | null;
@@ -15,9 +15,10 @@ type GeoMapProps = {
 function GeoMap(props: GeoMapProps): JSX.Element {
   const nodeRef = useRef<HTMLElement | null>(null);
   const [ firstOffer ] = props.offers;
-  const city = firstOffer?.city ?? null;
-  const geoMap = useGeoMap(nodeRef, city);
-  useGeoMapPins(geoMap, props.offers, props.activeOffer);
+  const centerLocation = firstOffer?.city?.location ?? null;
+  const locations = props.offers.map((offer) => offer.location);
+  const geoMap = useGeoMap(nodeRef.current, centerLocation);
+  useGeoMapPins(geoMap, locations, props.activeOffer?.location);
 
   return (
     <section

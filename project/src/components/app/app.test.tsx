@@ -1,15 +1,16 @@
 import { Provider } from 'react-redux';
 import { createMemoryHistory } from 'history';
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { AppRoute } from 'src/consts/consts';
-import App from './app';
+import { HelmetProvider } from 'react-helmet-async';
 import { render, screen } from '@testing-library/react';
-import { AuthorizationStatus } from 'src/consts/api';
-import { Offers } from 'src/types/types';
-import HistoryRouter from '../history-router/history-router';
-import { makeMockOffer } from 'src/utils/mock-offer';
 import { address } from 'faker';
+import App from './app';
+import HistoryRouter from 'src/components/history-router/history-router';
+import { makeMockOffer } from 'src/utils/mock-offer';
+import { AuthorizationStatus } from 'src/consts/api';
+import { AppRoute } from 'src/consts/consts';
 import { DomainNamespace } from 'src/consts/domain';
+import { Offers } from 'src/types/types';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore();
@@ -30,7 +31,9 @@ const store = mockStore({
 const MockApp = (
   <Provider store={store}>
     <HistoryRouter history={history}>
-      <App />
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
     </HistoryRouter>
   </Provider>
 );

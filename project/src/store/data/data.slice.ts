@@ -33,7 +33,7 @@ export const data = createSlice({
           state.offers.push(payload);
         }
 
-        state.offerFetchStatus = FetchStatus.FetchedWithNoError;
+        state.offerFetchStatus = FetchStatus.NotStarted;
       })
 
       .addCase(fetchOfferAction.pending, (state) => {
