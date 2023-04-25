@@ -17,7 +17,7 @@ function GeoMap(props: GeoMapProps): JSX.Element {
   const [ firstOffer ] = props.offers;
   const centerLocation = firstOffer?.city?.location ?? null;
   const locations = props.offers.map((offer) => offer.location);
-  const geoMap = useGeoMap(nodeRef.current, centerLocation);
+  const geoMap = useGeoMap(nodeRef, centerLocation);
   useGeoMapPins(geoMap, locations, props.activeOffer?.location);
 
   return (
