@@ -56,7 +56,7 @@ function Main() {
           {
             offers.length > 0 || fetchStatus === FetchStatus.Pending || fetchStatus === FetchStatus.NotStarted ?
               <div className="cities"
-                data-testid="offer-cards-with-geo-map"
+                data-testid="main__offer-cards-with-geo-map"
               >
                 <div className="cities__places-container container">
                   <OfferCards
