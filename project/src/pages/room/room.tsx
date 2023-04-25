@@ -7,7 +7,7 @@ import { useOfferReviews } from 'src/hooks/use-offer-reviews';
 import { useFoundOffer } from 'src/hooks/use-found-offer';
 import { getAuthorizationStatus } from 'src/store/user/user.selectors';
 import { resetUserReviewAction } from 'src/store/reviews/reviews.slice';
-import OfferCards from 'src/components/offer-сards/offer-cards';
+import OfferCards from 'src/components/offer-cards/offer-cards';
 import RoomGallery from 'src/components/room-gallery/room-gallery';
 import RoomHardwareFeatures from 'src/components/room-hardware-features/room-hardware-features';
 import RoomReviews from 'src/components/room-reviews/room-reviews';

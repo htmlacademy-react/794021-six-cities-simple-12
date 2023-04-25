@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { useFoundOffers } from 'src/hooks/use-found-offers';
 import CitiesList from 'src/components/cities-list/cities-list';
 import GeoMap from 'src/components/geo-map/geo-map';
-import OfferCards from 'src/components/offer-сards/offer-cards';
+import OfferCards from 'src/components/offer-cards/offer-cards';
 import OfferSortingForm from 'src/components/offer-sorting-form/offer-sorting-form';
 import { Spinner } from 'src/components/spinner/spinner';
 import NoOfferBlock from 'src/components/no-offer-block/no-offer-block';
