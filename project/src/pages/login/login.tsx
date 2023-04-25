@@ -11,6 +11,8 @@ import { useRedirectingIfAuthorized } from 'src/hooks/use-redirecting-if-authori
 import { getRandomIntegerFromZeroExclusive } from 'src/utils/utils';
 import { AppRoute, CityNames } from 'src/consts/consts';
 
+const WEAK_PASSWORD_MESSAGE = 'Password must contain at least one character and at least one number';
+
 function Login(): JSX.Element {
   useRedirectingIfAuthorized(AppRoute.Root);
   const userLogin = useAppSelector(getUserLogin);
@@ -18,12 +20,14 @@ function Login(): JSX.Element {
   const passwordRef = useRef<HTMLInputElement>(null);
   const randomCityName = useMemo(() => CityNames[getRandomIntegerFromZeroExclusive(CityNames.length)], []);
 
-  const handleCredentialsSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+
     if (!isPasswordValid(passwordRef.current?.value)) {
-      toast.error('Password must contain at least one character and at least one number');
+      toast.error(WEAK_PASSWORD_MESSAGE);
       return;
     }
+
     dispatch(logUserInAction({
       email: userLogin,
       password: passwordRef.current?.value ?? '',
@@ -45,12 +49,13 @@ function Login(): JSX.Element {
             <section className="login">
               <h1 className="login__title">Sign in</h1>
               <form className="login__form form" action="#" method="post"
-                onSubmit={handleCredentialsSubmit}
+                onSubmit={handleSubmit}
               >
                 <div className="login__input-wrapper form__input-wrapper">
                   <label className="visually-hidden" htmlFor="login">E-mail</label>
                   <input className="login__input form__input" id="login"
                     type="email" name="email" placeholder="Email" required
+                    data-testid="login__email-input"
                     defaultValue={userLogin}
                     onChange={handleLoginChange}
                   />
@@ -58,11 +63,14 @@ function Login(): JSX.Element {
                 <div className="login__input-wrapper form__input-wrapper">
                   <label className="visually-hidden" htmlFor="password">Password</label>
                   <input className="login__input form__input" id="password"
+                    data-testid="login__password-input"
                     type="password" name="password" placeholder="Password" required
                     ref={passwordRef}
                   />
                 </div>
-                <button className="login__submit form__submit button" type="submit">
+                <button className="login__submit form__submit button" type="submit"
+                  data-testid="login__submit-button"
+                >
                   Sign in
                 </button>
               </form>
@@ -71,6 +79,7 @@ function Login(): JSX.Element {
               <div className="locations__item">
                 <Link
                   className="locations__item-link"
+                  data-testid="login__city-link"
                   onClick={() => dispatch(setCityNameAction(randomCityName))}
                   to={AppRoute.Root}
                 >
