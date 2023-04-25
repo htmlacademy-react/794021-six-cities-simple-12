@@ -68,7 +68,7 @@ function Main() {
                   >
                     <>
                       <b className="places__found">
-                        {offers.length}{' '}
+                        {offers.length > 0 ? offers.length : ''}{' '}
                         {getMultipleOfPlaceWord(offers.length)}{' '}
                         to stay in {currentCityName}
                       </b>
