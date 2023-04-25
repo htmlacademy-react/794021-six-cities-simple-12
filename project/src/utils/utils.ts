@@ -42,10 +42,6 @@ export function getUniqueItems<T>(arr: Array<T>): Array<T> {
   return [...new Set(arr)];
 }
 
-export function filterOffersByCityName(offers: Offers, cityName: string): Offers {
-  return offers.filter((offer) => offer.city.name === cityName);
-}
-
 export function isChildNode(parent: HTMLElement | null, node: HTMLElement | undefined): boolean {
   function assertHasParentNodeOrUndefined(item: EventTarget | undefined): asserts item is HTMLElement {
     if (item && !('parentNode' in item)) {
@@ -112,8 +108,4 @@ export function sortReviews(reviews: Reviews): Reviews {
 
 export function makeHash(obj: object): string {
   return JSON.stringify(obj);
-}
-
-export function scrollToTop() {
-  window && window.scrollTo(0, 0);
 }
