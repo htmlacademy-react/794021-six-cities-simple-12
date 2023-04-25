@@ -14,3 +14,11 @@ export function getReviewSendStatus(state: AppState): FetchStatus {
 export function getReviewsMap(state: AppState): ReviewsMap {
   return state[DomainNamespace.Reviews].dataMap;
 }
+
+export function getUserComment(state: AppState): string {
+  return state[DomainNamespace.Reviews].userComment;
+}
+
+export function getUserRating(state: AppState): number {
+  return state[DomainNamespace.Reviews].userRating;
+}

@@ -1,7 +1,7 @@
-import { ChangeEvent, useState, FormEvent, useRef } from 'react';
+import { ChangeEvent, useState, FormEvent, useEffect } from 'react';
 import { sendReviewAction } from 'src/store/api-reviews/api-reviews.actions';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
-import { getReviewSendStatus } from 'src/store/reviews/reviews.selectors';
+import { getReviewSendStatus, getUserComment, getUserRating } from 'src/store/reviews/reviews.selectors';
 import OneStarRadioInput from 'src/components/one-star-radio-input/one-star-radio-input';
 import { RoomReview } from 'src/consts/consts';
 import { OfferId } from 'src/types/types';
@@ -23,9 +23,9 @@ type RoomReviewFormProps = {
 function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
   const sendReviewStatus = useAppSelector(getReviewSendStatus);
+  const userComment = useAppSelector(getUserComment);
+  const userRating = useAppSelector(getUserRating);
   const [ isSubmitDisabled, setIsSubmitDisabled ] = useState(true);
-  const commentRef = useRef<HTMLTextAreaElement>(null);
-  const ratingRef = useRef<string>('');
 
   const handleChange = (evt: ChangeEvent<InputElement>): void => {
     const { name, value } = evt.target;
@@ -35,22 +35,23 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
         dispatch(setUserCommentAction({ offerId: props.offerId, value }));
         break;
       case FormFieldName.Rating:
-        ratingRef.current = value;
         dispatch(setUserRatingAction({ offerId: props.offerId, value: +value }));
         break;
     }
-
-    const shouldDisableSubmit =
-      !isFormDataValid(commentRef.current?.value, ratingRef.current) ||
-      sendReviewStatus === FetchStatus.Pending;
-
-    setIsSubmitDisabled(shouldDisableSubmit);
   };
 
   const handleSubmit = (evt: FormEvent): void => {
     evt.preventDefault();
     dispatch(sendReviewAction());
   };
+
+  useEffect(() => {
+    const shouldDisableSubmit =
+    !isFormDataValid(userComment, userRating.toString()) ||
+    sendReviewStatus === FetchStatus.Pending;
+
+    setIsSubmitDisabled(shouldDisableSubmit);
+  }, [ sendReviewStatus, userComment, userRating ]);
 
   return (
     <form
@@ -64,18 +65,18 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        <OneStarRadioInput htmlId='5-stars' labelTitle='perfect' value='5' onChange={handleChange} htmlName={FormFieldName.Rating} />
-        <OneStarRadioInput htmlId='4-stars' labelTitle='good' value='4' onChange={handleChange} htmlName={FormFieldName.Rating} />
-        <OneStarRadioInput htmlId='3-stars' labelTitle='not bad' value='3' onChange={handleChange} htmlName={FormFieldName.Rating} />
-        <OneStarRadioInput htmlId='2-stars' labelTitle='badly' value='2' onChange={handleChange} htmlName={FormFieldName.Rating} />
-        <OneStarRadioInput htmlId='1-star' labelTitle='terribly' value='1' onChange={handleChange} htmlName={FormFieldName.Rating} />
+        <OneStarRadioInput htmlId='5-stars' labelTitle='perfect' value='5' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 5} />
+        <OneStarRadioInput htmlId='4-stars' labelTitle='good' value='4' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 4} />
+        <OneStarRadioInput htmlId='3-stars' labelTitle='not bad' value='3' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 3} />
+        <OneStarRadioInput htmlId='2-stars' labelTitle='badly' value='2' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 2} />
+        <OneStarRadioInput htmlId='1-star' labelTitle='terribly' value='1' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 1} />
       </div>
       <textarea className="reviews__textarea form__textarea"
         id="review" name="review"
         maxLength={RoomReview.TextCharacterMaxLimit}
         onChange={handleChange}
         placeholder="Tell how was your stay, what you like and what can be improved"
-        ref={commentRef}
+        value={userComment}
       >
       </textarea>
       <div className="reviews__button-wrapper">
