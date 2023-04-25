@@ -145,7 +145,7 @@ describe('Component: <Login>. Set login/password', () => {
       </Provider>
     );
 
-    const loginCharactersCount = datatype.number(10);
+    const loginCharactersCount = datatype.number(10) + 3;
     const mockLogin = lorem.word(loginCharactersCount);
     const loginInput = screen.getByTestId('login__email-input');
 
