@@ -128,7 +128,7 @@ describe('Component: <Main>', () => {
     expect(screen.getByText(/Offers are loading .../i))
       .toBeInTheDocument();
 
-    expect(screen.queryByTestId(/no-offers-container/i))
+    expect(screen.queryByTestId(/main__no-offers-container/i))
       .not.toBeInTheDocument();
 
     const actionNames = mockStore.getActions().map(({ type }) => type);

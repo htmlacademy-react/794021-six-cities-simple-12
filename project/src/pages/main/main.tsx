@@ -95,13 +95,11 @@ function Main() {
 
           {
             offers.length === 0 && (fetchStatus === FetchStatus.FetchedWithError || fetchStatus === FetchStatus.FetchedWithNoError) ?
-              <div
-                data-testid="no-offers-container"
-              >
-                <NoOfferBlock
-                  cityName={currentCityName}
-                />
-              </div> :
+              <NoOfferBlock
+                cityName={currentCityName}
+                dataTestId="main__no-offers-container"
+              />
+              :
               null
           }
         </main>

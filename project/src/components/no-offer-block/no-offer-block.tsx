@@ -2,11 +2,12 @@ import { CityName } from 'src/types/types';
 
 type NoOfferBlockProps = {
   cityName: CityName;
+  dataTestId?: string;
 }
 
-function NoOfferBlock({ cityName }: NoOfferBlockProps): JSX.Element {
+function NoOfferBlock({ cityName, dataTestId }: NoOfferBlockProps): JSX.Element {
   return (
-    <div className="cities">
+    <div className="cities" data-testid={`${dataTestId ?? ''}`}>
       <div className="cities__places-container container cities__places-container--empty">
         <section className="cities__no-places">
           <div className="cities__status-wrapper tabs__content">
