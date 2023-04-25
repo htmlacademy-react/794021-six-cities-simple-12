@@ -36,6 +36,13 @@ const someOffersInTheCurrentCityState = {
   },
 };
 
+const oneOfferInTheCurrentCityState = {
+  [ DomainNamespace.BusinessData ]: {
+    cityName: mockCityName,
+    offers: [ mockOffers[0] ],
+  },
+};
+
 const offersArePendingState = {
   [ DomainNamespace.BusinessData ]: {
     cityName: mockCityName,
@@ -61,7 +68,7 @@ const offersForCurrentCityAbsentState = {
 };
 
 describe('Component: <Main>', () => {
-  it('renders offers', () => {
+  it('renders several offers', () => {
     const mockStore = makeMockStore(someOffersInTheCurrentCityState);
 
     render(
@@ -82,7 +89,31 @@ describe('Component: <Main>', () => {
     expect(screen.getByText(new RegExp(text, 'i')))
       .toBeInTheDocument();
 
-    expect(screen.getByTestId(/offer-cards-with-geo-map/i))
+    expect(screen.getByTestId(/main__offer-cards-with-geo-map/i))
+      .toBeInTheDocument();
+  });
+
+  it('renders one offer', () => {
+    const mockStore = makeMockStore(oneOfferInTheCurrentCityState);
+
+    render(
+      <Provider store={mockStore}>
+        <HistoryRouter history={history}>
+          <HelmetProvider>
+            <Main />
+          </HelmetProvider>
+        </HistoryRouter>
+      </Provider>
+    );
+
+    expect(screen)
+      .not.toContain(NoOfferBlock);
+
+    const text = `1 place to stay in ${mockCityName}`;
+    expect(screen.getByText(new RegExp(text, 'i')))
+      .toBeInTheDocument();
+
+    expect(screen.getByTestId(/main__offer-cards-with-geo-map/i))
       .toBeInTheDocument();
   });
 
@@ -128,7 +159,7 @@ describe('Component: <Main>', () => {
     expect(screen.getByText(/Offers are loading .../i))
       .toBeInTheDocument();
 
-    expect(screen.queryByTestId(/no-offers-container/i))
+    expect(screen.queryByTestId(/main__no-offers-container/i))
       .not.toBeInTheDocument();
 
     const actionNames = mockStore.getActions().map(({ type }) => type);

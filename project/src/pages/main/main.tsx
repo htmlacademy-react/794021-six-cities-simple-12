@@ -56,7 +56,7 @@ function Main() {
           {
             offers.length > 0 || fetchStatus === FetchStatus.Pending || fetchStatus === FetchStatus.NotStarted ?
               <div className="cities"
-                data-testid="offer-cards-with-geo-map"
+                data-testid="main__offer-cards-with-geo-map"
               >
                 <div className="cities__places-container container">
                   <OfferCards
@@ -95,13 +95,11 @@ function Main() {
 
           {
             offers.length === 0 && (fetchStatus === FetchStatus.FetchedWithError || fetchStatus === FetchStatus.FetchedWithNoError) ?
-              <div
-                data-testid="no-offers-container"
-              >
-                <NoOfferBlock
-                  cityName={currentCityName}
-                />
-              </div> :
+              <NoOfferBlock
+                cityName={currentCityName}
+                dataTestId="main__no-offers-container"
+              />
+              :
               null
           }
         </main>

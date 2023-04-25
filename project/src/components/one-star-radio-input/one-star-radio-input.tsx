@@ -3,6 +3,7 @@ import { ChangeEvent } from 'react';
 type OneStarRadioInputProps = {
   htmlId: string;
   htmlName: string;
+  isChecked?: boolean;
   labelTitle: string;
   onChange: (evt: ChangeEvent<HTMLInputElement>) => void;
   value: string;
@@ -15,6 +16,7 @@ function OneStarRadioInput(props: OneStarRadioInputProps): JSX.Element {
         id={props.htmlId}
         name={props.htmlName}
         onChange={props.onChange}
+        checked={props.isChecked}
         type="radio"
         value={props.value}
       />
