@@ -5,7 +5,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import { createMemoryHistory } from 'history';
 import { address, datatype, internet, lorem } from 'faker';
 import { fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { logUserInAction } from 'src/store/api-user/api-user.actions';
 import Login from './login';
@@ -124,7 +123,7 @@ describe('Component: <Login>', () => {
 
 
 describe('Component: <Login>. Set login/password', () => {
-  it('sets login (email)', async () => {
+  it('sets login (email)', () => {
     const mockState = {
       ...commonMockState,
       [ DomainNamespace.User ]: {
@@ -149,12 +148,12 @@ describe('Component: <Login>. Set login/password', () => {
     const mockLogin = lorem.word(loginCharactersCount);
     const loginInput = screen.getByTestId('login__email-input');
 
-    await userEvent.type(loginInput, mockLogin);
+    fireEvent.change(loginInput, { target: { value: mockLogin }});
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
 
     expect(actionNames.length)
-      .toEqual(loginCharactersCount);
+      .toEqual(1);
 
     actionNames.forEach((actionName) => {
       expect(actionName)
@@ -163,7 +162,7 @@ describe('Component: <Login>. Set login/password', () => {
   });
 
 
-  it('submits when password is not valid', async () => {
+  it('submits when password is not valid', () => {
     const mockState = {
       ...commonMockState,
       [ DomainNamespace.User ]: {
@@ -188,16 +187,17 @@ describe('Component: <Login>. Set login/password', () => {
     const passwordInput = screen.getByTestId('login__password-input');
     const submitButton = screen.getByTestId('login__submit-button');
 
-    await userEvent.type(passwordInput, password || '{tab}');
+    fireEvent.change(passwordInput, { target: { value: password }});
     fireEvent(submitButton, new MouseEvent('click', { bubbles: true, cancelable: true }));
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
-    expect(actionNames)
-      .toEqual([]);
+
+    expect(actionNames.length)
+      .toEqual(0);
   });
 
 
-  it('submits when password is valid', async () => {
+  it('submits when password is valid', () => {
     const mockState = {
       ...commonMockState,
       [ DomainNamespace.User ]: {
@@ -222,10 +222,11 @@ describe('Component: <Login>. Set login/password', () => {
     const passwordInput = screen.getByTestId('login__password-input');
     const submitButton = screen.getByTestId('login__submit-button');
 
-    await userEvent.type(passwordInput, password);
+    fireEvent.change(passwordInput, { target: { value: password }});
     fireEvent(submitButton, new MouseEvent('click', { bubbles: true, cancelable: true }));
 
     const actionNames = mockStore.getActions().map(({ type }) => type);
+
     expect(actionNames)
       .toEqual([ logUserInAction.pending.type ]);
   });
