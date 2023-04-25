@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { useFoundOffers } from 'src/hooks/use-found-offers';
 import CitiesList from 'src/components/cities-list/cities-list';
 import GeoMap from 'src/components/geo-map/geo-map';
-import OfferCards from 'src/components/offer-сards/offer-cards';
+import OfferCards from 'src/components/offer-cards/offer-cards';
 import OfferSortingForm from 'src/components/offer-sorting-form/offer-sorting-form';
 import { Spinner } from 'src/components/spinner/spinner';
 import NoOfferBlock from 'src/components/no-offer-block/no-offer-block';
@@ -68,7 +68,7 @@ function Main() {
                   >
                     <>
                       <b className="places__found">
-                        {offers.length}{' '}
+                        {offers.length > 0 ? offers.length : ''}{' '}
                         {getMultipleOfPlaceWord(offers.length)}{' '}
                         to stay in {currentCityName}
                       </b>
@@ -90,13 +90,19 @@ function Main() {
                 </div>
               </div>
               :
+              null
+          }
+
+          {
+            offers.length === 0 && (fetchStatus === FetchStatus.FetchedWithError || fetchStatus === FetchStatus.FetchedWithNoError) ?
               <div
                 data-testid="no-offers-container"
               >
                 <NoOfferBlock
                   cityName={currentCityName}
                 />
-              </div>
+              </div> :
+              null
           }
         </main>
       </div>

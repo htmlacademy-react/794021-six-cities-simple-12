@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { fetchOffersAction } from 'src/store/api-actions';
 import { getOffers, getOffersFetchStatus } from 'src/store/data/data.selectors';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
@@ -12,29 +12,17 @@ type UseFoundOffersResult = {
 
 export function useFoundOffers(cityName: CityName): UseFoundOffersResult {
   const dispatch = useAppDispatch();
-  const [ foundOffers, setFoundOffers ] = useState<Offers>([]);
   const fetchStatus = useAppSelector(getOffersFetchStatus);
   const allOffers = useAppSelector(getOffers);
 
   useEffect(() => {
-    switch (fetchStatus) {
-      case FetchStatus.NotStarted:
-        dispatch(fetchOffersAction());
-        break;
-
-      case FetchStatus.Pending:
-        break;
-
-      case FetchStatus.FetchedWithError:
-        break;
+    if (fetchStatus === FetchStatus.NotStarted) {
+      dispatch(fetchOffersAction());
     }
-
-    const offers = allOffers.filter(({ city }) => city?.name === cityName);
-    setFoundOffers(offers);
-  }, [allOffers, cityName, dispatch, fetchStatus]);
+  }, [ dispatch, fetchStatus ]);
 
   return {
-    offers: foundOffers,
+    offers: allOffers.filter(({ city }) => city?.name === cityName),
     fetchStatus,
   };
 }
