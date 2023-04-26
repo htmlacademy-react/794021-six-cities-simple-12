@@ -65,13 +65,29 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        <OneStarRadioInput htmlId='5-stars' labelTitle='perfect' value='5' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 5} />
-        <OneStarRadioInput htmlId='4-stars' labelTitle='good' value='4' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 4} />
-        <OneStarRadioInput htmlId='3-stars' labelTitle='not bad' value='3' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 3} />
-        <OneStarRadioInput htmlId='2-stars' labelTitle='badly' value='2' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 2} />
-        <OneStarRadioInput htmlId='1-star' labelTitle='terribly' value='1' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 1} />
+        <OneStarRadioInput
+          htmlId='5-stars' labelTitle='perfect' value='5' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 5}
+          dataTestId={'room-review-form__rating-input'}
+        />
+        <OneStarRadioInput
+          htmlId='4-stars' labelTitle='good' value='4' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 4}
+          dataTestId={'room-review-form__rating-input'}
+        />
+        <OneStarRadioInput
+          htmlId='3-stars' labelTitle='not bad' value='3' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 3}
+          dataTestId={'room-review-form__rating-input'}
+        />
+        <OneStarRadioInput
+          htmlId='2-stars' labelTitle='badly' value='2' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 2}
+          dataTestId={'room-review-form__rating-input'}
+        />
+        <OneStarRadioInput
+          htmlId='1-star' labelTitle='terribly' value='1' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 1}
+          dataTestId={'room-review-form__rating-input'}
+        />
       </div>
       <textarea className="reviews__textarea form__textarea"
+        data-testid="room-review-form__text"
         id="review" name="review"
         maxLength={RoomReview.TextCharacterMaxLimit}
         onChange={handleChange}

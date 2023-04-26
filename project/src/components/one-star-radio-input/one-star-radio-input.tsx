@@ -1,6 +1,7 @@
 import { ChangeEvent } from 'react';
 
 type OneStarRadioInputProps = {
+  dataTestId?: string;
   htmlId: string;
   htmlName: string;
   isChecked?: boolean;
@@ -12,7 +13,9 @@ type OneStarRadioInputProps = {
 function OneStarRadioInput(props: OneStarRadioInputProps): JSX.Element {
   return (
     <>
-      <input className="form__rating-input visually-hidden"
+      <input
+        className="form__rating-input visually-hidden"
+        data-testid={props.dataTestId}
         id={props.htmlId}
         name={props.htmlName}
         onChange={props.onChange}
