@@ -67,6 +67,7 @@ const offersForCurrentCityAbsentState = {
   },
 };
 
+
 describe('Component: <Main>', () => {
   it('renders several offers', () => {
     const mockStore = makeMockStore(someOffersInTheCurrentCityState);
@@ -92,6 +93,7 @@ describe('Component: <Main>', () => {
     expect(screen.getByTestId(/main__offer-cards-with-geo-map/i))
       .toBeInTheDocument();
   });
+
 
   it('renders one offer', () => {
     const mockStore = makeMockStore(oneOfferInTheCurrentCityState);

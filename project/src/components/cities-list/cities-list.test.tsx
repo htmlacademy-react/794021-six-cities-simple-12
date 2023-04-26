@@ -1,24 +1,84 @@
+import { Provider } from 'react-redux';
+import thunk, { ThunkDispatch } from 'redux-thunk';
+import { address, datatype } from 'faker';
 import { render, screen } from '@testing-library/react';
-import { address } from 'faker';
+import { Action } from '@reduxjs/toolkit';
+import { configureMockStore } from '@jedmao/redux-mock-store';
 import CitiesList from './cities-list';
+import { createAPI } from 'src/services/api';
 import { CityNames } from 'src/types/types';
+import { AppState } from 'src/types/store';
+import { setCityNameAction } from 'src/store/data/data.slice';
+import { MockBrowserRouterWrapper } from 'src/utils/mock-common';
+
+const api = createAPI();
+const middlewares = [ thunk ];
+const makeMockStore = configureMockStore<
+  AppState,
+  Action<string>,
+  ThunkDispatch<AppState, typeof api, Action>
+>(middlewares);
+
+const mockStore = makeMockStore();
+// const history = MockBrowserRouterWrapper.history;
 
 describe('Component: CitiesList', () => {
-  it('should render city names', () => {
-    const cityNames = new Array(5).map((_item) => address.cityName()) as CityNames;
+  it('renders links with city names', () => {
+    const cityCount = datatype.number({ min: 5, max: 10});
+    const cityNames: CityNames = new Array(cityCount).fill('').map((_item) => address.cityName());
     const [ currentCityName ] = cityNames;
 
     render(
-      <CitiesList
-        cityNames={cityNames}
-        currentCityName={currentCityName}
-        onChangeCityName={jest.fn()}
-      />
+      <Provider store={mockStore}>
+        <MockBrowserRouterWrapper>
+          <CitiesList
+            cityNames={cityNames}
+            currentCityName={currentCityName}
+          />
+        </MockBrowserRouterWrapper>
+      </Provider>
     );
 
-    cityNames.forEach((cityName) => {
-      expect(screen.getByText(cityName))
-        .toBeInTheDocument();
+    const cityItems = screen.getAllByTestId('cities-list__item');
+
+    expect(cityItems.length)
+      .toBe(cityNames.length);
+
+    cityItems.forEach((cityItem, index) => {
+      expect(cityItem.textContent)
+        .toEqual(cityNames[index]);
     });
+  });
+
+
+  it('clicks on every city name', () => {
+    const cityCount = datatype.number({ min: 5, max: 10});
+    const cityNames: CityNames = new Array(cityCount).fill('').map((_item) => address.cityName());
+    const [ currentCityName ] = cityNames;
+
+    render(
+      <Provider store={mockStore}>
+        <MockBrowserRouterWrapper>
+          <CitiesList
+            cityNames={cityNames}
+            currentCityName={currentCityName}
+          />
+        </MockBrowserRouterWrapper>
+      </Provider>
+    );
+
+    const cityItems = screen.getAllByTestId('cities-list__item-link');
+
+    cityItems.forEach((cityItem) => {
+      cityItem.click();
+    });
+
+    const actions = mockStore.getActions();
+    const allExpectedActions = cityNames.map((cityName) => cityName !== currentCityName ? setCityNameAction(cityName) : null);
+    const filteredExpectedActions = allExpectedActions.filter((action) => !!action);
+
+    expect(actions)
+      .toEqual(filteredExpectedActions);
+
   });
 });
