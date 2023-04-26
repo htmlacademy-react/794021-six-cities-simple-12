@@ -9,6 +9,7 @@ import { createAPI } from 'src/services/api';
 import { CityNames } from 'src/types/types';
 import { AppState } from 'src/types/store';
 import { setCityNameAction } from 'src/store/data/data.slice';
+import { act } from 'react-dom/test-utils';
 import { MockBrowserRouterWrapper } from 'src/utils/mock-common';
 
 const api = createAPI();
@@ -51,7 +52,7 @@ describe('Component: CitiesList', () => {
   });
 
 
-  it('clicks on every city name', () => {
+  it('clicks on every city link', () => {
     const cityCount = datatype.number({ min: 5, max: 10});
     const cityNames: CityNames = new Array(cityCount).fill('').map((_item) => address.cityName());
     const [ currentCityName ] = cityNames;
@@ -69,16 +70,23 @@ describe('Component: CitiesList', () => {
 
     const cityItems = screen.getAllByTestId('cities-list__item-link');
 
-    cityItems.forEach((cityItem) => {
-      cityItem.click();
+    expect(cityItems.length)
+      .toBe(cityNames.length);
+
+    let actions: Action[] = [];
+
+    act(() => {
+      cityItems.forEach((cityItem) => cityItem.click());
+      actions = [ ...mockStore.getActions() ];
     });
 
-    const actions = mockStore.getActions();
     const allExpectedActions = cityNames.map((cityName) => cityName !== currentCityName ? setCityNameAction(cityName) : null);
     const filteredExpectedActions = allExpectedActions.filter((action) => !!action);
 
+    expect(filteredExpectedActions.length)
+      .toBe(cityNames.length - 1);
+
     expect(actions)
       .toEqual(filteredExpectedActions);
-
   });
 });
