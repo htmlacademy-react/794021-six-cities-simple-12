@@ -13,6 +13,7 @@ import { Action } from '@reduxjs/toolkit';
 import { sendReviewAction } from 'src/store/api-reviews/api-reviews.actions';
 import { createAPI } from 'src/services/api';
 import { setUserCommentAction, setUserRatingAction } from 'src/store/reviews/reviews.slice';
+import { RoomReview } from 'src/consts/consts';
 
 const history = createMemoryHistory();
 
@@ -24,20 +25,22 @@ const makeMockStore = configureMockStore<
   ThunkDispatch<AppState, typeof api, Action>
 >(middlewares);
 
-const mockStore = makeMockStore({
+const baseState = {
   [ DomainNamespace.Reviews ]: {
     sendStatus: FetchStatus.NotStarted,
     userComment: '',
     userOfferId: null,
     userRating: NaN,
   },
-});
+};
+
 
 describe('Component: <RoomReviewForm>', () => {
   it('renders plain block', () => {
     const offerId = datatype.number({ min: 1 });
+    const mockStore = makeMockStore(baseState);
 
-    render (
+    render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
           <RoomReviewForm offerId={offerId} />
@@ -50,6 +53,9 @@ describe('Component: <RoomReviewForm>', () => {
 
     expect(screen.getByRole('textbox'))
       .not.toHaveAttribute('disabled');
+
+    expect(screen.getByRole('textbox'))
+      .toHaveAttribute('maxlength', `${RoomReview.TextCharacterMaxLimit}`);
 
     expect(screen.getByRole('radio', { name: /perfect/i }))
       .toBeInTheDocument();
@@ -73,9 +79,10 @@ describe('Component: <RoomReviewForm>', () => {
 
   it('submits form', () => {
     const offerId = datatype.number({ min: 1 });
+    const mockStore = makeMockStore(baseState);
     mockStore.clearActions();
 
-    render (
+    render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
           <RoomReviewForm offerId={offerId} dataTestId={'form-test-id'} />
@@ -93,10 +100,11 @@ describe('Component: <RoomReviewForm>', () => {
 
   it('edits review', () => {
     const offerId = datatype.number({ min: 1 });
+    const mockStore = makeMockStore(baseState);
     const textReview = lorem.sentence();
     mockStore.clearActions();
 
-    render (
+    render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
           <RoomReviewForm offerId={offerId} dataTestId={'form-test-id'} />
@@ -114,8 +122,9 @@ describe('Component: <RoomReviewForm>', () => {
 
   it('sets rating', () => {
     const offerId = datatype.number({ min: 1 });
+    const mockStore = makeMockStore(baseState);
 
-    render (
+    render(
       <Provider store={mockStore}>
         <HistoryRouter history={history}>
           <RoomReviewForm offerId={offerId} dataTestId={'form-test-id'} />
@@ -138,6 +147,91 @@ describe('Component: <RoomReviewForm>', () => {
         .toEqual(setUserRatingAction.type);
     });
   });
+
+
+  it('checks submit button state: send review is pending', () => {
+    const offerId = datatype.number({ min: 1 });
+    const mockReviewText = datatype.string(RoomReview.TextCharacterMinLimit + 1);
+    const mockRating = datatype.number({ min: 1, max: 5 });
+
+    const mockStore = makeMockStore({
+      [ DomainNamespace.Reviews ]: {
+        sendStatus: FetchStatus.Pending,
+        userComment: mockReviewText,
+        userOfferId: offerId,
+        userRating: mockRating,
+      }
+    });
+
+    render(
+      <Provider store={mockStore}>
+        <HistoryRouter history={history}>
+          <RoomReviewForm offerId={offerId} dataTestId={'form-test-id'} />
+        </HistoryRouter>
+      </Provider>
+    );
+
+    const submitButton = screen.getByTestId('room-review-form__submit-button');
+
+    expect(submitButton.hasAttribute('disabled'))
+      .toBe(true);
+  });
+
+
+  it('checks submit button state: comment lesser than min limit', () => {
+    const offerId = datatype.number({ min: 1 });
+    const mockReviewText = datatype.string(RoomReview.TextCharacterMinLimit - 1);
+    const mockRating = datatype.number({ min: 1, max: 5 });
+
+    const mockStore = makeMockStore({
+      [ DomainNamespace.Reviews ]: {
+        sendStatus: FetchStatus.NotStarted,
+        userComment: mockReviewText,
+        userOfferId: offerId,
+        userRating: mockRating,
+      }
+    });
+
+    render(
+      <Provider store={mockStore}>
+        <HistoryRouter history={history}>
+          <RoomReviewForm offerId={offerId} dataTestId={'form-test-id'} />
+        </HistoryRouter>
+      </Provider>
+    );
+
+    const submitButton = screen.getByTestId('room-review-form__submit-button');
+
+    expect(submitButton.hasAttribute('disabled'))
+      .toBe(true);
+  });
+
+
+  it('checks submit button state: comment equals to min limit', () => {
+    const offerId = datatype.number({ min: 1 });
+    const mockReviewText = datatype.string(RoomReview.TextCharacterMinLimit);
+    const mockRating = datatype.number({ min: 1, max: 5 });
+
+    const mockStore = makeMockStore({
+      [ DomainNamespace.Reviews ]: {
+        sendStatus: FetchStatus.NotStarted,
+        userComment: mockReviewText,
+        userOfferId: offerId,
+        userRating: mockRating,
+      }
+    });
+
+    render(
+      <Provider store={mockStore}>
+        <HistoryRouter history={history}>
+          <RoomReviewForm offerId={offerId} dataTestId={'form-test-id'} />
+        </HistoryRouter>
+      </Provider>
+    );
+
+    const submitButton = screen.getByTestId('room-review-form__submit-button');
+
+    expect(submitButton.hasAttribute('disabled'))
+      .toBe(false);
+  });
 });
-
-
