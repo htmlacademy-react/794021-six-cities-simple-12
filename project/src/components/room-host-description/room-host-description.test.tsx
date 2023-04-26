@@ -10,7 +10,7 @@ const hostWithoutProBadge = makeMockHost({ isPro: false });
 
 describe('Component: <RoomHostDescription>', () => {
   it('renders name, avatar, "pro" badge, description', () => {
-    render (<RoomHostDescription host={hostWithProBadge} description={description} /> );
+    render(<RoomHostDescription host={hostWithProBadge} description={description} /> );
 
     expect(screen.getByText('Pro'))
       .toBeInTheDocument();
@@ -28,7 +28,7 @@ describe('Component: <RoomHostDescription>', () => {
 
 
   it('renders without "pro" badge', () => {
-    render (<RoomHostDescription host={hostWithoutProBadge} description={description} /> );
+    render(<RoomHostDescription host={hostWithoutProBadge} description={description} /> );
 
     expect(screen.queryByText('Pro'))
       .not.toBeInTheDocument();
