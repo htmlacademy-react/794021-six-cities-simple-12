@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import OfferSortingForm from './offer-sorting-form';
 import { OfferSortingOption } from 'src/consts/consts';
 
@@ -14,14 +14,38 @@ describe('Component: <OfferSortingForm>', () => {
       />
     );
 
-    expect(screen.getByTestId('sorting-form-header'))
+    expect(screen.getByTestId('offer-sorting-form__header'))
       .toHaveTextContent(currentSortingOption);
 
-    const menuNodes = screen.getAllByTestId('sorting-option-item');
+    const menuNodes = screen.getAllByTestId('offer-sorting-form__item');
     const menuTexts = menuNodes.map((node) => node.textContent);
     menuTexts.forEach((menuText) => {
       expect(sortingOptions)
         .toEqual(expect.arrayContaining([ menuText ]));
+    });
+  });
+
+
+  test.each(sortingOptions)('click and press Enter on menu item "%s"', (currentSortingOption) => {
+    render(
+      <OfferSortingForm
+        onChangeSortingType={onChangeSortingType}
+        sortingType={currentSortingOption}
+      />
+    );
+
+    const menuNodes = screen.getAllByTestId('offer-sorting-form__item');
+
+    menuNodes.forEach((node) => {
+      fireEvent.keyDown(node, { key: 'Enter' });
+
+      expect(onChangeSortingType)
+        .toBeCalledWith(node.textContent);
+
+      fireEvent.click(node);
+
+      expect(onChangeSortingType)
+        .toBeCalledWith(node.textContent);
     });
   });
 });
