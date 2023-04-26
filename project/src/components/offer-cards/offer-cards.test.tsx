@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { lorem } from 'faker';
 import OfferCards from './offer-cards';
 import { makeMockOffers } from 'src/utils/mock-offer';
@@ -9,7 +9,8 @@ describe('Component: <OfferCards>', () => {
   const header = lorem.sentence();
   const offersCount = 20;
   const offers = makeMockOffers(offersCount);
-  const onSomeAction = jest.fn();
+  const handleMockOnActive = jest.fn();
+  const handleMockOnBlur = jest.fn();
   const childContent = lorem.paragraph();
 
   it('renders component', () => {
@@ -23,8 +24,8 @@ describe('Component: <OfferCards>', () => {
                 className={className}
                 header={header}
                 offers={offers}
-                onActive={onSomeAction}
-                onBlur={onSomeAction}
+                onActive={handleMockOnActive}
+                onBlur={handleMockOnBlur}
               >
                 <div>{childContent}</div>
               </OfferCards>
@@ -36,5 +37,39 @@ describe('Component: <OfferCards>', () => {
 
     expect(screen.getByText(header)).toBeInTheDocument();
     expect(screen.getByText(childContent)).toBeInTheDocument();
+  });
+
+
+  it('checks event handlers', () => {
+    render(
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="*"
+            element={
+              <OfferCards
+                className={className}
+                header={header}
+                offers={offers}
+                onActive={handleMockOnActive}
+                onBlur={handleMockOnBlur}
+              >
+                <div>{childContent}</div>
+              </OfferCards>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    );
+
+    offers.forEach((offer) => {
+      fireEvent.mouseEnter(screen.getByText(offer.title));
+      expect(handleMockOnActive).toBeCalledWith(offer);
+    });
+
+    offers.forEach((offer) => {
+      fireEvent.mouseLeave(screen.getByText(offer.title));
+      expect(handleMockOnActive).toBeCalledTimes(offersCount);
+    });
   });
 });
