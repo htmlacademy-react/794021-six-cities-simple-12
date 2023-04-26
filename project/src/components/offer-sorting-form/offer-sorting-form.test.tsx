@@ -6,7 +6,7 @@ const onChangeSortingType = jest.fn((_option: OfferSortingOption) => undefined);
 const sortingOptions = Object.values(OfferSortingOption);
 
 describe('Component: <OfferSortingForm>', () => {
-  test.each(sortingOptions)('Renders with header "%s"', (currentSortingOption) => {
+  test.concurrent.each(sortingOptions)('Renders with header "%s"', (currentSortingOption) => {
     render(
       <OfferSortingForm
         onChangeSortingType={onChangeSortingType}
@@ -26,7 +26,7 @@ describe('Component: <OfferSortingForm>', () => {
   });
 
 
-  test.each(sortingOptions)('click and press Enter on menu item "%s"', (currentSortingOption) => {
+  test.concurrent.each(sortingOptions)('click and press Enter on menu item "%s"', (currentSortingOption) => {
     render(
       <OfferSortingForm
         onChangeSortingType={onChangeSortingType}
@@ -73,6 +73,10 @@ describe('Component: <OfferSortingForm>', () => {
     expect(screen.getByRole('button', { name: currentSortingOption, expanded: false }))
       .toBeInTheDocument();
 
+    fireEvent.keyDown(menuHeader, { key: 'Enter' });
+    expect(screen.getByRole('button', { name: currentSortingOption, expanded: true }))
+      .toBeInTheDocument();
+
     fireEvent.keyDown(menuHeader, { key: 'Escape' });
     expect(screen.getByRole('button', { name: currentSortingOption, expanded: false }))
       .toBeInTheDocument();
@@ -85,7 +89,7 @@ describe('Component: <OfferSortingForm>', () => {
     expect(screen.getByRole('button', { name: currentSortingOption, expanded: true }))
       .toBeInTheDocument();
 
-    fireEvent.keyDown(menuHeader, { key: 'Escape' });
+    fireEvent.blur(menuHeader);
     expect(screen.getByRole('button', { name: currentSortingOption, expanded: false }))
       .toBeInTheDocument();
   });
