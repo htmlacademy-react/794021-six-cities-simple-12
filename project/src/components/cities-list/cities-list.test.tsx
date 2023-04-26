@@ -21,7 +21,6 @@ const makeMockStore = configureMockStore<
 >(middlewares);
 
 const mockStore = makeMockStore();
-// const history = MockBrowserRouterWrapper.history;
 
 describe('Component: CitiesList', () => {
   it('renders links with city names', () => {
