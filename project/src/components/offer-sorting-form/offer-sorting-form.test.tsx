@@ -48,4 +48,45 @@ describe('Component: <OfferSortingForm>', () => {
         .toBeCalledWith(node.textContent);
     });
   });
+
+
+  it('presses Enter and Escape on the header "%s"', () => {
+    const [ currentSortingOption ] = sortingOptions;
+
+    render(
+      <OfferSortingForm
+        onChangeSortingType={jest.fn}
+        sortingType={currentSortingOption as OfferSortingOption}
+      />
+    );
+
+    const menuHeader = screen.getByTestId('offer-sorting-form__header');
+
+    expect(screen.getByRole('button', { name: currentSortingOption, expanded: false }))
+      .toBeInTheDocument();
+
+    fireEvent.keyDown(menuHeader, { key: 'Enter' });
+    expect(screen.getByRole('button', { name: currentSortingOption, expanded: true }))
+      .toBeInTheDocument();
+
+    fireEvent.keyDown(menuHeader, { key: 'Enter' });
+    expect(screen.getByRole('button', { name: currentSortingOption, expanded: false }))
+      .toBeInTheDocument();
+
+    fireEvent.keyDown(menuHeader, { key: 'Escape' });
+    expect(screen.getByRole('button', { name: currentSortingOption, expanded: false }))
+      .toBeInTheDocument();
+
+    fireEvent.keyDown(menuHeader, { key: 'Escape' });
+    expect(screen.getByRole('button', { name: currentSortingOption, expanded: false }))
+      .toBeInTheDocument();
+
+    fireEvent.keyDown(menuHeader, { key: 'Enter' });
+    expect(screen.getByRole('button', { name: currentSortingOption, expanded: true }))
+      .toBeInTheDocument();
+
+    fireEvent.keyDown(menuHeader, { key: 'Escape' });
+    expect(screen.getByRole('button', { name: currentSortingOption, expanded: false }))
+      .toBeInTheDocument();
+  });
 });

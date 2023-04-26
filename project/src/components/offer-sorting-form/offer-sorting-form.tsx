@@ -11,7 +11,7 @@ type OfferSortingFormProps = {
 type CustomMouseKeyboardEvent = Pick<MouseEvent, 'type'> | KeyboardEvent;
 
 function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
-  const menuRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef(null);
   const [ isOpen, setIsOpen ] = useState(false);
 
