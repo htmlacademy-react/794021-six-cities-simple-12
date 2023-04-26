@@ -19,6 +19,7 @@ function OfferCard(props: OfferCardProps): JSX.Element {
       onFocus={props.onActive}
       onMouseEnter={props.onActive}
       onMouseLeave={props.onBlur}
+      data-testid="offer-card__whole-block"
     >
       {
         props.offer.isPremium &&

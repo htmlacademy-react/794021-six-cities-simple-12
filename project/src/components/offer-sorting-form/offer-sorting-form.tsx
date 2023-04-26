@@ -8,8 +8,10 @@ type OfferSortingFormProps = {
   sortingType: OfferSortingOption;
 }
 
+type CustomMouseKeyboardEvent = Pick<MouseEvent, 'type'> | KeyboardEvent;
+
 function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
-  const menuRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef(null);
   const [ isOpen, setIsOpen ] = useState(false);
 
@@ -32,14 +34,8 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
     }
   };
 
-  const handleClickMenuItem = (soringType: OfferSortingOption) => {
-    setIsOpen(false);
-    menuRef.current && menuRef.current.focus();
-    props.onChangeSortingType(soringType);
-  };
-
-  const handleKeyDownMenuItem = (evt: KeyboardEvent, sortingType: OfferSortingOption) => {
-    if (evt.key === 'Enter') {
+  const handleClickOrEnter = (evt: CustomMouseKeyboardEvent, sortingType: OfferSortingOption) => {
+    if (evt.type === 'click' || ('key' in evt && evt.key === 'Enter')) {
       setIsOpen(false);
       menuRef.current && menuRef.current.focus();
       props.onChangeSortingType(sortingType);
@@ -52,11 +48,15 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
     >
       <span className="places__sorting-caption">Sort by</span>{' '}
       <span
+        aria-controls="offer-sorting-form__list"
+        aria-expanded={isOpen}
+        aria-haspopup="menu"
         className="places__sorting-type"
-        data-testid="sorting-form-header"
+        data-testid="offer-sorting-form__header"
         onClick={handleClickMenu}
         onKeyDown={handleKeyDownMenu}
         ref={menuRef}
+        role="button"
         tabIndex={0}
       >
         {props.sortingType}
@@ -65,24 +65,29 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
         </svg>
       </span>
       <ul
+        aria-label="Sorting options"
         className={cn(
           'places__options places__options--custom',
           { 'places__options--opened': isOpen }
         )}
+        id="offer-sorting-form__list"
         ref={listRef}
+        role="menu"
       >
         {
           Object.values(OfferSortingOption).map((sortingOption) => (
             <li
+              aria-checked={sortingOption === props.sortingType}
               className={cn(
                 'places__option',
                 { 'places__option--active': sortingOption === props.sortingType }
               )}
-              data-testid="sorting-option-item"
+              data-testid="offer-sorting-form__item"
               key={sortingOption}
+              role="menuitemradio"
               tabIndex={0}
-              onClick={() => handleClickMenuItem(sortingOption)}
-              onKeyDown={(evt) => handleKeyDownMenuItem(evt, sortingOption)}
+              onClick={(evt) => handleClickOrEnter(evt, sortingOption)}
+              onKeyDown={(evt) => handleClickOrEnter(evt, sortingOption)}
             >
               {sortingOption}
             </li>

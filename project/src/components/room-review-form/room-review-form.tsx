@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, FormEvent, useEffect } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 import { sendReviewAction } from 'src/store/api-reviews/api-reviews.actions';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { getReviewSendStatus, getUserComment, getUserRating } from 'src/store/reviews/reviews.selectors';
@@ -25,7 +25,9 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
   const sendReviewStatus = useAppSelector(getReviewSendStatus);
   const userComment = useAppSelector(getUserComment);
   const userRating = useAppSelector(getUserRating);
-  const [ isSubmitDisabled, setIsSubmitDisabled ] = useState(true);
+  const isSubmitDisabled =
+    !isFormDataValid(userComment, userRating.toString()) ||
+    sendReviewStatus === FetchStatus.Pending;
 
   const handleChange = (evt: ChangeEvent<InputElement>): void => {
     const { name, value } = evt.target;
@@ -45,14 +47,6 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
     dispatch(sendReviewAction());
   };
 
-  useEffect(() => {
-    const shouldDisableSubmit =
-    !isFormDataValid(userComment, userRating.toString()) ||
-    sendReviewStatus === FetchStatus.Pending;
-
-    setIsSubmitDisabled(shouldDisableSubmit);
-  }, [ sendReviewStatus, userComment, userRating ]);
-
   return (
     <form
       action="#"
@@ -65,14 +59,31 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        <OneStarRadioInput htmlId='5-stars' labelTitle='perfect' value='5' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 5} />
-        <OneStarRadioInput htmlId='4-stars' labelTitle='good' value='4' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 4} />
-        <OneStarRadioInput htmlId='3-stars' labelTitle='not bad' value='3' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 3} />
-        <OneStarRadioInput htmlId='2-stars' labelTitle='badly' value='2' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 2} />
-        <OneStarRadioInput htmlId='1-star' labelTitle='terribly' value='1' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 1} />
+        <OneStarRadioInput
+          htmlId='5-stars' labelTitle='perfect' value='5' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 5}
+          dataTestId={'room-review-form__rating-input'}
+        />
+        <OneStarRadioInput
+          htmlId='4-stars' labelTitle='good' value='4' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 4}
+          dataTestId={'room-review-form__rating-input'}
+        />
+        <OneStarRadioInput
+          htmlId='3-stars' labelTitle='not bad' value='3' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 3}
+          dataTestId={'room-review-form__rating-input'}
+        />
+        <OneStarRadioInput
+          htmlId='2-stars' labelTitle='badly' value='2' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 2}
+          dataTestId={'room-review-form__rating-input'}
+        />
+        <OneStarRadioInput
+          htmlId='1-star' labelTitle='terribly' value='1' onChange={handleChange} htmlName={FormFieldName.Rating} isChecked={userRating === 1}
+          dataTestId={'room-review-form__rating-input'}
+        />
       </div>
       <textarea className="reviews__textarea form__textarea"
+        data-testid="room-review-form__text"
         id="review" name="review"
+        minLength={RoomReview.TextCharacterMinLimit}
         maxLength={RoomReview.TextCharacterMaxLimit}
         onChange={handleChange}
         placeholder="Tell how was your stay, what you like and what can be improved"
@@ -90,6 +101,7 @@ function RoomReviewForm(props: RoomReviewFormProps): JSX.Element {
         </p>
         <button
           className="reviews__submit form__submit button"
+          data-testid="room-review-form__submit-button"
           disabled={isSubmitDisabled}
           type="submit"
         >
