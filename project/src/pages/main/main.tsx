@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import cn from 'classnames';
 import { Helmet } from 'react-helmet-async';
-import { getCityName } from 'src/store/data/data.selectors';
-import { useAppSelector } from 'src/hooks';
+import { getCityName, getOffersSortingType } from 'src/store/data/data.selectors';
+import { setSortingTypeAction } from 'src/store/data/data.slice';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { useFoundOffers } from 'src/hooks/use-found-offers';
 import CitiesList from 'src/components/cities-list/cities-list';
 import GeoMap from 'src/components/geo-map/geo-map';
@@ -11,7 +12,7 @@ import OfferSortingForm from 'src/components/offer-sorting-form/offer-sorting-fo
 import { Spinner } from 'src/components/spinner/spinner';
 import NoOfferBlock from 'src/components/no-offer-block/no-offer-block';
 import { getMultipleOfPlaceWord, sortOffers } from 'src/utils/utils';
-import { CityNames, DEFAULT_OFFER_SORTING_KEY_NAME, OfferSortingOption } from 'src/consts/consts';
+import { CityNames } from 'src/consts/consts';
 import { FetchStatus } from 'src/consts/api';
 import { Offer } from 'src/types/types';
 
@@ -21,9 +22,10 @@ type ActiveOffer = Offer | null;
 
 function Main() {
   const [ hoveredOffer, setHoveredOffer ] = useState<ActiveOffer>(null);
-  const [ sortingType, setSortingType ] = useState<OfferSortingOption>(DEFAULT_OFFER_SORTING_KEY_NAME);
+  const sortingType = useAppSelector(getOffersSortingType);
   const currentCityName = useAppSelector(getCityName);
   const { fetchStatus, offers } = useFoundOffers(currentCityName);
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -73,7 +75,7 @@ function Main() {
                       </b>
                       <OfferSortingForm
                         sortingType={sortingType}
-                        onChangeSortingType={(selectedType) => setSortingType(selectedType)}
+                        onChangeSortingType={(item) => dispatch(setSortingTypeAction(item))}
                       />
                     </>
                   </OfferCards>

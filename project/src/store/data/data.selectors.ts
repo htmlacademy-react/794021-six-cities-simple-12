@@ -1,4 +1,5 @@
 import { FetchStatus } from 'src/consts/api';
+import { OfferSortingOption } from 'src/consts/consts';
 import { DomainNamespace } from 'src/consts/domain';
 import { AppState } from 'src/types/store';
 import { CityName, Offers } from 'src/types/types';
@@ -17,4 +18,8 @@ export function getOffers(state: AppState): Offers {
 
 export function getOffersFetchStatus(state: AppState): FetchStatus {
   return state[DomainNamespace.BusinessData].offersFetchStatus;
+}
+
+export function getOffersSortingType(state: AppState): OfferSortingOption {
+  return state[DomainNamespace.BusinessData].sortingType;
 }
