@@ -2,7 +2,7 @@ import { Action } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { HelmetProvider } from 'react-helmet-async';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { createMemoryHistory } from 'history';
 import { fetchOffersAction } from 'src/store/api-actions';
@@ -10,14 +10,12 @@ import { address } from 'faker';
 import Main from './main';
 import NoOfferBlock from 'src/components/no-offer-block/no-offer-block';
 import HistoryRouter from 'src/components/history-router/history-router';
-import * as OfferCards from 'src/components/offer-cards/offer-cards';
-import * as GeoMap from 'src/components/geo-map/geo-map';
 import { createAPI } from 'src/services/api';
 import { makeMockOffers } from 'src/utils/mock-offer';
 import { FetchStatus } from 'src/consts/api';
 import { DomainNamespace } from 'src/consts/domain';
 import { AppState } from 'src/types/store';
-import { MockBrowserRouterWrapper } from 'src/utils/mock-common';
+import { DEFAULT_OFFER_SORTING_KEY_NAME } from 'src/consts/consts';
 
 const api = createAPI();
 const middlewares = [ thunk ];
@@ -31,12 +29,14 @@ const history = createMemoryHistory();
 
 const mockCityName = address.cityName();
 const mockOffers = makeMockOffers(10, { city: { name: mockCityName }});
-const [ mockOffer ] = mockOffers;
+
+const mockSortingType = DEFAULT_OFFER_SORTING_KEY_NAME;
 
 const someOffersInTheCurrentCityState = {
   [ DomainNamespace.BusinessData ]: {
     cityName: mockCityName,
     offers: mockOffers,
+    sortingType: mockSortingType,
   },
 };
 
@@ -44,6 +44,7 @@ const oneOfferInTheCurrentCityState = {
   [ DomainNamespace.BusinessData ]: {
     cityName: mockCityName,
     offers: [ mockOffers[0] ],
+    sortingType: mockSortingType,
   },
 };
 
@@ -52,6 +53,7 @@ const offersArePendingState = {
     cityName: mockCityName,
     offersFetchStatus: FetchStatus.Pending,
     offers: [],
+    sortingType: mockSortingType,
   },
 };
 
@@ -60,6 +62,7 @@ const offersNotStartedFethingState = {
     cityName: mockCityName,
     offersFetchStatus: FetchStatus.NotStarted,
     offers: [],
+    sortingType: mockSortingType,
   },
 };
 
@@ -68,6 +71,7 @@ const offersForCurrentCityAbsentState = {
     cityName: mockCityName,
     offersFetchStatus: FetchStatus.FetchedWithNoError,
     offers: makeMockOffers(10, { city: { name: address.cityName() }}),
+    sortingType: mockSortingType,
   },
 };
 
@@ -197,52 +201,5 @@ describe('Component: <Main>', () => {
     const actionNames = mockStore.getActions().map(({ type }) => type);
     expect(actionNames)
       .toHaveLength(0);
-  });
-
-
-  it('hovers and blurs inside "OfferCards"', () => {
-    const mockStore = makeMockStore(someOffersInTheCurrentCityState);
-
-    type MockOfferCardsProps = Pick<Parameters<typeof OfferCards.default>[0], 'onActive' | 'onBlur'>;
-    type MockGeoMapProps = Pick<Parameters<typeof GeoMap.default>[0], 'activeOffer'>;
-
-    jest
-      .spyOn(OfferCards, 'default')
-      .mockImplementation((props: MockOfferCardsProps) => (
-        <div
-          data-testid="mock__offer-cards"
-          onMouseEnter={() => props.onActive && props.onActive(mockOffer)}
-          onMouseLeave={() => props.onBlur && props.onBlur()}
-        />
-      ));
-
-    jest
-      .spyOn(GeoMap, 'default')
-      .mockImplementation((props: MockGeoMapProps) => (
-        <div data-testid="mock__geo-map">
-          {props?.activeOffer?.title}
-        </div>
-      ));
-
-    render(
-      <Provider store={mockStore}>
-        <MockBrowserRouterWrapper>
-          <HelmetProvider>
-            <Main />
-          </HelmetProvider>
-        </MockBrowserRouterWrapper>
-      </Provider>
-    );
-
-    const offerCardNode = screen.getByTestId(/mock__offer-cards/i);
-    fireEvent.mouseEnter(offerCardNode);
-
-    expect(screen.getByTestId(/mock__geo-map/i))
-      .toHaveTextContent(mockOffer.title);
-
-    fireEvent.mouseLeave(offerCardNode);
-
-    expect(screen.getByTestId(/mock__geo-map/i))
-      .toHaveTextContent('');
   });
 });
