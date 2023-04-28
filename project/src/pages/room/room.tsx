@@ -55,7 +55,7 @@ function Room(): JSX.Element {
               <div className="property__wrapper">
                 {
                   offer.isPremium &&
-                    <div className="property__mark"><span>Premium</span></div>
+                    <div className="property__mark" data-testid="room__premium-mark"><span>Premium</span></div>
                 }
                 <div className="property__name-wrapper" data-testid="room-title">
                   <h1 className="property__name">
