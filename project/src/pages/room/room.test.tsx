@@ -33,13 +33,19 @@ const history = createMemoryHistory();
 
 const offerId = datatype.number();
 const cityName = address.cityName();
-const offer = makeMockOffer({ id: offerId, city: { name: cityName }});
+const offerIsPremium = makeMockOffer({
+  id: offerId,
+  city: { name: cityName },
+  isPremium: true,
+});
+
+
 const mockReviews = makeMockReviews(20, offerId);
 const urlPath = AppRoute.Offer.replace(':id', offerId.toString());
 
 const baseState = {
   [ DomainNamespace.BusinessData ]: {
-    offers: [ offer ],
+    offers: [ offerIsPremium ],
     offerFetchStatus: FetchStatus.FetchedWithNoError,
   },
   [ DomainNamespace.NearbyOffers ]: {
@@ -80,10 +86,11 @@ describe('Component: <Room>', () => {
     expect(history.location.pathname)
       .toEqual(urlPath);
 
-    expect(screen.getByRole('heading', { name: offer.title }))
+    expect(screen.getByRole('heading', { name: offerIsPremium.title }))
       .toBeInTheDocument();
 
     expect(screen.getByTestId(/room-gallery/i)).toBeInTheDocument();
+    expect(screen.getByTestId(/room__premium-mark/i)).toBeInTheDocument();
     expect(screen.getByTestId(/room-title/i)).toBeInTheDocument();
     expect(screen.getByTestId(/room-detailed-description/i)).toBeInTheDocument();
     expect(screen.getByTestId(/room-type/i)).toBeInTheDocument();
@@ -97,6 +104,34 @@ describe('Component: <Room>', () => {
     expect(screen.getByTestId(/room-review-post-form/i)).toBeInTheDocument();
     expect(screen.getByTestId(/room-geo-map/i)).toBeInTheDocument();
     expect(screen.getByTestId(/room-nearby-offers/i)).toBeInTheDocument();
+  });
+
+
+  it('renders offer, which is not premium', () => {
+    const offerNotPremium = makeMockOffer({ id: offerId, isPremium: false });
+    const mockStore = makeMockStore({
+      ...baseState,
+      [ DomainNamespace.BusinessData ]: {
+        offers: [ offerNotPremium ],
+        offerFetchStatus: FetchStatus.FetchedWithNoError,
+      },
+    });
+    history.push(urlPath);
+
+    render(
+      <Provider store={mockStore}>
+        <HistoryRouter history={history}>
+          <HelmetProvider>
+            <Routes>
+              <Route path={AppRoute.Offer} element={<Room />} />
+            </Routes>
+          </HelmetProvider>
+        </HistoryRouter>
+      </Provider>
+    );
+
+    expect(screen.queryByTestId(/room__premium-mark/i))
+      .not.toBeInTheDocument();
   });
 
 

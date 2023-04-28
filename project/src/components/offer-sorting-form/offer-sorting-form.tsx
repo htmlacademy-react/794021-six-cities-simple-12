@@ -18,12 +18,12 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
   const handleClickMenu = () => setIsOpen(!isOpen);
 
   const handleKeyDownMenu = (evt: KeyboardEvent) => {
-    if (evt.key === 'Escape') {
-      setIsOpen(false);
-      return;
-    }
-    if (evt.key === 'Enter') {
-      setIsOpen(!isOpen);
+    switch (evt.key) {
+      case 'Escape':
+        setIsOpen(false);
+        break;
+      case 'Enter':
+        setIsOpen(!isOpen);
     }
   };
 

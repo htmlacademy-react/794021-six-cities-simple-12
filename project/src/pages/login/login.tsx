@@ -35,7 +35,7 @@ function Login(): JSX.Element {
   };
 
   const handleLoginChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setUserLoginAction(target.value ?? ''));
+    dispatch(setUserLoginAction(target.value));
   };
 
   return (

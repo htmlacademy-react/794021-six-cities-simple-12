@@ -25,4 +25,37 @@ describe('Component: <RoomReview>', () => {
     expect(screen.getByText(review.comment, { exact: false }))
       .toBeInTheDocument();
   });
+
+
+  it('renders no date if month is incorrect', () => {
+    const mockDate = '1999-13-01T00:00:00Z';
+    const review = makeMockReview({ date: mockDate });
+
+    render(<RoomReview review={review}/>);
+
+    expect(screen.queryByTestId(/room-review__date/i))
+      .not.toBeInTheDocument();
+  });
+
+
+  it('renders no date if year is incorrect', () => {
+    const mockDate = 'aabc-01-01T00:00:00Z';
+    const review = makeMockReview({ date: mockDate });
+
+    render(<RoomReview review={review}/>);
+
+    expect(screen.queryByTestId(/room-review__date/i))
+      .not.toBeInTheDocument();
+  });
+
+
+  it('renders no date if day is incorrect', () => {
+    const mockDate = '1999-01-32T00:00:00Z';
+    const review = makeMockReview({ date: mockDate });
+
+    render(<RoomReview review={review}/>);
+
+    expect(screen.queryByTestId(/room-review__date/i))
+      .not.toBeInTheDocument();
+  });
 });

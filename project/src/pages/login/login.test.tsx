@@ -15,6 +15,7 @@ import { DomainNamespace } from 'src/consts/domain';
 import { createAPI } from 'src/services/api';
 import { AppState } from 'src/types/store';
 import { setUserLoginAction } from 'src/store/user/user.slice';
+import { UserAuthorizationData } from 'src/types/api';
 
 const history = createMemoryHistory();
 
@@ -150,15 +151,18 @@ describe('Component: <Login>. Set login/password', () => {
 
     fireEvent.change(loginInput, { target: { value: mockLogin }});
 
-    const actionNames = mockStore.getActions().map(({ type }) => type);
+    const actions = mockStore.getActions();
 
-    expect(actionNames.length)
+    expect(actions.length)
       .toEqual(1);
 
-    actionNames.forEach((actionName) => {
-      expect(actionName)
-        .toEqual(setUserLoginAction.type);
-    });
+    const [ action ] = actions;
+
+    expect(action.type)
+      .toEqual(setUserLoginAction.type);
+
+    expect('payload' in action && action.payload)
+      .toEqual(mockLogin);
   });
 
 
@@ -190,19 +194,21 @@ describe('Component: <Login>. Set login/password', () => {
     fireEvent.change(passwordInput, { target: { value: password }});
     fireEvent(submitButton, new MouseEvent('click', { bubbles: true, cancelable: true }));
 
-    const actionNames = mockStore.getActions().map(({ type }) => type);
+    const actions = mockStore.getActions();
 
-    expect(actionNames.length)
+    expect(actions.length)
       .toEqual(0);
   });
 
 
   it('submits when password is valid', () => {
+    const mockLogin = internet.email();
+
     const mockState = {
       ...commonMockState,
       [ DomainNamespace.User ]: {
         authorizationStatus: AuthorizationStatus.NotAuthorized,
-        login: internet.email(),
+        login: mockLogin,
       },
     };
 
@@ -219,15 +225,31 @@ describe('Component: <Login>. Set login/password', () => {
     );
 
     const password = `${lorem.word(1)}${datatype.number()}`;
-    const passwordInput = screen.getByTestId('login__password-input');
+    const passwordInputNode = screen.getByTestId('login__password-input');
     const submitButton = screen.getByTestId('login__submit-button');
 
-    fireEvent.change(passwordInput, { target: { value: password }});
+    fireEvent.change(passwordInputNode, { target: { value: password }});
     fireEvent(submitButton, new MouseEvent('click', { bubbles: true, cancelable: true }));
 
-    const actionNames = mockStore.getActions().map(({ type }) => type);
+    const actions = mockStore.getActions();
 
-    expect(actionNames)
-      .toEqual([ logUserInAction.pending.type ]);
+    expect(actions.length)
+      .toEqual(1);
+
+    const [ action ] = actions;
+
+    expect(action.type)
+      .toEqual(logUserInAction.pending.type);
+
+    let payload = { email: '', password: '' } as UserAuthorizationData;
+    if (('meta' in action)) {
+      const meta = action.meta as { arg: UserAuthorizationData };
+      if ('arg' in meta) {
+        payload = meta.arg;
+      }
+    }
+
+    expect(payload)
+      .toEqual({ email: mockLogin, password });
   });
 });

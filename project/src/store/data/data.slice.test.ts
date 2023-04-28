@@ -1,8 +1,9 @@
-import { address } from 'faker';
-import { data, setCityNameAction } from './data.slice';
+import { address, datatype, lorem } from 'faker';
+import { data, setCityNameAction, setSortingTypeAction } from './data.slice';
 import { fetchOfferAction, fetchOffersAction } from 'src/store/api-actions';
 import { makeMockOffer } from 'src/utils/mock-offer';
 import { FetchStatus } from 'src/consts/api';
+import { DEFAULT_OFFER_SORTING_KEY_NAME } from 'src/consts/consts';
 
 const { reducer } = data;
 const DEFAULT_STATE_CITY_NAME = 'Paris';
@@ -16,6 +17,7 @@ describe('Reducer: data. State management', () => {
         offerFetchStatus: FetchStatus.NotStarted as FetchStatus,
         offersFetchStatus: FetchStatus.NotStarted as FetchStatus,
         offers: [],
+        sortingType: DEFAULT_OFFER_SORTING_KEY_NAME,
       });
   });
 
@@ -32,6 +34,18 @@ describe('Reducer: data. State management', () => {
       .toEqual(stateToBe);
   });
 
+  it('sets sorting type', () => {
+    const mockSortingType = lorem.word(datatype.number({ min: 5, max: 20 }));
+    const initialState = reducer(undefined, { type: 'NON_EXISTENT_ACTION' });
+
+    const stateToBe = {
+      ...initialState,
+      sortingType: mockSortingType,
+    };
+
+    expect(reducer(initialState, { type: setSortingTypeAction.type, payload: mockSortingType }))
+      .toEqual(stateToBe);
+  });
 
   describe('Reducer: data. Fetching one offer', () => {
     const action = fetchOfferAction;

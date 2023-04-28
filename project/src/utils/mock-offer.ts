@@ -47,7 +47,7 @@ export const makeMockOffer = (attributes?: DeepPartial<Offer>): Offer => ({
   host: makeMockHost(),
   id: attributes?.id ?? datatype.number(1000) + 1,
   images: makeMockImages(),
-  isPremium: datatype.boolean(),
+  isPremium: attributes?.isPremium ?? datatype.boolean(),
   location: makeMockLocation(),
   maxAdults: datatype.number(5) + 1,
   price: +finance.amount(1, 1001, 2),
@@ -62,10 +62,13 @@ export const makeMockOffers = (count: number, offerAttributes?: DeepPartial<Offe
     .map((_item, index) => {
       let attributes = offerAttributes;
 
-      if (offerAttributes && !('id' in offerAttributes)) {
+      if (
+        !offerAttributes ||
+        (offerAttributes && ! ('id' in offerAttributes))
+      ) {
         attributes = {
-          ...offerAttributes,
-          id: index + 1
+          ...attributes,
+          id: index + 1,
         };
       }
 

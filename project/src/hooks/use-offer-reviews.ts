@@ -7,27 +7,27 @@ import { getReviewsFetchStatusp, getReviewsMap } from 'src/store/reviews/reviews
 import { FetchStatus } from 'src/consts/api';
 
 export function useOfferReviews(offer: Offer | null): Reviews {
-  const [ reviews, setReviews ] = useState<Reviews>([]);
+  const dispatch = useAppDispatch();
   const allReviewsMap = useAppSelector(getReviewsMap);
   const fetchStatus = useAppSelector(getReviewsFetchStatusp);
-  const dispatch = useAppDispatch();
+  const [ reviews, setReviews ] = useState<Reviews>([]);
 
   useEffect(() => {
     if (!offer) {
       return;
     }
 
-    if (fetchStatus === FetchStatus.Pending) {
-      return;
-    }
-
-    if (fetchStatus === FetchStatus.NotStarted) {
-      dispatch(fetchReviewsAction(offer));
-      return;
-    }
-
     const foundReviews = allReviewsMap[offer.id] ?? [];
     setReviews(foundReviews);
+
+    if (
+      fetchStatus === FetchStatus.NotStarted ||
+      (fetchStatus !== FetchStatus.Pending && !(offer.id in allReviewsMap)) ||
+      false
+    ) {
+      dispatch(fetchReviewsAction(offer));
+    }
+
   }, [ allReviewsMap, dispatch, fetchStatus, offer ]);
 
   return reviews;

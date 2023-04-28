@@ -1,8 +1,6 @@
-import { MouseEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { store } from 'src/store';
 import { getAuthorizationStatus, getUserAvatarUrl, getUserLogin } from 'src/store/user/user.selectors';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import cn from 'classnames';
 import { logUserOutAction } from 'src/store/api-user/api-user.actions';
 import { isCurrentPage } from 'src/utils/utils';
@@ -10,30 +8,24 @@ import { AppRoute } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
 
 function NavHeader(): JSX.Element {
-  const authorizationStatus = useSelector(getAuthorizationStatus) || AuthorizationStatus.Unknown;
-  const userAvatarUrl = useSelector(getUserAvatarUrl) || '';
-  const userLogin = useSelector(getUserLogin) || '';
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userAvatarUrl = useAppSelector(getUserAvatarUrl);
+  const userLogin = useAppSelector(getUserLogin);
   const { pathname: locationPathname } = useLocation();
   const avatarCssStyle = { backgroundImage: `url(${userAvatarUrl})` };
 
-  let signInOutLinkHref = '';
-  let signInOutLinkText = '';
+  let linkBlock: JSX.Element;
 
-  if (authorizationStatus === AuthorizationStatus.Authorized) {
-    signInOutLinkText = 'Sign out';
-    signInOutLinkHref = '';
-  } else if (authorizationStatus === AuthorizationStatus.NotAuthorized) {
-    signInOutLinkText = 'Sign in';
-    signInOutLinkHref = AppRoute.Login;
+  switch (authorizationStatus) {
+    case AuthorizationStatus.Authorized:
+      linkBlock = <SignOutLink />;
+      break;
+    case AuthorizationStatus.NotAuthorized:
+      linkBlock = <SignInLink />;
+      break;
+    default:
+      linkBlock = <NoLink />;
   }
-
-  const handleSignInOutClick = (evt: MouseEvent) => {
-    if (authorizationStatus !== AuthorizationStatus.Authorized) {
-      return;
-    }
-    evt.preventDefault();
-    store.dispatch(logUserOutAction());
-  };
 
   return (
     <header className="header">
@@ -67,21 +59,7 @@ function NavHeader(): JSX.Element {
                   }
 
                   <li className="header__nav-item">
-                    <Link className="header__nav-link" to={signInOutLinkHref} onClick={handleSignInOutClick}>
-                      {
-                        authorizationStatus === AuthorizationStatus.Authorized ?
-                          <div className="header__avatar-wrapper user__avatar-wrapper"></div> :
-                          null
-                      }
-                      <span
-                        className={cn({
-                          'header__signout': authorizationStatus === AuthorizationStatus.Authorized,
-                          'header__login': authorizationStatus === AuthorizationStatus.NotAuthorized,
-                        })}
-                      >
-                        {signInOutLinkText}
-                      </span>
-                    </Link>
+                    { linkBlock }
                   </li>
                 </ul>
               </nav>
@@ -89,6 +67,39 @@ function NavHeader(): JSX.Element {
         </div>
       </div>
     </header>
+  );
+}
+
+function SignInLink(): JSX.Element {
+  return (
+    <Link className="header__nav-link" to={AppRoute.Login}>
+      <span className="header__login">Sign in</span>
+    </Link>
+  );
+}
+
+function SignOutLink(): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  return (
+    <Link className="header__nav-link" to="/#" onClick={
+      (evt) => {
+        evt.preventDefault();
+        dispatch(logUserOutAction());
+      }
+    }
+    >
+      <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+      <span className="header__signout">Sign out</span>
+    </Link>
+  );
+}
+
+function NoLink(): JSX.Element {
+  return (
+    <div className="header__nav-link">
+      <span></span>
+    </div>
   );
 }
 
