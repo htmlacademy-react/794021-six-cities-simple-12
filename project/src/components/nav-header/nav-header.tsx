@@ -1,17 +1,16 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { getAuthorizationStatus, getUserAvatarUrl, getUserLogin } from 'src/store/user/user.selectors';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import cn from 'classnames';
 import { logUserOutAction } from 'src/store/api-user/api-user.actions';
 import { isCurrentPage } from 'src/utils/utils';
 import { AppRoute } from 'src/consts/consts';
 import { AuthorizationStatus } from 'src/consts/api';
-import { useAppDispatch } from 'src/hooks';
 
 function NavHeader(): JSX.Element {
-  const authorizationStatus = useSelector(getAuthorizationStatus) || AuthorizationStatus.Unknown;
-  const userAvatarUrl = useSelector(getUserAvatarUrl) || '';
-  const userLogin = useSelector(getUserLogin) || '';
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userAvatarUrl = useAppSelector(getUserAvatarUrl);
+  const userLogin = useAppSelector(getUserLogin);
   const { pathname: locationPathname } = useLocation();
   const avatarCssStyle = { backgroundImage: `url(${userAvatarUrl})` };
 
