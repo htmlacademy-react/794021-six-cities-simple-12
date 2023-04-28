@@ -21,7 +21,10 @@ export function useOfferReviews(offer: Offer | null): Reviews {
       return;
     }
 
-    if (fetchStatus === FetchStatus.NotStarted) {
+    if (
+      !(offer.id in allReviewsMap) ||
+      fetchStatus === FetchStatus.NotStarted
+    ) {
       dispatch(fetchReviewsAction(offer));
       return;
     }
