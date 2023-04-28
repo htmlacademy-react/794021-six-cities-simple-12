@@ -3,12 +3,11 @@ import { getNearbyOffers, getNearbyOffersFetchStatus, getNearbyOffersOfferId } f
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { Offer, Offers } from 'src/types/types';
 import { fetchNearbyOffersAction } from 'src/store/api-actions';
-import { FetchStatus } from 'src/consts/api';
 
 export function useNearbyOffers(offer: Offer | null, limitCount: number): Offers {
   const dispatch = useAppDispatch();
   const nearbyOffers = useAppSelector(getNearbyOffers);
-  const offerId = useAppSelector(getNearbyOffersOfferId);
+  const offerIdInStore = useAppSelector(getNearbyOffersOfferId);
   const fetchStatus = useAppSelector(getNearbyOffersFetchStatus);
   const [ updatedNearbyOffers, setUpdatedNearbyOffers ] = useState<Offers>([]);
 
@@ -17,18 +16,19 @@ export function useNearbyOffers(offer: Offer | null, limitCount: number): Offers
       return;
     }
 
-    if (fetchStatus === FetchStatus.Pending) {
-      return;
-    }
-
-    if (offerId === null || offerId !== offer.id) {
+    if (
+      offerIdInStore === null ||
+      offerIdInStore !== offer.id ||
+      false
+    ) {
       dispatch(fetchNearbyOffersAction(offer.id));
       return;
     }
 
     const foundNearbyOffers = nearbyOffers.filter((_offer, index) => index < limitCount);
     setUpdatedNearbyOffers(foundNearbyOffers);
-  }, [dispatch, fetchStatus, limitCount, nearbyOffers, offer, offerId]);
+
+  }, [ dispatch, fetchStatus, limitCount, nearbyOffers, offer, offerIdInStore ]);
 
   return updatedNearbyOffers;
 }
