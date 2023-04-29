@@ -51,7 +51,7 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
       <span
         aria-controls="offer-sorting-form__list"
         aria-expanded={isOpen}
-        aria-haspopup="menu"
+        aria-haspopup="true"
         className="places__sorting-type"
         data-testid="offer-sorting-form__header"
         onClick={handleClickMenu}
