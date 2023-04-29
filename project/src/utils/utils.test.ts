@@ -69,3 +69,51 @@ describe('Util functions: sortOffers()', () => {
       ]);
   });
 });
+
+
+describe('Util functions: isChildNode()', () => {
+  const mockRoot = { parentNode: null };
+  const mockParentNode = { parentNode: mockRoot };
+  const mockChildNode = { parentNode: mockParentNode };
+  const mockDescendentNode = { parentNode: mockChildNode };
+  const mockOrphantNode = { parentNode: mockRoot };
+
+
+  it('tests nesting', () => {
+    expect(isChildNodeOrSelf(mockParentNode, mockChildNode)).toBe(true);
+    expect(isChildNodeOrSelf(mockParentNode, mockDescendentNode)).toBe(true);
+    expect(isChildNodeOrSelf(mockChildNode, mockDescendentNode)).toBe(true);
+  });
+
+
+  it('tests nesting absence', () => {
+    expect(isChildNodeOrSelf(mockParentNode, mockOrphantNode)).toBe(false);
+    expect(isChildNodeOrSelf(mockChildNode, mockOrphantNode)).toBe(false);
+    expect(isChildNodeOrSelf(mockDescendentNode, mockOrphantNode)).toBe(false);
+  });
+
+
+  it('tests if parent is same as child', () => {
+    expect(isChildNodeOrSelf(mockParentNode, mockParentNode)).toBe(true);
+    expect(isChildNodeOrSelf(mockChildNode, mockChildNode)).toBe(true);
+    expect(isChildNodeOrSelf(mockDescendentNode, mockDescendentNode)).toBe(true);
+  });
+
+
+  it('tests null/undefined cases', () => {
+    expect(isChildNodeOrSelf(null, null)).toBe(false);
+    expect(isChildNodeOrSelf(null, undefined)).toBe(false);
+
+    expect(isChildNodeOrSelf(undefined, undefined)).toBe(false);
+    expect(isChildNodeOrSelf(undefined, null)).toBe(false);
+  });
+
+
+  it('tests if one of nodes is null/undefined', () => {
+    expect(isChildNodeOrSelf(mockParentNode, null)).toBe(false);
+    expect(isChildNodeOrSelf(mockParentNode, undefined)).toBe(false);
+
+    expect(isChildNodeOrSelf(null, mockChildNode)).toBe(false);
+    expect(isChildNodeOrSelf(undefined, mockChildNode)).toBe(false);
+  });
+});
