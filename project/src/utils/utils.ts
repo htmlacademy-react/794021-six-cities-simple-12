@@ -39,15 +39,10 @@ export function getUniqueItems<T>(arr: Array<T>): Array<T> {
   return [...new Set(arr)];
 }
 
-export function isChildNode(parent: HTMLElement | null, node: HTMLElement | undefined): boolean {
-  function assertHasParentNodeOrUndefined(item: EventTarget | undefined): asserts item is HTMLElement {
-    if (item && !('parentNode' in item)) {
-      throw new Error('Node or undefined expected');
-    }
-  }
+export type ParentOrChildHTMLNode = { parentNode: ParentOrChildHTMLNode | null } | null | undefined;
 
-  assertHasParentNodeOrUndefined(node);
-  if (!parent || !node) {
+export function isChildNodeOrSelf(parent: ParentOrChildHTMLNode, node: ParentOrChildHTMLNode): boolean {
+  if (!parent || !node || !node.parentNode) {
     return false;
   }
 
@@ -55,8 +50,7 @@ export function isChildNode(parent: HTMLElement | null, node: HTMLElement | unde
     return true;
   }
 
-  const { parentNode: surItem } = node;
-  return isChildNode(parent, surItem as HTMLElement);
+  return isChildNodeOrSelf(parent, node.parentNode);
 }
 
 export function isCurrentPage(currentPath: string, pathToCompare: string): boolean {
