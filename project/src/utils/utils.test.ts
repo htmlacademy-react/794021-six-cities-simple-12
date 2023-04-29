@@ -1,14 +1,6 @@
 import { OfferSortingOption } from 'src/consts/consts';
-import { sortOffers, throwErrorAtImpossibleCase } from './utils';
+import { isChildNodeOrSelf, sortOffers } from './utils';
 import { Offers } from 'src/types/types';
-
-describe('Util functions: throwErrorAtImpossibleCase()', () => {
-  let mockItem: never;
-
-  it('throws an error', () => {
-    expect(() => throwErrorAtImpossibleCase(mockItem)).toThrow();
-  });
-});
 
 
 describe('Util functions: sortOffers()', () => {

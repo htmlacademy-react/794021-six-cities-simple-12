@@ -18,9 +18,6 @@ export function capitalizeFirstLetter(text: string): string {
   return head.toUpperCase() + tail;
 }
 
-export function throwErrorAtImpossibleCase (_arg: never) {
-  throw new Error('This line should never be reached.');
-}
 
 export function getMultipleOfPlaceWord(count: number): string {
   if (count === 1 || count === -1) {
@@ -82,6 +79,7 @@ export function parseInteger(numberAsString = ''): number | typeof NaN {
 
 export function sortOffers(offers: Offers, sortingType: OfferSortingOption): Offers {
   const newOffers = [...offers];
+
   switch (sortingType) {
     case OfferSortingOption.Popular:
       return offers;
@@ -94,8 +92,6 @@ export function sortOffers(offers: Offers, sortingType: OfferSortingOption): Off
     case OfferSortingOption.TopRatedFirst:
       newOffers.sort((offer1, offer2) => offer1.rating > offer2.rating ? -1 : 1);
       break;
-    default:
-      throwErrorAtImpossibleCase(sortingType);
   }
   return newOffers;
 }
