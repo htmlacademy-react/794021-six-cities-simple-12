@@ -1,6 +1,8 @@
 import { OfferSortingOption, RATING_TO_PERCENT_STEP } from 'src/consts/consts';
 import { Offer, OfferId, Offers, Reviews } from 'src/types/types';
 
+export type ParentOrChildHTMLNode = { parentNode: ParentOrChildHTMLNode | null } | null | undefined;
+
 export function getPercentFromRating(rating: number): string {
   const roundedPercent = Math.round(rating) * RATING_TO_PERCENT_STEP;
   if (roundedPercent >= 100) {
@@ -38,8 +40,6 @@ export function findFirstOffer(offers: Offers, offerId: OfferId): Offer | null {
 export function getUniqueItems<T>(arr: Array<T>): Array<T> {
   return [...new Set(arr)];
 }
-
-export type ParentOrChildHTMLNode = { parentNode: ParentOrChildHTMLNode | null } | null | undefined;
 
 export function isChildNodeOrSelf(parent: ParentOrChildHTMLNode, node: ParentOrChildHTMLNode): boolean {
   if (!parent || !node || !node.parentNode) {
