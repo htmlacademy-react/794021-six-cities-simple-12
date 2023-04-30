@@ -1,6 +1,6 @@
 import { FocusEvent, KeyboardEvent, useRef, useState } from 'react';
 import cn from 'classnames';
-import { isChildNode } from 'src/utils/utils';
+import { isChildNodeOrSelf } from 'src/utils/utils';
 import { OfferSortingOption } from 'src/consts/consts';
 
 type OfferSortingFormProps = {
@@ -29,7 +29,8 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
 
   const handleBlurMenu = (evt: FocusEvent<HTMLFormElement>) => {
     const { relatedTarget } = evt;
-    if (!isChildNode(listRef.current, relatedTarget as HTMLElement | undefined)) {
+
+    if (!isChildNodeOrSelf(listRef.current, relatedTarget)) {
       setIsOpen(false);
     }
   };
@@ -50,7 +51,7 @@ function OfferSortingForm(props: OfferSortingFormProps): JSX.Element {
       <span
         aria-controls="offer-sorting-form__list"
         aria-expanded={isOpen}
-        aria-haspopup="menu"
+        aria-haspopup="true"
         className="places__sorting-type"
         data-testid="offer-sorting-form__header"
         onClick={handleClickMenu}

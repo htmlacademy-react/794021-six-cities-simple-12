@@ -19,6 +19,10 @@ describe('Component: <OfferSortingForm>', () => {
 
     const menuNodes = screen.getAllByTestId('offer-sorting-form__item');
     const menuTexts = menuNodes.map((node) => node.textContent);
+
+    expect(menuNodes.length)
+      .toEqual(sortingOptions.length);
+
     menuTexts.forEach((menuText) => {
       expect(sortingOptions)
         .toEqual(expect.arrayContaining([ menuText ]));
@@ -50,7 +54,7 @@ describe('Component: <OfferSortingForm>', () => {
   });
 
 
-  it('presses Enter and Escape on the header "%s"', () => {
+  it('toggles menu on "Enter" keydown', () => {
     const [ currentSortingOption ] = sortingOptions;
 
     render(
@@ -60,37 +64,76 @@ describe('Component: <OfferSortingForm>', () => {
       />
     );
 
-    const menuHeader = screen.getByTestId('offer-sorting-form__header');
+    const menuHeader = screen.getByRole('button', { name: currentSortingOption });
 
-    expect(screen.getByRole('button', { name: currentSortingOption, expanded: false }))
-      .toBeInTheDocument();
-
-    fireEvent.keyDown(menuHeader, { key: 'Enter' });
-    expect(screen.getByRole('button', { name: currentSortingOption, expanded: true }))
-      .toBeInTheDocument();
+    expect(menuHeader)
+      .toHaveAttribute('aria-expanded', 'false');
 
     fireEvent.keyDown(menuHeader, { key: 'Enter' });
-    expect(screen.getByRole('button', { name: currentSortingOption, expanded: false }))
-      .toBeInTheDocument();
+    expect(menuHeader)
+      .toHaveAttribute('aria-expanded', 'true');
 
     fireEvent.keyDown(menuHeader, { key: 'Enter' });
-    expect(screen.getByRole('button', { name: currentSortingOption, expanded: true }))
-      .toBeInTheDocument();
+    expect(menuHeader)
+      .toHaveAttribute('aria-expanded', 'false');
+
+    fireEvent.keyDown(menuHeader, { key: 'Enter' });
+    expect(menuHeader)
+      .toHaveAttribute('aria-expanded', 'true');
+  });
+
+
+  it('hides menu on "Escape" keydown', () => {
+    const [ currentSortingOption ] = sortingOptions;
+
+    render(
+      <OfferSortingForm
+        onChangeSortingType={jest.fn}
+        sortingType={currentSortingOption as OfferSortingOption}
+      />
+    );
+
+    const menuHeader = screen.getByRole('button', { name: currentSortingOption });
+
+    expect(menuHeader)
+      .toHaveAttribute('aria-expanded', 'false');
 
     fireEvent.keyDown(menuHeader, { key: 'Escape' });
-    expect(screen.getByRole('button', { name: currentSortingOption, expanded: false }))
-      .toBeInTheDocument();
+    expect(menuHeader)
+      .toHaveAttribute('aria-expanded', 'false');
 
     fireEvent.keyDown(menuHeader, { key: 'Escape' });
-    expect(screen.getByRole('button', { name: currentSortingOption, expanded: false }))
-      .toBeInTheDocument();
+    expect(menuHeader)
+      .toHaveAttribute('aria-expanded', 'false');
 
     fireEvent.keyDown(menuHeader, { key: 'Enter' });
-    expect(screen.getByRole('button', { name: currentSortingOption, expanded: true }))
-      .toBeInTheDocument();
+    expect(menuHeader)
+      .toHaveAttribute('aria-expanded', 'true');
 
-    fireEvent.blur(menuHeader);
-    expect(screen.getByRole('button', { name: currentSortingOption, expanded: false }))
-      .toBeInTheDocument();
+    fireEvent.keyDown(menuHeader, { key: 'Escape' });
+    expect(menuHeader)
+      .toHaveAttribute('aria-expanded', 'false');
+  });
+
+
+  it('hides menu on blur', () => {
+    const [ currentSortingOption ] = sortingOptions;
+
+    render(
+      <OfferSortingForm
+        onChangeSortingType={jest.fn}
+        sortingType={currentSortingOption as OfferSortingOption}
+      />
+    );
+
+    const menuHeaderNode = screen.getByRole('button', { name: currentSortingOption });
+
+    fireEvent.keyDown(menuHeaderNode, { key: 'Enter' });
+    expect(menuHeaderNode)
+      .toHaveAttribute('aria-expanded', 'true');
+
+    fireEvent.blur(menuHeaderNode);
+    expect(menuHeaderNode)
+      .toHaveAttribute('aria-expanded', 'false');
   });
 });

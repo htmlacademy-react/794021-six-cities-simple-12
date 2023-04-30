@@ -18,9 +18,6 @@ export function capitalizeFirstLetter(text: string): string {
   return head.toUpperCase() + tail;
 }
 
-export function throwErrorAtImpossibleCase (_arg: never) {
-  throw new Error('This line should never be reached.');
-}
 
 export function getMultipleOfPlaceWord(count: number): string {
   if (count === 1 || count === -1) {
@@ -42,15 +39,10 @@ export function getUniqueItems<T>(arr: Array<T>): Array<T> {
   return [...new Set(arr)];
 }
 
-export function isChildNode(parent: HTMLElement | null, node: HTMLElement | undefined): boolean {
-  function assertHasParentNodeOrUndefined(item: EventTarget | undefined): asserts item is HTMLElement {
-    if (item && !('parentNode' in item)) {
-      throw new Error('Node or undefined expected');
-    }
-  }
+export type ParentOrChildHTMLNode = { parentNode: ParentOrChildHTMLNode | null } | null | undefined;
 
-  assertHasParentNodeOrUndefined(node);
-  if (!parent || !node) {
+export function isChildNodeOrSelf(parent: ParentOrChildHTMLNode, node: ParentOrChildHTMLNode): boolean {
+  if (!parent || !node || !node.parentNode) {
     return false;
   }
 
@@ -58,8 +50,7 @@ export function isChildNode(parent: HTMLElement | null, node: HTMLElement | unde
     return true;
   }
 
-  const { parentNode: surItem } = node;
-  return isChildNode(parent, surItem as HTMLElement);
+  return isChildNodeOrSelf(parent, node.parentNode);
 }
 
 export function isCurrentPage(currentPath: string, pathToCompare: string): boolean {
@@ -82,6 +73,7 @@ export function parseInteger(numberAsString = ''): number | typeof NaN {
 
 export function sortOffers(offers: Offers, sortingType: OfferSortingOption): Offers {
   const newOffers = [...offers];
+
   switch (sortingType) {
     case OfferSortingOption.Popular:
       return offers;
@@ -94,8 +86,6 @@ export function sortOffers(offers: Offers, sortingType: OfferSortingOption): Off
     case OfferSortingOption.TopRatedFirst:
       newOffers.sort((offer1, offer2) => offer1.rating > offer2.rating ? -1 : 1);
       break;
-    default:
-      throwErrorAtImpossibleCase(sortingType);
   }
   return newOffers;
 }
