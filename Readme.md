@@ -1,17 +1,30 @@
-# Проект «Шесть городов (простой)»
+# Intensive bootcamp training project «Six sities (simple)» 
 
-* Студент: [Rustam Arkharov](https://up.htmlacademy.ru/react/12/user/794021).
-* Наставник: Александр Тимоновский.
-* Курс от: [HtmlAcademy](https://htmlacademy.ru/intensive/react)
-
----
-
-- Запустить проект: `npm run start`
-- Выполнить сборку: `npm run build`
-- Протестировать: `npm run test`
+* Student: [Rustam Arkharov](https://up.htmlacademy.ru/react/12/user/794021).
+* Tutor: Aleksandr Timonovskiy.
+* Provider of the training course: [HtmlAcademy](https://htmlacademy.ru/intensive/react)
 
 ---
 
+## Headline
+
+«Six sitites (simple)» — service for travelers who do not want to overpay for rental housing. Choose from six popular European travel destinations and get an up-to-date list of rental offers. Detailed information about housing, showing the object on the map, as well as a concise service interface will help you quickly choose the best offer.
+
+---
+
+# Workflow
+
+First, change the path to the `project/` folder. Then there are the following options:
+
+- Run the project: `npm run start`
+- Build the project: `npm run build`
+- Run tests: `npm run test`
+
+---
+
+> The rest of the document is the original description, requirements, and technical criteria of the project from the provider of the training course in Russian language.
+
+---
 
 ## Памятка
 
