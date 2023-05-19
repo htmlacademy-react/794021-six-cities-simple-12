@@ -58,7 +58,7 @@ First, change the path to the `project/` subfolder. Then there are the following
 
 ---
 
-> Не удаляйте и не изменяйте папки и файлы: `
+> Не удаляйте и не изменяйте папки и файлы:
 > `.editorconfig`, `.gitattributes`, `.gitignore`.
 
 ### 1. Создайте форк на Гитхабе
