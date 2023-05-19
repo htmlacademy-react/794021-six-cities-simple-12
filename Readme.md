@@ -1,21 +1,65 @@
-# Проект «Шесть городов (простой)»
+# Intensive bootcamp training project «Six sities (simple)» 
 
-* Студент: [Rustam Arkharov](https://up.htmlacademy.ru/react/12/user/794021).
-* Наставник: Александр Тимоновский.
-* Курс от: [HtmlAcademy](https://htmlacademy.ru/intensive/react)
-
----
-
-- Запустить проект: `npm run start`
-- Выполнить сборку: `npm run build`
-- Протестировать: `npm run test`
+* Student: [Rustam Arkharov](https://up.htmlacademy.ru/react/12/user/794021).
+* Mentor: Aleksandr Timonovskiy.
+* Provider of the training course: [HtmlAcademy](https://htmlacademy.ru/intensive/react)
+* Title of the course: React. Development of complex frontend applications.
 
 ---
 
+## Project headline
 
-## Памятка
+«Six sitites (simple)» — service for travelers who do not want to overpay for rental housing. Choose from six popular European travel destinations and get an up-to-date list of rental offers. Detailed information about housing, showing the object on the map, as well as a concise service interface will help you quickly choose the best offer.
 
-Не удаляйте и не изменяйте папки и файлы: `.editorconfig`, `.gitattributes`, `.gitignore`.
+---
+
+## Training process and results
+
+The course lasted 9 weeks from February 2023 to May 2023.
+
+The project had technical specification and criteria (rules of cleaner code) — see below.
+
+Every week, 1-2 online webinars were held on each topic, where the lecturer explained, showed examples of the code and answered questions.
+
+Each lecture had its own tasks that needed to be completed in order to take a step forward to complete the project.
+
+Students submitted their personal work to pull requests on GitHub.com. The group mentor commented on the code via weekly video conferences or/and on GitHub.com.
+
+Results:
+
+- I handed over the project on April 20, 2023.
+- The tests coverage is 98%.
+
+---
+
+## Course program
+
+- TypeScript (v. 4.8)
+- Introduction to React (v. 18.2)
+- JSX
+- React Router (v. 6.4)
+- React Hooks
+- Redux Toolkit, Flux architecture
+- Asynchrony and middleware (Redux Thunk), network access (Axios)
+- Optimization, debugging (React DevTools, Redux DevTools)
+- Testing (Jest, React Testing Library)
+
+---
+
+## Workflow
+
+First, change the path to the `project/` subfolder. Then there are the following options:
+
+- Run the project: `npm run start`
+- Build the project: `npm run build`
+- Run the tests: `npm run test`
+
+> The rest of the document is the original description, requirements, and technical criteria of the project from the provider of the training course in Russian language.
+
+---
+
+> Не удаляйте и не изменяйте папки и файлы:
+> `.editorconfig`, `.gitattributes`, `.gitignore`.
 
 ### 1. Создайте форк на Гитхабе
 
@@ -26,28 +70,6 @@
 Нужно клонировать свой репозиторий (форк), а не репозиторий Академии. Клонировать нужно через SSH, а не через HTTPS.
 
 Клонировать репозиторий через командную строку: `git clone SSH-адрес_вашего_форка`
-
----
-
-## Описание
-
-Проект создан на онлайн‑интенсиве «React, разработка сложных клиентских приложений (JavaScript, уровень 3)» от HtmlAcademy.ru. Длительность 9 недель.
-
-Были доступны консультации с наставником. От наставника были замечания и рекомендации в комментариях к Pull-Request или на еженедельных онлайн-консультациях. Рабочий процесс происходил через GitHub.com.
-
-Итог: проект сдан 20.04.2023 года на оценку 100%.
-
-### Краткая программа курса:
-
-- TypeScript (v. 4.8)
-- Введение в React (v. 18.2)
-- JSX
-- React Router (v. 6.4)
-- React Hooks
-- Redux Toolkit, архитектура Flux
-- Асинхронность и middleware (Redux Thunk), работа с сетью (axios)
-- Оптимизация, отладка (React Dev Tools, Redux Dev Tools)
-- Тестирование (Jest, React Testing Library)
 
 ---
 
